@@ -12,7 +12,7 @@ function Manager() {
 
             <ManagerNavbar />
 
-            <p>Manager Home Page</p>
+            <p>I'm feeling at home</p>
 
         </div>
     );

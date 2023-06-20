@@ -10,11 +10,14 @@
 --accent-1: #a0a0ff;
 --accent-1-dim: #7c7cff;
 
+--font-size-1: 1.3em; 
+
 }
 
 
 body {
-
+    
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-color: var(--background-light);
     width: 100vw;
     height: 100vh;
@@ -92,13 +95,13 @@ button:hover {
 }
 
 label {
-    font-size: 1.3em;
+    font-size: --font-size-1;
 }
 
 input {
     border: 1px solid black;
     padding: 10px;
-    font-size: 1.3em;
+    font-size: --font-size-1;
 }
 
 
@@ -116,6 +119,7 @@ nav {
 
 nav > a {
 
+    font-size: --font-size-1;
     text-decoration: none;
     color: black;
     padding: 10px;
