@@ -1,5 +1,4 @@
 import React, {useState} from "react"
-import "../styles/CreateAccount.css"
 import {NavLink} from "react-router-dom" 
 
 

@@ -16,7 +16,7 @@ function ManagerLogin() {
 
             <button type="submit" id="submit">Submit</button>
 
-            <NavLink to="/CreateAccount" className="create-account">Don't have an account?</NavLink>
+            <NavLink to="/CreateAccount/" className="create-account">Don't have an account?</NavLink>
         </form>
     );
   }
