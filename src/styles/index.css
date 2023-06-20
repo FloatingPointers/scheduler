@@ -1,5 +1,21 @@
+/* Global variables */
+:root {
+
+--background-light: #EEEEEE;
+--background-light-dim: #CCCCCC;
+
+--background-dark: #333333;
+--background-dark-dim: #111111;
+
+--accent-1: #a0a0ff;
+--accent-1-dim: #7c7cff;
+
+}
+
+
 body {
-    background-color: #EEEEEE;
+
+    background-color: var(--background-light);
     width: 100vw;
     height: 100vh;
     margin: 0px;
@@ -8,21 +24,23 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+
 }
+
+
 
 .flexcol {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
 }
 
-.flex {
+.flexrow {
     display: flex;
     justify-content: center;
     align-items: center;
-
+    flex-direction: row;   
 }
 
 .bordered-element {
@@ -46,28 +64,27 @@ form {
 
 
 button {
-    
-    background-color: #333333;
+    background-color: var(--background-dark-dim);
     border: none;
     padding: 18px;
     color:  #fff;
     font-size: 1.5em;
-    margin-right: 10px;
     border-radius: 10px;
-    
 }
+
+button:hover {
+    background-color: #555555;
+}
+
 
 #submit {
     margin-top: 15px;
 }
 
-button:hover {
-    background-color: #999999;
-}
 
 
 
-
+/* Stacks a label ontop of an input textbox */
 .label-input-combo {
     display: flex;
     flex-direction: column;
@@ -82,4 +99,33 @@ input {
     border: 1px solid black;
     padding: 10px;
     font-size: 1.3em;
+}
+
+
+
+/* Navbar css */
+nav {
+
+    width: 100vw;
+    gap: 1em;
+    padding: 10px;
+    background-color: var(--accent-1-dim);
+    border-radius: 2px;
+
+}
+
+nav > a {
+
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+    background-color: var(--accent-1-dim);
+    border-radius: 4px;
+
+}
+
+nav > a:hover {
+
+    background-color: var(--accent-1);
+
 }
