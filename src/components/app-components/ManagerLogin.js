@@ -1,3 +1,4 @@
+import {NavLink} from "react-router-dom" 
 
 function ManagerLogin() {
 
@@ -14,6 +15,8 @@ function ManagerLogin() {
             </div>
 
             <button type="submit" id="submit">Submit</button>
+
+            <NavLink to="/CreateAccount" className="create-account">Don't have an account?</NavLink>
         </form>
     );
   }

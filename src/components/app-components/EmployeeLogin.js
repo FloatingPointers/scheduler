@@ -19,6 +19,7 @@ function EmployeeLogin() {
             </div>
 
             <button type="submit" id="submit">Submit</button>
+            <p>Contact your manager for account creation</p>
         </form>
     );
   }
