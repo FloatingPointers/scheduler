@@ -17,6 +17,11 @@ function EmployeeManager() {
             <ManagerNavbar/>
             <p>Employee Manager Page</p>
 
+            <div className="employee-management-item">
+                <p>Name</p>
+                <p>Password</p>
+            </div>
+
             <div className="employee-manager-list">
                 <EmployeeManagementRow employee={employee_obj} />
                 <EmployeeManagementRow employee={employee_obj} />
