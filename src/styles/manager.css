@@ -11,3 +11,27 @@
 
 
 }
+
+
+
+.employee-manager-list {
+
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    justify-content: flex-start;
+    background-color: var(--background-light-dim);
+
+}
+
+.employee-management-item {
+
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 1em;
+    background-color: var(--background-light-dim);
+    border: 1px solid var(--background-dark);
+
+}

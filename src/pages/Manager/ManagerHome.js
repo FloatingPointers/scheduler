@@ -5,7 +5,7 @@ import '../../styles/manager.css';
 
 
 
-function Manager() {
+function ManagerHome() {
 
     return (
         <div className="manager-body">
@@ -19,4 +19,4 @@ function Manager() {
 
 };
 
-export default Manager;
+export default ManagerHome;
