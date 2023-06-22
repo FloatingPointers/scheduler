@@ -5,7 +5,7 @@
 
     display: flex;
     flex-flow: column nowrap;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
     background-color: var(--background-light);
 
@@ -92,3 +92,28 @@
     font-size: 1em;
 
 }
+
+.settings{
+    
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 1em;
+        background-color: var(--background-light-dim);
+        border: 1px solid var(--background-dark);
+    
+        font-size: 1em;
+        padding: 0px;
+        margin: 0px;
+        
+        padding-left: 30px;
+    
+}
+
+
+.centered-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+  }
