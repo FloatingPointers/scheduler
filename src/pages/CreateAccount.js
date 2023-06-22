@@ -26,17 +26,17 @@ function CreateAccount() {
         
         <div className="label-input-combo">
           <label htmlFor="email">Email</label>
-          <input type="email" name="email" required></input>
+          <input type="email" name="email" required/>
         </div>
 
         <div className="label-input-combo">
           <label htmlFor="pwd">Password</label>
-          <input id="password" type="password" name="password" onBlur={handlePwdBlurEvent} required></input>
+          <input id="password" type="password" name="password" onBlur={handlePwdBlurEvent} required/>
         </div>
 
         <div className="label-input-combo">
           <label htmlFor="pwd-confirm">Confirm Password</label>
-          <input type="password" name="pwd-confirm" onBlur={handlePwdConfirmBlurEvent} required></input> 
+          <input type="password" name="pwd-confirm" onBlur={handlePwdConfirmBlurEvent} required/>
         </div>
 
         <button type="submit">Confirm</button>
