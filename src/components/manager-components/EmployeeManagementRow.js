@@ -1,44 +1,60 @@
 import React from 'react';
-import { useState } from 'react';
-import {Employee} from '../../data/Employee.js';
+import { useState, useEffect } from 'react';
 
-function EmployeeManagementRow({employee}) {
+function EmployeeManagementRow({ employeeInfo }) {	//Data representative of what's on the database
+	const [editable, setEditable] = useState(false);
+	const [info, setInfo] = useState(employeeInfo);
+	const [editInfo, setEditInfo] = useState(employeeInfo); //Local data (edits for posting to database)
+	const [post, setPost] = useState(false);
+  const handleChange = (event) => {
+    
+		let {name, value } = event.target;
 
-    const [editable, setEditable] = useState(false);
+    //Return if the value was not changed
+    if(info[name] === value) return;
 
-
-    let content;
-    if(!editable) {
-        content = (
-            <div className="employee-management-item">
-                <p>{employee.getName()}</p>
-                <p>{employee.getPassword()}</p>
-                <button onClick={() => {setEditable(true)}}>Edit</button>
-            </div>
-        );
-    } else {
-        content = (
-            <div className="employee-management-item">
-                <form>
-                    <input type="text" value={employee.getName()} />
-                    <input type="text" value={employee.getPassword()} />
-                    <button type="submit">Submit</button>
-                </form>
-
-                <button onClick={() => {setEditable(false)}}>Cancel</button>
-                <button>Delete</button>
-
-            </div>
-        );
-    }
+    //Otherwise update to the new value for a post request (to be done later when changes are submitted by user)
+    setEditInfo({
+			...editInfo,
+			[name]: value
+		});
+  }
 
 
+  //const poster
+	const poster = () => {
+		if(editInfo !== info){
+			//POST THE INFO HERE EXACTLY
+			setInfo(editInfo);
+		}
+		setEditable(false);
+		setPost(false);
+	}
 
-    return (
-        <div>
-            {content}
-        </div>
-    );
+	useEffect(() => {
+		if(post) poster();
+	});
+
+	if (!editable) {
+		return (
+			<tr>
+				<td>{info.name}</td>
+				<td>{info.password}</td>
+				<td><button onClick={() => { setEditable(true) }}>Edit</button></td>
+			</tr>
+		);
+	} else {
+		return (
+			<tr>
+				<td><input type="text" id={info.uuid} name="name" value={editInfo.name} onChange={handleChange}/></td>
+				<td><input type="text" id={info.uuid} name="password" value={editInfo.password} onChange={handleChange}/></td>
+				<td><button id={editInfo.uuid} onClick={() => { setPost(true) }}>Submit</button></td>
+				
+				<td><button onClick={() => { setEditable(false) }}>Cancel</button></td>
+				<td><button>Delete</button></td>
+			</tr>
+		);
+	}
 
 }
 
