@@ -1,16 +1,25 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 
-function EmployeeManagementRow({ employeeInfo }) {	//Data representative of what's on the database
-	const [editable, setEditable] = useState(false);
-	const [info, setInfo] = useState(employeeInfo);
+
+
+function EmployeeManagementRow({ employeeInfo }) {	
+
+  console.log("EMPLOYEE_MANAGEMENT_ROW::RENDER info=" + employeeInfo);
+
+	const [editable, setEditable] = useState(false);		//Whether or not the component can be edited
+	const [info, setInfo] = useState(employeeInfo);			//Data representative of what's on the database
 	const [editInfo, setEditInfo] = useState(employeeInfo); //Local data (edits for posting to database)
-	const [post, setPost] = useState(false);
+
+  const [status, setStatus] = useState("none");
+
+
+  //Called when any editable field is changed
   const handleChange = (event) => {
     
-		let {name, value } = event.target;
+		let {name, value} = event.target;
 
-    //Return if the value was not changed
+    //Do nothing if the value was not changed
     if(info[name] === value) return;
 
     //Otherwise update to the new value for a post request (to be done later when changes are submitted by user)
@@ -18,22 +27,67 @@ function EmployeeManagementRow({ employeeInfo }) {	//Data representative of what
 			...editInfo,
 			[name]: value
 		});
+
   }
 
 
-  //const poster
+  //Called when the user cancels an edit
+  function handleCancelButton() {
+
+	  setEditInfo(info); //Revert any edits made
+	  setEditable(false);
+	
+  }
+
+
+
+  //Called when the user requests to delete the employee represented by this component
+  function handleDeleteButton() {
+
+    setStatus("delete");
+
+  }
+
+  function handleSubmitButton() {
+
+    setStatus("update");
+    setEditable(false);
+
+  }
+
+
+  //const poster const poster
 	const poster = () => {
-		if(editInfo !== info){
+
+    //Only post an update if the settings have actually been changed
+		if(editInfo !== info) {
 			//POST THE INFO HERE EXACTLY
+
 			setInfo(editInfo);
+
 		}
-		setEditable(false);
-		setPost(false);
+
+		setStatus("none");
+
 	}
 
+
+  //Called after the component is rendered, used to post filled information
 	useEffect(() => {
-		if(post) poster();
-	});
+		if(status === "update") {
+      //Send update settings post request
+			poster();
+		} else if(status === "delete") {
+      //Send delete employee post request
+      
+      
+		}
+	}, [status]);
+
+
+  if(status === "delete")
+    return;
+  
 
 	if (!editable) {
 		return (
@@ -48,10 +102,10 @@ function EmployeeManagementRow({ employeeInfo }) {	//Data representative of what
 			<tr>
 				<td><input type="text" id={info.uuid} name="name" value={editInfo.name} onChange={handleChange}/></td>
 				<td><input type="text" id={info.uuid} name="password" value={editInfo.password} onChange={handleChange}/></td>
-				<td><button id={editInfo.uuid} onClick={() => { setPost(true) }}>Submit</button></td>
+				<td><button id={editInfo.uuid} onClick={handleSubmitButton}>Submit</button></td>
 				
-				<td><button onClick={() => { setEditable(false) }}>Cancel</button></td>
-				<td><button>Delete</button></td>
+				<td><button onClick={handleCancelButton}>Cancel</button></td>
+				<td><button onClick={handleDeleteButton}>Delete</button></td>
 			</tr>
 		);
 	}

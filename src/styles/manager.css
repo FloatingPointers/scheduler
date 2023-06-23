@@ -14,84 +14,6 @@
 
 
 
-.employee-manager-list {
-
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: flex-start;
-    justify-content: flex-start;
-    background-color: var(--background-light-dim);
-
-}
-
-.employee-management-item {
-
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 1em;
-    background-color: var(--background-light-dim);
-    border: 1px solid var(--background-dark);
-
-    font-size: 1em;
-    padding: 0px;
-    margin: 0px;
-    
-    padding-left: 30px;
-
-}
-
-.employee-management-item > label {
-
-    font-size: 1em;
-    padding: 0px;
-    margin: 0px;
-
-}
-
-.employee-management-item > form {
-
-    display: flex;
-    flex-flow: row nowrap;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 1em;
-
-    font-size: 1em;
-    padding: 0px;
-    margin: 0px;
-}
-
-.employee-management-item > button {
-
-    font-size: 1em;
-    padding: 10px;
-
-}
-
-.employee-management-item > form > button {
-
-    font-size: 1em;
-    padding: 10px;
-
-}
-
-.employee-management-item > p {
-
-    min-width: 10em;
-    padding: 0px;
-    margin: 0px;
-
-}
-
-.employee-management-item > input {
-
-    padding-left: 0px;
-    margin-left: -2px;
-    font-size: 1em;
-
-}
 
 .settings{
     
@@ -116,4 +38,19 @@
     display: flex;
     justify-content: center;
     margin-top: 10px;
-  }
+}
+
+
+td > button {
+
+    font-size: 1.1em;
+    padding: 10px;
+    width: 100%;
+
+}
+
+th {
+
+    min-width: 200px;
+
+}
