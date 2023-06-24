@@ -1,19 +1,27 @@
 import React from 'react';
 import { useState } from 'react';
 import ManagerNavbar from '../../components/manager-components/ManagerNavbar';
-
+import uniqid from 'uniqid';
 
 
 
 
 function EmployeeManager() {
 
+  const createEmployee = (info) => {
+    return({
+      id: info.id,
+      username: info.username,
+      password: info.password,
+    });
+  };
+
   const [intlEmployee, setIntlEmployee] = useState([
-    { id: 1, username: 'jobin', password: 'OMG' },
-    { id: 2, username: 'user2', password: 'GUYS' },
-    { id: 3, username: 'employee3', password: 'I MADE THE' },
-    { id: 4, username: 'guy4', password: 'DELETE BUTTON' },
-    { id: 5, username: 'girl5', password: 'WORK!!!!!!!!!!!!!!!!!!!!!!!' }
+    { id: uniqid(), username: 'jobin', password: 'OMG' },
+    { id: uniqid(), username: 'user2', password: 'GUYS' },
+    { id: uniqid(), username: 'employee3', password: 'I MADE THE' },
+    { id: uniqid(), username: 'guy4', password: 'DELETE BUTTON' },
+    { id: uniqid(), username: 'girl5', password: 'WORK!!!!!!!!!!!!!!!!!!!!!!!' }
   ]);
 
   const [employee, setEmployee] = useState(intlEmployee);
@@ -66,8 +74,7 @@ function EmployeeManager() {
   }
 
 
-
-  const handleEditButton = (id, event) => {
+  const handleEditBtn = (id, event) => {
 
     //Make text inputs visible
     Array.from(document.getElementsByClassName(id + "-input")).forEach((input) => {
@@ -82,7 +89,7 @@ function EmployeeManager() {
   }
 
 
-  const handleCancelButton = (id, event) => {
+  const handleCancelBtn = (id, event) => {
 
     //Get initial employee data
     let intlEmployeeValue = getIntlEmployee(id);
@@ -105,7 +112,7 @@ function EmployeeManager() {
   }
 
 
-  const handleSubmitButton = (id, event) => {
+  const handleSubmitBtn = (id, event) => {
 
     //Submit edits, POST them
     Array.from(document.getElementsByClassName(id + "-input")).forEach((input) => {
@@ -121,7 +128,7 @@ function EmployeeManager() {
 
 
 
-  const handleDeleteButton = (id, event) => {
+  const handleDeleteBtn = (id, event) => {
 
     //Get the employee to delete, and their index in the local list
     let to_remove = getEmployee(id);
@@ -146,7 +153,23 @@ function EmployeeManager() {
   }
 
 
+  const handleAddBtn = () => {
+    let info = {id:uniqid()}
+    Array.from(document.getElementsByClassName("addInput")).forEach((input) => {
+      info[input.name] = input.value
+      input.value = "";
+    });
+    const tempEmployee = createEmployee(info);
+    setEmployee([
+      ...employee,
+      tempEmployee
+    ]);
 
+    //add employee to db
+
+    //update intlEmployee to reflect db changes
+    //setIntlEmployee(employee)
+  }
 
   return (
 
@@ -186,17 +209,40 @@ function EmployeeManager() {
                 />
               </td>
               <td className="table-row-buttons">
-                <button type="button" className={employee.id + " hideOnEdit"} onClick={(event) => handleEditButton(employee.id, event)}>Edit</button>
-                <button type="button" className={employee.id + " showOnEdit"} onClick={(event) => handleCancelButton(employee.id, event)} hidden>Cancel</button>
-                <button type="button" className={employee.id + " showOnEdit"} onClick={(event) => handleSubmitButton(employee.id, event)} hidden>Submit</button>
-                <button type="button" className={employee.id + " hideOnEdit"} onClick={(event) => handleDeleteButton(employee.id, event)}>Delete</button>
+                <button type="button" className={employee.id + " hideOnEdit"} onClick={(event) => handleEditBtn(employee.id, event)}>Edit</button>
+                <button type="button" className={employee.id + " showOnEdit"} onClick={(event) => handleCancelBtn(employee.id, event)} hidden>Cancel</button>
+                <button type="button" className={employee.id + " showOnEdit"} onClick={(event) => handleSubmitBtn(employee.id, event)} hidden>Submit</button>
+                <button type="button" className={employee.id + " hideOnEdit"} onClick={(event) => handleDeleteBtn(employee.id, event)}>Delete</button>
               </td>
             </tr>
-          ))}
 
+          ))}
+          <tr>
+            <td>
+              <input
+                type="text"
+                className="addInput"
+                name="username"
+                placeholder="username"
+              />
+            </td>
+            <td>
+              <input
+                type="text"
+                className="addInput"
+                name="password"
+                placeholder="password"
+              />
+            </td>
+            <td className="table-row-buttons">
+              <button type="button" onClick={handleAddBtn}>Add Employee</button>
+            </td>
+          </tr>
         </tbody>
+        
 
       </table>
+
     </div>
 
 

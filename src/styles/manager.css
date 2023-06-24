@@ -17,18 +17,18 @@
 
 .settings {
     
-        display: flex;
-        flex-flow: row nowrap;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 1em;
-        background-color: var(--background-light-dim);
-        border: 1px solid var(--background-dark);
-        
-        font-size: 1em;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1em;
+    background-color: var(--background-light-dim);
+    border: 1px solid var(--background-dark);
+    
+    font-size: 1em;
 
-        width: 500px;
-        padding-left: 30px;
+    width: 500px;
+    padding-left: 30px;
     
 }
 
@@ -91,4 +91,8 @@ td > input[type="text"] {
 
 input[readonly]{
     background-color: blue;
+}
+
+.addInput {
+    border: 2px solid black !important;
 }
