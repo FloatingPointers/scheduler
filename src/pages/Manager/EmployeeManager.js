@@ -171,8 +171,7 @@ function EmployeeManager() {
       }
 
       //Update info with the name and value pair from the input field (if it is not empty)
-      info[input.name] = input.value
-      input.value = "";
+      info[input.name] = input.value;
 
     });
 
@@ -181,6 +180,9 @@ function EmployeeManager() {
       alert("You must enter a value for " + unfilled_input);
       return;
     }
+
+    
+    Array.from(document.getElementsByClassName("addInput")).forEach((input) => {input.value = ""});
 
     const tempEmployee = createEmployee(info);
     setEmployee([
