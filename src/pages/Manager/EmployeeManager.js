@@ -15,6 +15,11 @@ function EmployeeManager() {
 
   const [employee, setEmployee] = useState(intlEmployee);
 
+
+
+
+
+
   const handleUsernameChange = (id, event) => {
     const newEmployee = employee.map((employee) => {
       if (employee.id === id) {
@@ -165,7 +170,7 @@ function EmployeeManager() {
                   readOnly
                 />
               </td>
-              <td>
+              <td className="table-row-buttons">
                 <button type="button" className={employee.id + "-button"} onClick={(event) => handleEditButton(employee.id, event)}>Edit</button>
                 <button type="button" className={employee.id + "-button"} onClick={(event) => handleCancelButton(employee.id, event)} hidden>Cancel</button>
                 <button type="button" className={employee.id + "-button"} onClick={(event) => handleSubmitButton(employee.id, event)} hidden>Submit</button>
