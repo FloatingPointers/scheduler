@@ -6,6 +6,7 @@ import uniqid from 'uniqid';
 
 
 
+
 function EmployeeManager() {
 
   const createEmployee = (info) => {
@@ -143,7 +144,9 @@ function EmployeeManager() {
     //Que a request to server to remove the employee from the remote database
 
     //Remove the employee from the local list
-    let after_remove = employee.splice(0, employee.length);
+    //Splice the entire list to generate a new one, so that after_remove is not a reference to employee
+    //this way setEmployee(after_remove) is recognized as a state change
+    let after_remove = employee.splice(0, employee.length); 
     after_remove.splice(remove_at_index, 1);
     setEmployee(after_remove);
 
@@ -154,11 +157,31 @@ function EmployeeManager() {
 
 
   const handleAddBtn = () => {
+
     let info = {id:uniqid()}
+    let unfilled_input = null;
+
     Array.from(document.getElementsByClassName("addInput")).forEach((input) => {
+
+      //Set unfilled input to the first empty input, if any
+      if(unfilled_input !== null) return;
+      if(input.value === "") {
+        unfilled_input = input.name;
+        return;
+      }
+
+      //Update info with the name and value pair from the input field (if it is not empty)
       info[input.name] = input.value
       input.value = "";
+
     });
+
+    //Return if any of the input fields were left empty
+    if(unfilled_input !== null) {
+      alert("You must enter a value for " + unfilled_input);
+      return;
+    }
+
     const tempEmployee = createEmployee(info);
     setEmployee([
       ...employee,
