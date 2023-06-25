@@ -7,8 +7,10 @@ import { Virtuoso } from 'react-virtuoso';
 import '../../styles/manager.css';
 
 const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const hourTimes = ["12:00 AM", "1:00 AM", "2:00 AM", "3:00 AM", "4:00 AM", "5:00 AM", "6:00 AM", "7:00 AM", "8:00 AM", "9:00 AM",
-"10:00 AM", "11:00 AM", "12:00 PM", "1:00 PM", "2:00 PM", "3:00 PM", "4:00 PM", "5:00 PM", "6:00 PM", "7:00 PM", "8:00 PM", "9:00 PM", "10:00 PM", "11:00 PM"]
+const hourTimes = ["12:00 AM", "12:30 AM", "1:00 AM", "1:30 AM", "2:00 AM", "2:30 AM", "3:00 AM", "3:30 AM", "4:00 AM", "4:30 AM", "5:00 AM",
+ "5:30 AM", "6:00 AM", "6:30 AM", "7:00 AM", "7:30 AM", "8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM",
+  "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", 
+  "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM", "8:00 PM", "8:30 PM", "9:00 PM", "9:30 PM", "10:00 PM", "10:30 PM", "11:00 PM", "11:30 PM"]
 
 
 function ManagerAccountSettings() {
@@ -22,8 +24,10 @@ function ManagerAccountSettings() {
       openTime: "",
       closeTime: "",
       roles: []
+
     }
   );
+  const [newRole, setNewRole] = useState('');
 
   useEffect(() => {
     console.log(state);
@@ -41,6 +45,8 @@ function ManagerAccountSettings() {
   }
 
   const handleSave = () => {
+    
+
     setUnsavedChanges(false);
     //backend stuff
   }
@@ -55,9 +61,38 @@ function ManagerAccountSettings() {
     setUnsavedChanges(true);
   };
 
+  const handleNewRole = (event) => {
+    setNewRole(event.target.value);
+    setUnsavedChanges(true);
+  }
+
+  const handleAddRole = () => {
+    setState((prevState) => ({
+      ...prevState, 
+      roles: [...prevState.roles, newRole]
+    }));
+    setNewRole('');
+    setUnsavedChanges(true);
+  }
 
 
+  const handleRoleChange = (event, index) => {
+    const updatedRoles = [...state.roles];
+    updatedRoles[index] = event.target.value;
+    setState((prevState) => ({
+      ...prevState,
+      roles: updatedRoles
+    }));
+    setUnsavedChanges(true);
+  };
 
+  const isValidTime = (time, string) => {
+    const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/;
+    if(!timeRegex.test(time)){
+      alert("Invalid " + string + " Time")
+    }
+    // return timeRegex.test(time);
+  };
 
   /*
       Settings:   
@@ -74,7 +109,8 @@ function ManagerAccountSettings() {
 
     <div className="manager-body">
       <ManagerNavbar />
-      <div classname="settings">
+      {/* <div className="settings"> */}
+      <div>
 
         <h2>Change Account Settings</h2>
         <div className="label-input-combo">
@@ -120,26 +156,31 @@ function ManagerAccountSettings() {
         </div>
 
 
-        <div classname="border">
+        <div>
           <h3>Manage Roles</h3>
           <Virtuoso
-            style={{ height: '200px' }}
+            style={{ height: '200px', width: '600px' }}
             data={state.roles}
             itemContent={(index, role) => (
               <div key={index}>
                 <input
                   type="text"
-
-                  onChange={(event) => handleChange(event, index)}
+                  value={role}
+                  onChange={(event) => handleRoleChange(event, index)}
                 />
-                {/* <button onClick={() => handleDelete(index)}>Delete Role</button> */}
+                <button onClick={() => handleDelete(index)}>Delete Role</button>
               </div>
             )}
           />
-          <button onClick={() => setState({ ...state, roles: [...state.roles, 'New Role'] })}
-          >
-            Add Role
-          </button>
+          <div className="label-input-combo">
+            <input id="addRole" name="addRole" type="text" value={newRole} onChange={handleNewRole} />
+
+            <button onClick={handleAddRole}>
+              Add Role
+            </button>
+
+          </div>
+
         </div>
 
         {unsavedChanges && (
