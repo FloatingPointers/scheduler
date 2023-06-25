@@ -167,6 +167,7 @@ function EmployeeManager() {
       if(unfilled_input !== null) return;
       if(input.value === "") {
         unfilled_input = input.name;
+        input.setCustomValidity("not valid");
         return;
       }
 

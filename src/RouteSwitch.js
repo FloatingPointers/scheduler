@@ -6,6 +6,7 @@ import ManagerHome from './pages/Manager/ManagerHome';
 import EmployeeManager from './pages/Manager/EmployeeManager';
 import ScheduleManager from './pages/Manager/ScheduleManager';
 import ManagerAccountSettings from './pages/Manager/ManagerAccountSettings';
+import EmployeeHome from "./pages/Employee/EmployeeHome";
 
 const RouteSwitch = () => {
 
@@ -20,6 +21,12 @@ const RouteSwitch = () => {
             <Route path="employees" element={<EmployeeManager/>} />
             <Route path="scheduler" element={<ScheduleManager/>} />
             <Route path="settings" element={<ManagerAccountSettings/>} />
+        </Route>
+        <Route path="/emp">
+            <Route path="" element={<EmployeeHome/>} />
+            <Route path="schedule" element={<ScheduleManager/>} />
+            {/* <Route path="request" element={</>} />
+            <Route path="settings" element={</>} /> */}
         </Route>
       </Routes>
     </BrowserRouter>

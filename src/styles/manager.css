@@ -96,7 +96,3 @@ input[readonly]{
 .addInput {
     border: 2px solid black !important;
 }
-
-input:invalid {
-    border: 2px solid red !important;
-}
