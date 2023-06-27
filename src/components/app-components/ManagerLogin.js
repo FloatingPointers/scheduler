@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React from "react";
+=======
+import React from 'react';
+>>>>>>> 326d21be14c8602fe5ffa8df1e386f9160e33683
 import {NavLink} from "react-router-dom" 
 
 function ManagerLogin() {
