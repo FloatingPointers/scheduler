@@ -1,9 +1,14 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import React from "react";
 
 =======
 import React from 'react';
 >>>>>>> 326d21be14c8602fe5ffa8df1e386f9160e33683
+=======
+import React from 'react';
+
+>>>>>>> 882abefc9e654dfd1a8bd915f877b2b6f49bf5d8
 
 function EmployeeLogin() {
 
