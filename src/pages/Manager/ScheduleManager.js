@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import ManagerNavbar from '../../components/manager-components/ManagerNavbar';
 import '../../styles/manager.css';
-import { differenceInHours } from 'date-fns'
 
 
 
 function ScheduleManager() {
-  
+
+
+  //Format type
   let [info, setInfo] = useState({
       _id: "ObjectId",
       storeId: "ObjectId", // References the store the schedule belongs to
@@ -22,20 +23,15 @@ function ScheduleManager() {
         // Other shift-related fields
       ]
   });
-
-  let shiftInfo = info.shifts[0];
-  let startTime = new Date([shiftInfo.date + "T" + shiftInfo.startTime]);
-  let endTime = new Date([shiftInfo.date + "T" + shiftInfo.startTime]);
   
+  let shiftInfo = info.shifts[0];
+
   //NEEDS  MULTIPLE COMPONENT BREAKDOWN
   return (
 
     <div className="manager-body">
       <ManagerNavbar />
       <p>Schedule Manager Page</p>
-      <div className="Hourly">
-
-      </div>
     </div>
 
   );
