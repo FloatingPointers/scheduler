@@ -84,7 +84,7 @@ td > input[type="text"] {
 
 }
 
-.border{
+.border {
     border: 1px solid black;
 }
 
@@ -95,4 +95,55 @@ input[readonly]{
 
 .addInput {
     border: 2px solid black !important;
+}
+
+
+
+
+ul#hour-display > li {
+
+    display: inline;
+    background-color: var(--background-light-dim);
+    border: 1px solid black;
+    width: 100%;
+    padding: 5px 1px;
+    text-align: center;
+
+}
+
+.selected {
+
+    background-color: var(--background-light) !important;
+
+}
+
+.selected-start {
+
+    background-color: var(--accent-1-dim) !important;
+
+}
+
+.selected-end {
+
+    background-color: var(--accent-1-dim) !important;
+
+}
+
+ul#hour-display > li:hover {
+
+    background-color: var(--background-light)
+
+}
+
+ul#hour-display {
+
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+    width: 95vw;
+    height: 10vh;
+
 }
