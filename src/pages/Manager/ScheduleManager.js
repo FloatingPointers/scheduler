@@ -4,6 +4,7 @@ import '../../styles/manager.css';
 import HourlyView from "../../components/manager-components/scheduler-components/HourlyView";
 import WorkingView from "../../components/manager-components/scheduler-components/WorkingView";
 import EmployeeSelector from "../../components/manager-components/scheduler-components/EmployeeSelector";
+import EditingView from "../../components/manager-components/scheduler-components/EditingView";
 
 
 function ScheduleManager() {
@@ -65,10 +66,10 @@ function ScheduleManager() {
   //Setting the start and end time for a shift using any approach
   //Shift currently being edited / created
   const [currentShift, setCurrentShift] = useState({
-    employee: "",
-    employeeID: "",
-    start: "",
-    end: ""
+    employee: "Jobin",
+    employeeID: 1,
+    start: "05:00",
+    end: "09:00"
   }); 
 
 
@@ -88,7 +89,7 @@ function ScheduleManager() {
         <div className="scheduler-lower-component">
           <EmployeeSelector />
         </div>
-        <div className="scheduler-lower-component">Component 2</div>
+        <div className="scheduler-lower-component"><EditingView currentShift={currentShift} setCurrentShift={setCurrentShift}/></div>
         <div className="scheduler-lower-component"><WorkingView /></div>
       </div>
 
