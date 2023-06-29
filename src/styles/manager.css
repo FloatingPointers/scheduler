@@ -164,6 +164,7 @@ ul#hour-display {
 .scheduler-lower-component {
 
     width: 100%;
+    height: 100%;
     border: 1px solid black;
     margin: 10px;
 

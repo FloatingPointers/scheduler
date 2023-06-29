@@ -86,7 +86,7 @@ function ScheduleManager() {
       
       <div className="scheduler-lower-component-container">
         <div className="scheduler-lower-component">
-          <EmployeeSelector />
+          <EmployeeSelector  currentShift={currentShift} setCurrentShift={setCurrentShift}/>
         </div>
         <div className="scheduler-lower-component">Component 2</div>
         <div className="scheduler-lower-component"><WorkingView /></div>
