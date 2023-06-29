@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import ManagerNavbar from '../../components/manager-components/ManagerNavbar';
 import '../../styles/manager.css';
 import HourlyView from "../../components/manager-components/scheduler-components/HourlyView";
-
+import WorkingView from "../../components/manager-components/scheduler-components/WorkingView";
+import EmployeeSelector from "../../components/manager-components/scheduler-components/EmployeeSelector";
 
 
 function ScheduleManager() {
@@ -30,12 +31,12 @@ function ScheduleManager() {
 
         shifts: [
           {
-            employeeId: 1,
+            employeeId: "",
             startTime: "00:00",
             endTime: "05:00",
           },
           {
-            employeeId: 2,
+            employeeId: "",
             startTime: "05:00",
             endTime: "12:00",
           },
@@ -59,12 +60,13 @@ function ScheduleManager() {
     ],
   });
   
-  let shiftInfo = info.shiftTimes[0];
+  let shiftInfo = info.format[0];
 
   //Setting the start and end time for a shift using any approach
   //Shift currently being edited / created
   const [currentShift, setCurrentShift] = useState({
     employee: "",
+    employeeID: "",
     start: "",
     end: ""
   }); 
@@ -81,6 +83,15 @@ function ScheduleManager() {
       <ManagerNavbar />
       <p>Schedule Manager Page</p>
       <HourlyView shiftInfo={shiftInfo} currentShift={currentShift} setCurrentShift={setCurrentShift}/>
+      
+      <div className="scheduler-lower-component-container">
+        <div className="scheduler-lower-component">
+          <EmployeeSelector />
+        </div>
+        <div className="scheduler-lower-component">Component 2</div>
+        <div className="scheduler-lower-component"><WorkingView /></div>
+      </div>
+
     </div>
 
   );
