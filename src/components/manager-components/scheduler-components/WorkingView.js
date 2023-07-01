@@ -47,10 +47,9 @@ function WorkingView(props) {
             <Table>
                 <thead>
                     <tr>
-                        <th>Employee Name</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Roles</th>
+                        <th>Name</th>
+                        <th>Shift</th>
+                        <th>Role</th>
                         <th>X</th>
                     </tr>
                 </thead>
@@ -58,8 +57,7 @@ function WorkingView(props) {
                     {employees.map((employee) => (
                         <tr key={employee.employeeID}>
                             <td>{employee.name}</td>
-                            <td>{employee.startTime}</td>
-                            <td>{employee.endTime}</td>
+                            <td>{employee.startTime} - {employee.endTime}</td>
                             <td>{employee.roles}</td>
                             <td>
                                 <Button onClick={() => handleDelete(employee.employeeID)}>

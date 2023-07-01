@@ -10,14 +10,21 @@ function HourlyView(props) {
   let setSelectionStartTime = (date) => {
     props.setCurrentShift({
       ...currentShift,
-      start: format(date, "HH:mm"),
+      start: date ? format(date, "HH:mm") : "",
     });
   }
   let setSelectionEndTime = (date) => {
     props.setCurrentShift({
       ...currentShift,
-      end: format(date, "HH:mm"),
-    })
+      end: date ? format(date, "HH:mm") : "",
+    });
+  }
+  let setSelectionTime = (start, end) => {
+    props.setCurrentShift({
+      ...currentShift,
+      start: start ? format(start, "HH:mm") : "",
+      end:  end ? format(end, "HH:mm") : "",
+    });
   }
 
   let startTime = new Date([shiftInfo.date + "T" + shiftInfo.startTime]);
@@ -48,16 +55,14 @@ function HourlyView(props) {
       //Check if the second selection is less than the first one, then swap start and end times
       if (compareAsc(selectionStartTime, newEnd) === 1) {
         let swap = selectionStartTime;
-        setSelectionStartTime(newEnd);
-        setSelectionEndTime(swap);
+        setSelectionTime(newEnd, swap);
       } else {
         setSelectionEndTime(newEnd);
       }
 
     } else {
       //Clear selection if both start and end times are selected
-      setSelectionStartTime(null);
-      setSelectionEndTime(null);
+      setSelectionTime(null, null);
     }
   }
 

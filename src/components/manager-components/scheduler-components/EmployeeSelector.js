@@ -5,7 +5,7 @@ function EmployeeSelector(props) {
   let {currentShift, setCurrentShift} = props;
   
   const roles = ["manager", "cook", "cashier"];
-  const [employees, setEmployees] = useState([
+  const [employees, setEmployees] = useState([    // temporary employee data mockup
     {
       employeeID: 1,
       name: "John Smith",

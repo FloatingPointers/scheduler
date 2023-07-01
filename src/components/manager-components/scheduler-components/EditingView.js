@@ -1,11 +1,12 @@
 import React from "react";
 
+
 function EditingView({ currentShift, setCurrentShift }) {
   const { employee, start, end } = currentShift;
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
-    
+
     setCurrentShift((prevShift) => ({ ...prevShift, [name]: value }));
   };
 
@@ -20,18 +21,20 @@ function EditingView({ currentShift, setCurrentShift }) {
         <label>
           Shift Start:
           <input
-            type="text"
+            type="time"
             name="start"
             value={start}
+            step={1800}
             onChange={handleInputChange}
           />
         </label>
         <label>
           Shift End:
           <input
-            type="text"
+            type="time"
             name="end"
             value={end}
+            step={1800}
             onChange={handleInputChange}
           />
         </label>
