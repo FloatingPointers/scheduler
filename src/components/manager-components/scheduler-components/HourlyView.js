@@ -4,9 +4,11 @@ import { differenceInHours, format, add, compareAsc } from "date-fns";
 import "../../../styles/manager.css";
 
 function HourlyView(props) {
+
   let { shiftInfo, currentShift } = props;
   let selectionStartTime = currentShift.start ? new Date([shiftInfo.date + "T" + currentShift.start]) : null;
   let selectionEndTime = currentShift.end ? new Date([shiftInfo.date + "T" + currentShift.end]) : null;
+  
   let setSelectionStartTime = (date) => {
     props.setCurrentShift({
       ...currentShift,

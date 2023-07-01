@@ -10,7 +10,7 @@ function ManagerNavbar() {
         <nav className="flexrow">
             <NavLink to="/mgr">Home</NavLink>
             <NavLink to="/mgr/employees/">Employees</NavLink>
-            <NavLink to="/mgr/scheduler/">Scheduler</NavLink>
+            <NavLink to="/mgr/scheduler/home">Scheduler</NavLink>
             <NavLink to="/mgr/settings">Settings</NavLink>
         </nav>
     );

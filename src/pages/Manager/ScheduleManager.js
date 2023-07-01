@@ -25,19 +25,19 @@ function ScheduleManager() {
       },
       // Other shift-related fields
     ],
-    schedule: [
+    day: [
       {
         goalsMet: false,
         markedAsComplete: false,
 
         shifts: [
           {
-            employeeId: "",
+            employeeId: 1,
             startTime: "00:00",
             endTime: "05:00",
           },
           {
-            employeeId: "",
+            employeeId: 3,
             startTime: "05:00",
             endTime: "12:00",
           },
@@ -66,10 +66,10 @@ function ScheduleManager() {
   //Setting the start and end time for a shift using any approach
   //Shift currently being edited / created
   const [currentShift, setCurrentShift] = useState({
-    employee: "Jobin",
-    employeeID: 1,
-    start: "05:00",
-    end: "09:00"
+    employee: "",
+    employeeID: -1,
+    start: "",
+    end: ""
   }); 
 
 
@@ -77,12 +77,11 @@ function ScheduleManager() {
 
 
 
-  //NEEDS  MULTIPLE COMPONENT BREAKDOWN
+  //NEEDS MULTIPLE COMPONENT BREAKDOWN
   return (
 
     <div className="manager-body">
       <ManagerNavbar />
-      <p>Schedule Manager Page</p>
       <HourlyView shiftInfo={shiftInfo} currentShift={currentShift} setCurrentShift={setCurrentShift}/>
       
       <div className="scheduler-lower-component-container">
