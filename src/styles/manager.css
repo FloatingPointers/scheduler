@@ -219,10 +219,10 @@ ul#hour-display {
 
 }
 
-.all-schedules-overview > li > form > button {
+.all-schedules-overview > li > form > button, .daily-view-management-pane > button {
 
     font-size: 1em;
-    padding: 5px;
+    padding: 10px;
     margin: 2px;
     border-radius: 5px;
 
@@ -231,5 +231,53 @@ ul#hour-display {
 .schedule-status > p {
 
     display: inline;
+
+}
+
+
+
+.schedule-daily-view {
+
+    display: flex;
+    flex-direction: row nowrap;
+    justify-content: center;
+    align-items: stretch;
+    width: 90vw;
+    height: 30vh;
+    margin: 0px;
+    padding: 0px;
+    gap: 0;
+
+}
+
+.schedule-daily-view > li {
+
+    aspect-ratio: 1/1;
+    border: 2px solid black;
+    padding: 10px;
+    list-style: none;
+
+}
+
+
+.daily-view-management-pane {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 90vw;
+    height: 30vh;
+    margin: 20px;
+    padding: 10px;
+    border: 2px solid black;
+    border-radius: 10px;
+
+}
+
+.daily-view-management-pane > h1,h2,p {
+
+    margin: 0;
+    padding: 0;
 
 }
