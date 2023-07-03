@@ -113,7 +113,7 @@ input[readonly]{
 
 
 
-ul#hour-display > li {
+ul#hour-display > li  {
 
   display: inline;
   background-color: var(--background-light-dim);
@@ -121,6 +121,7 @@ ul#hour-display > li {
   width: 100%;
   padding: 5px 1px;
   text-align: center;
+  
 
 }
 
@@ -151,7 +152,7 @@ ul#hour-display > li:hover {
 ul#hour-display {
 
   padding: 0;
-  margin: 0;
+  margin-top: 30px;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -161,28 +162,24 @@ ul#hour-display {
 
 }
 
-.scheduler-lower-component-container {
 
-  padding: 0;
-  margin: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: stretch;
-  width: 90vw;
-  height: 80vh;
+
+
+
+
+
+.center {
   
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 10px;
+    flex-basis: 100%;
 
+    margin-bottom: 10px;
 }
-
-.scheduler-lower-component {
-
-  width: 100%;
-  border: 1px solid black;
-  margin: 10px;
-
-}
-
 
 .availability {
   
@@ -193,4 +190,77 @@ ul#hour-display {
     width: 100%;
     margin: 10px;
   
+}
+
+.day-separator {
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 10px;
+  flex-basis: 100%;
+
+
+}
+
+
+.hour-selector-available {
+  background-color: #9ae59a !important;
+}
+
+.hour-selector-not-available {
+  background-color: #e57373;
+}
+
+.hour-selector-preferred {
+  background-color: #64b5f6 !important;
+}
+
+.week-total{
+
+  padding: 0;
+  margin-top: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+
+
+
+  
+}
+
+.availability-selector{
+  display: flex;
+  flex-direction: column ;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  
+  margin-bottom: 10px;
+
+}
+
+.week-hour-display{
+  padding: 0;
+  margin: 0px;
+  display: flex;
+  flex-direction: row;
+  width: 95vw;
+
+
+
+}
+
+.week-hour-display > li{
+  
+  display: inline;
+  background-color: var(--background-light-dim);
+  border: 1px solid black;
+  width: 100%;
+  padding: 5px 1px;
+  text-align: center;
 }
