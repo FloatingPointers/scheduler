@@ -23,7 +23,7 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
       expiresIn: 1000000,
     });
   const userToReturn = { ...user.toJSON(), ...{ token } };
-  delete userToReturn.hashedPassword;
+  delete userToReturn.hashedpassword;
   console.log("IM IN");
   return res.status(200).json(userToReturn);
 });
