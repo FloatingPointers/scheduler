@@ -1,0 +1,11 @@
+[0;1;31m●[0m mongod.service - MongoDB Database Server
+     Loaded: loaded (/lib/systemd/system/mongod.service; disabled; vendor preset: enabled)
+     Active: [0;1;31mfailed[0m (Result: exit-code) since Sun 2023-07-02 21:30:44 EDT; 2s ago
+       Docs: https://docs.mongodb.org/manual
+    Process: 5395 ExecStart=/usr/bin/mongod --config /etc/mongod.conf [0;1;31m(code=exited, status=14)[0m
+   Main PID: 5395 (code=exited, status=14)
+
+Jul 02 21:30:44 DESKTOP-L50PFEK systemd[1]: Started MongoDB Database Server.
+Jul 02 21:30:44 DESKTOP-L50PFEK mongod[5395]: {"t":{"$date":"2023-07-03T01:30:44.532Z"},"s":"I",  "c":"CONTROL",  "id":7484500, "ctx":"-","msg":"Environment variable MONGODB_CONFIG_OVERRIDE_NOFORK == 1, overriding \"processManagement.fork\" to false"}
+Jul 02 21:30:44 DESKTOP-L50PFEK systemd[1]: [0;1;39m[0;1;31m[0;1;39mmongod.service: Main process exited, code=exited, status=14/n/a[0m
+Jul 02 21:30:44 DESKTOP-L50PFEK systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mmongod.service: Failed with result 'exit-code'.[0m
