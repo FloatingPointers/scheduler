@@ -10,18 +10,17 @@ const applyUserStrategy = passport => {
   options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
   options.secretOrKey = config.passport.secret;
   passport.use(new JwtStrategy(options, async (payload, done) => {
-    User.find({_id: payload.id}, (err, user) => {
-      // error
-      if (err) {
-        return done(err, false);  
-      }
+    try {
+      let user = User.find({_id: payload.id});
       // user found
       if (user) {
         return done(null, user);
       }
       // User not found
       return done(null, false);
-    });
+    } catch (err) {
+      return done(err, false);  
+    }
   }));
 };
 
@@ -52,6 +51,8 @@ const applyLoginStrategy = passport => {
               return done(null, false, { message: "Incorrect password" });
             }
           });
+        } else {
+          return done(null, false, { message: "Incorrect credentials" });
         }
       } catch(err) {
         return done(err, false);  // error occurred

@@ -8,7 +8,7 @@ const validationResult  = require("express-validator");
 const User = require('../models/user');
 const config = require('../store/config');
 const {applyUserStrategy, applyLoginStrategy} = require('../store/passport');
-const employee = require('../models/employee');
+const Employee = require('../models/employee');
 
 applyUserStrategy(passport);
 applyLoginStrategy(passport);
@@ -26,6 +26,10 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
   delete userToReturn.hashedPassword;
   console.log("IM IN");
   return res.status(200).json(userToReturn);
+});
+
+router.get('/hello', passport.authenticate('jwt', { session: false }), (req, res) => {
+  return res.status(200).json({message: "hello"});
 });
 
 router.post("/sign-up", async (req, res, next) => {
@@ -55,11 +59,11 @@ router.post("/sign-up", async (req, res, next) => {
           hashedpassword: hashedPassword,
           type: req.body.type
         });
-        employee = new employee({
-          username: req.body.username,
-          storeID: req.body.storeID,
-        });
-        employee.save();
+        // let employee = new Employee({
+        //   username: req.body.username,
+        //   storeID: req.body.storeID,
+        // });
+        // employee.save();
       } else if(req.body.type === "employee"){
         user = new User({
           username: req.body.username,
@@ -67,17 +71,18 @@ router.post("/sign-up", async (req, res, next) => {
           hashedpassword: hashedPassword,
           type: req.body.type
         });
-        employee = new employee({
+        let employee = new Employee({
           username: req.body.username,
           storeID: req.body.storeID,
         });
         employee.save();
       }
       const result = await user.save();
+      res.end('It worked!');
     });
-    res.redirect("/");
   } catch(err) {
-    return next(err);
+    console.log(err);
+    res.end('It worked!');
   };
 });
 

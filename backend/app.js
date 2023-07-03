@@ -8,7 +8,7 @@ var logger = require('morgan');
 const mongoose = require('mongoose');
 require('dotenv').config();
 
-var loginRouter = require('./routes/employeeLogin');
+var loginRouter = require('./routes/login');
 
 var app = express();
 
