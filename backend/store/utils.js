@@ -7,9 +7,31 @@ export function generateServerErrorCode(res, code, fullError, msg, location = 's
     fullError,
     msg,
   };
+
+
 return res.status(code).json({
     code,
     fullError,
     errors,
   });
+}
+
+
+
+
+//Converts "HH:mm" time format to a number in hours
+function StringToHours(time) {
+
+  const minutes = Number(time.split(":")[1]) / 60;
+  const hours = Number(time.split(":")[0]);
+  return minutes + hours;
+  
+}
+
+
+//Returns true if the first given range is within the second range
+function rangeOverlapping(rangeStart, rangeEnd, rangeStart2, rangeEnd2) {
+  
+  return (rangeStart >= rangeStart2 && rangeStart <= rangeEnd2) || (rangeEnd >= rangeStart2 && rangeEnd <= rangeEnd2);
+  
 }

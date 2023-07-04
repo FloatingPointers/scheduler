@@ -8,7 +8,25 @@ const Employee = new mongoose.Schema({
   storeID: {
     type: String,
     required: true
-  }
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  availability: {
+    //Sunday -> Saturday
+    week: [{
+      day: [{
+        hours: [{
+          preference: {
+            type: String,
+            enum: ["available", "not available", "preferred"]
+          }
+      }],
+  }],
+  }]
+}
+  
 
 });
 

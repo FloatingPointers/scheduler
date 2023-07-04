@@ -5,6 +5,8 @@ const User = require('../models/user');
 const config = require('../store/config');
 const bcrypt = require("bcryptjs");
 
+
+// Authenticate User using JWT Token
 const applyUserStrategy = passport => {
   const options = {};
   options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
