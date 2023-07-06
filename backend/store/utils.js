@@ -35,3 +35,9 @@ function rangeOverlapping(rangeStart, rangeEnd, rangeStart2, rangeEnd2) {
   return (rangeStart >= rangeStart2 && rangeStart <= rangeEnd2) || (rangeEnd >= rangeStart2 && rangeEnd <= rangeEnd2);
   
 }
+
+function timeInRange(timeStart, timeEnd, rangeStart, rangeEnd) {
+
+  return rangeOverlapping(StringToHours(timeStart), StringToHours(timeEnd), StringToHours(rangeStart), StringToHours(rangeEnd));
+
+}

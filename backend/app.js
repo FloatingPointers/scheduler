@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes to use
 app.use('/', loginRouter);
-app.use('/mgr', scheduleRouter);
+app.use('/scheduler', scheduleRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

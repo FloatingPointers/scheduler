@@ -13,19 +13,17 @@ const Employee = new mongoose.Schema({
     type: String,
     required: true
   },
-  availability: {
-    //Sunday -> Saturday
-    week: [{
-      day: [{
-        hours: [{
-          preference: {
-            type: String,
-            enum: ["available", "not available", "preferred"]
-          }
+  availability:{
+    day: [{
+      preference: {
+        type: String  // Message of employee preference
+      },
+      hours: [{
+        type: bool,
       }],
-  }],
-  }]
-}
+    }],
+  }
+
   
 
 });
