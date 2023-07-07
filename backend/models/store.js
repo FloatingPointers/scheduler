@@ -5,10 +5,7 @@ const Store = new mongoose.Schema({
         type: String,
         required: true
     },
-    email: {
-        type: String,
-        required: true
-    },
+
     name: {
         type: String,
     },
@@ -22,14 +19,29 @@ const Store = new mongoose.Schema({
     schedules: [{
         scheduleID: {type: ObjectID},
     }],
+
+
     settings: {
-        type: String,
-    },
-    // Other store-related fields
-
-
-
-    
+        email: {
+            type: String,
+            required: true
+        },
+        openTime: {
+            type: Date,
+        },
+        closeTime: {
+            type: Date,
+        },
+        roles: [{
+            type: String,
+        }],
+        startDay: {
+            type: Date,
+        },
+        endDay: {
+            type: Date,
+        }
+    }
 
 });
 

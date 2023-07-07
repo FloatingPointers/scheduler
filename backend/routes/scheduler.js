@@ -132,5 +132,4 @@ router.get('/employees/:id/allEmployees', passport.authenticate('jwt', { session
 
 
 
-
 module.exports = router;
