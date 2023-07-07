@@ -1,7 +1,8 @@
 let Employee = require("../models/employee");
 const asyncHandler = require("express-async-handler");
 
-//employee.js
+
+
 exports.available = asyncHandler(async(req, res, next) => {
     
   let available = await Employee.find({storeID: req.params.id}).
@@ -14,6 +15,9 @@ exports.available = asyncHandler(async(req, res, next) => {
 
   return res.status(200).json(available);
 });
+
+
+
 
 exports.allEmployees = asyncHandler(async(req, res, next) => {
 

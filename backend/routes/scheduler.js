@@ -9,11 +9,45 @@ const scheduleController = require('../controller/scheduleController.js');
 const employeeController = require('../controller/employeeController.js');
 
 
-// Schedule Routes
 
-router.get('/schedule/create', passport.authenticate('jwt', { session: false }) , scheduleController.createSchedule);
 
-router.get('/schedule/:id/delete', passport.authenticate('jwt', { session: false }) , scheduleController.deleteSchedule);
+
+
+
+
+/* --------------------------
+   SCHEDULE CONTROLLER ROUTES
+   -------------------------- */
+
+/*
+  POST - Create a new schedule
+  Request Body: {
+    scheduleInfo: {
+      storeId
+      weekStartDate
+      startTime
+      endTime
+    }
+  }
+  Response Body: {
+    newScheduleId: Id of the newly created schedule
+  }
+*/
+router.post('/schedule/createSchedule', passport.authenticate('jwt', { session: false }), scheduleController.createSchedule);
+
+
+
+/*
+  DELETE - Delete an existing schedule by id
+  Response Body: {
+    success: True if a schedule object was successfully deleted
+  }
+  Params:
+    id: - the uid of the schedule to be deleted
+*/
+router.delete('/schedule/:id/deleteSchedule', passport.authenticate('jwt', {session: false}), scheduleController.deleteSchedule)
+
+
 
 /*
   GET - Employees working for selected shift
@@ -27,6 +61,7 @@ router.get('/schedule/:id/delete', passport.authenticate('jwt', { session: false
     id: - the uid of the schedule
 */
 router.get('/schedule/:id/working', passport.authenticate('jwt', { session: false }) , scheduleController.working);
+
 
 
 /*
@@ -45,6 +80,7 @@ router.get('/schedule/:id/working', passport.authenticate('jwt', { session: fals
 router.update('/schedule/:id/addShift', passport.authenticate('jwt', { session: false }) , scheduleController.addShift);
 
 
+
 /*
   UPDATE - Updates a schedule by deleting an existing shift from it
   Request Body: {
@@ -59,7 +95,13 @@ router.update('/schedule/:id/removeShift', passport.authenticate('jwt', { sessio
 
 
 
-// Employee Routes
+
+
+
+
+/* --------------------------
+   EMPLOYEE CONTROLLER ROUTES
+   -------------------------- */
 
 /*
   GET - Employees available to work for a selected shift
