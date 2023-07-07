@@ -13,7 +13,7 @@ const applyUserStrategy = passport => {
   options.secretOrKey = config.passport.secret;
   passport.use(new JwtStrategy(options, async (payload, done) => {
     try {
-      let user = User.find({_id: payload.id});
+      let user = User.find({_id: payload.id, type: payload.type});
       // user found
       if (user) {
         return done(null, user);
@@ -72,7 +72,7 @@ const employeeAuth = (req, res, next) => {
 };
 
 const storeAuth = (req, res, next) => {
-  if (req.user.type === 'manager') {
+  if (req.user.type === 'store') {
     next();
   } else {
     res.status(403).json({ error: 'Access denied' });

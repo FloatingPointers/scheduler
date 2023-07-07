@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const passport = require('passport');
-const { applyUserStrategy } = require('../store/passport.js');
+const { applyUserStrategy, storeAuth, employeeAuth } = require('../store/passport.js');
 applyUserStrategy(passport);
 
 
@@ -28,7 +28,7 @@ applyUserStrategy(passport);
   }
 */
 
-router.post('/store/updateSettings', passport.authenticate('jwt', { session: false }), storeController.updateSettings);
+router.post('/store/updateSettings', passport.authenticate('jwt', { session: false }), storeAuth, storeController.updateSettings);
 
 /*
     GET - Get the current settings
@@ -44,7 +44,7 @@ router.post('/store/updateSettings', passport.authenticate('jwt', { session: fal
         }
     }
 */
-router.get('/store/getSettings', passport.authenticate('jwt', { session: false }), storeController.getSettings);
+router.get('/store/getSettings', passport.authenticate('jwt', { session: false }), storeAuth, storeController.getSettings);
 
 
 
@@ -75,7 +75,7 @@ router.get('/store/getSettings', passport.authenticate('jwt', { session: false }
   }
 */
 
-router.post('/employee/updateSettings', passport.authenticate('jwt', { session: false }), employeeController.updateSettings);
+router.post('/employee/updateSettings', passport.authenticate('jwt', { session: false }), employeeAuth, employeeController.updateSettings);
 
 /*
     GET - Get the current settings
@@ -98,5 +98,5 @@ router.post('/employee/updateSettings', passport.authenticate('jwt', { session: 
     }
 */
 
-router.get('/employee/getSettings', passport.authenticate('jwt', { session: false }), employeeController.getSettings);
+router.get('/employee/getSettings', passport.authenticate('jwt', { session: false }), employeeAuth, employeeController.getSettings);
 
