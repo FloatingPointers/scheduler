@@ -114,7 +114,11 @@ router.update('/schedule/:id/removeShift', passport.authenticate('jwt', { sessio
   Params:
     id: - the uid of the store
 */
+<<<<<<< HEAD
 router.get('/employees/:id/available', passport.authenticate('jwt', { session: false }), storeAuth, employeeController.available);
+=======
+router.get('/employees/:id/available', passport.authenticate('jwt', { session: false }) , employeeController.available);
+>>>>>>> 5289e8133c7bcb6d4d004991cf682b710d58610f
 
 /*
   GET - All employees working at the store

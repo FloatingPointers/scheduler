@@ -3,6 +3,10 @@ const asyncHandler = require("express-async-handler");
 
 
 
+const EMPLOYEE_QUERY_LIMIT = 20;
+
+
+
 exports.available = asyncHandler(async(req, res, next) => {
     
   let available = await Employee.find({storeID: req.params.id}).
@@ -11,7 +15,7 @@ exports.available = asyncHandler(async(req, res, next) => {
         $all: [true],
         $slice: [req.body.startHour, req.body.endHour - req.body.startHour + 1], //remove +1 if broken
       }
-    });
+    }).limit(EMPLOYEE_QUERY_LIMIT);
 
   return res.status(200).json(available);
 });
@@ -21,7 +25,11 @@ exports.available = asyncHandler(async(req, res, next) => {
 
 exports.allEmployees = asyncHandler(async(req, res, next) => {
 
-  return res.status(200).json(await Employee.find().limit(20));
+  let employeesFromSchedule = await Employee.find({
+    storeID: req.params.id
+  }).limit(EMPLOYEE_QUERY_LIMIT);
+
+  return res.status(200).json(employeesFromSchedule);
 
 });
 
