@@ -46,7 +46,7 @@ exports.working = asyncHandler(async (req, res, next) => {
 
 exports.addShift = asyncHandler(async (req, res, next) => {
 
-  Schedule.findByIdAndUpdate(req.params.scheduleId, { 
+  await Schedule.findByIdAndUpdate(req.params.scheduleId, { 
     $push: {['shifts']: req.body.shift}
   });
 
@@ -59,7 +59,7 @@ exports.addShift = asyncHandler(async (req, res, next) => {
 
 exports.removeShift = asyncHandler(async (req, res, next) => {
   
-  Schedule.findByIdAndUpdate(req.params.scheduleId, { 
+  await Schedule.findByIdAndUpdate(req.params.scheduleId, { 
     $pull: {['shifts']: {
       day: req.body.day,
       employeeID: req.body.employeeID
@@ -67,8 +67,47 @@ exports.removeShift = asyncHandler(async (req, res, next) => {
   });
 
   return res.status(200);
-  }
-);
+
+});
+
+
+
+exports.createSchedule = asyncHandler(async (req, res, next) => {
+
+  const newSchedule = new Schedule({
+    ...req.body.scheduleInfo
+  });
+
+  await newSchedule.save();
+
+  return res.status(200).json({
+    newScheduleId: newSchedule._id
+  });
+
+});
+
+exports.updateSchedule = asyncHandler(async (req, res, next) => {
+
+  let schedule = await Schedule.findById(req.body.scheduleId);
+  if("weekStartDate" in req.body) schedule.weekStartDate = body.weekStartDate;
+
+  schedule.save();
+
+});
+
+
+exports.deleteSchedule = asyncHandler(async (req, res, next) => {
+
+  //Returns 1 if an object was deleted
+  let success = await Schedule.deleteOne({
+    _id: req.body.scheduleId
+  });
+
+  return res.status(200).json({
+    success: success ? true : false
+  });
+
+});
 
 
 

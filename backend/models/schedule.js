@@ -1,5 +1,26 @@
 const mongoose = requre('mongoose');
 
+const day = new mongoose.Schema({
+  goalsMet: { 
+    type: Boolean, 
+    required: true, 
+    default: false 
+  },
+  markedAsComplete: { 
+    type: Boolean, 
+    required: true, 
+    default: false 
+  },
+  totalHours: { 
+    type: Number, 
+    default: 0 
+  },
+  totalCost: { 
+    type: Number, 
+    default: 0 
+  },
+});
+
 const Schedule = new mongoose.Schema({
 
   startDate: {
@@ -9,36 +30,41 @@ const Schedule = new mongoose.Schema({
   },
 
   startTime: {
-    type: Date,  //HH:mm - the time that the schedule starts each day
+    type: Date,  //The time (hours) that the schedule starts each day
     required: true
   },
 
   endTime: {
-    type: DataTransfer,  //HH:mm - the time that the schedule ends each day
+    type: Date,  //The time (hours) that the schedule ends each day
     required: true
   },
 
   goalsMet: {
     type: Boolean,
-    required: true
+    required: true,
+    default: false
   },
 
   markedAsComplete: {
     type: Boolean,
-    required: true
+    required: true,
+    default: false
   },
 
-  day: [
-    {
-      
-      goalsMet: { type: Boolean, required: true },
-      markedAsComplete: { type: Boolean, required: true },
-      totalHours: { type: Integer },
-      totalCost: { type: Float },
+  day: {
+    type:[day],
+    default: [
+      day,
+      day,
+      day,
+      day,
+      day,
+      day,
+      day,
+    ]
+  },
 
-    }
-  ],
-
+  
   shifts: [
     { // individual shift
       day: {type: Number, min: 0, max: 6}, //0-6, 0 is Sunday 
