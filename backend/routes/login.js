@@ -18,7 +18,7 @@ applyLoginStrategy(passport);
 router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
   let user = req.user;  //passportjs adds user property after authenticating
   // Sign token
-  const token = jwt.sign({ id: user._id }, config.passport.secret,
+  const token = jwt.sign({ id: user._id, type: user.type }, config.passport.secret,
     {
       expiresIn: 1000000,
     });

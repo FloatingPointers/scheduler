@@ -63,7 +63,25 @@ const applyLoginStrategy = passport => {
   );
 };
 
+const employeeAuth = (req, res, next) => {
+  if (req.user.type === 'employee') {
+    next();
+  } else {
+    res.status(403).json({ error: 'Access denied' });
+  }
+};
+
+const storeAuth = (req, res, next) => {
+  if (req.user.type === 'manager') {
+    next();
+  } else {
+    res.status(403).json({ error: 'Access denied' });
+  }
+};
+
 module.exports = {
   applyUserStrategy,
-  applyLoginStrategy
+  applyLoginStrategy,
+  employeeAuth,
+  storeAuth
 };
