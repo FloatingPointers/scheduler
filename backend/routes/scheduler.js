@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const passport = require('passport');
-const { applyUserStrategy } = require('../store/passport.js');
+const { applyUserStrategy, storeAuth } = require('../store/passport.js');
 applyUserStrategy(passport);
 
 const scheduleController = require('../controller/scheduleController.js');
@@ -33,7 +33,7 @@ const employeeController = require('../controller/employeeController.js');
     newScheduleId: Id of the newly created schedule
   }
 */
-router.post('/schedule/createSchedule', passport.authenticate('jwt', { session: false }), scheduleController.createSchedule);
+router.post('/schedule/createSchedule', passport.authenticate('jwt', { session: false }), storeAuth, scheduleController.createSchedule);
 
 
 
@@ -45,7 +45,7 @@ router.post('/schedule/createSchedule', passport.authenticate('jwt', { session: 
   Params:
     id: - the uid of the schedule to be deleted
 */
-router.delete('/schedule/:id/deleteSchedule', passport.authenticate('jwt', {session: false}), scheduleController.deleteSchedule)
+router.delete('/schedule/:id/deleteSchedule', passport.authenticate('jwt', {session: false}), storeAuth, scheduleController.deleteSchedule)
 
 
 
@@ -60,7 +60,7 @@ router.delete('/schedule/:id/deleteSchedule', passport.authenticate('jwt', {sess
   Params:
     id: - the uid of the schedule
 */
-router.get('/schedule/:id/working', passport.authenticate('jwt', { session: false }) , scheduleController.working);
+router.get('/schedule/:id/working', passport.authenticate('jwt', { session: false }), storeAuth, scheduleController.working);
 
 
 
@@ -77,7 +77,7 @@ router.get('/schedule/:id/working', passport.authenticate('jwt', { session: fals
   Params:
     id: - the uid of the schedule
 */
-router.update('/schedule/:id/addShift', passport.authenticate('jwt', { session: false }) , scheduleController.addShift);
+router.update('/schedule/:id/addShift', passport.authenticate('jwt', { session: false }), storeAuth, scheduleController.addShift);
 
 
 
@@ -90,7 +90,7 @@ router.update('/schedule/:id/addShift', passport.authenticate('jwt', { session: 
   Params:
     id: - the uuid of the schedule
 */
-router.update('/schedule/:id/removeShift', passport.authenticate('jwt', { session: false }) , scheduleController.removeShift);
+router.update('/schedule/:id/removeShift', passport.authenticate('jwt', { session: false }), storeAuth, scheduleController.removeShift);
 
 
 
@@ -114,7 +114,11 @@ router.update('/schedule/:id/removeShift', passport.authenticate('jwt', { sessio
   Params:
     id: - the uid of the store
 */
-router.get('/employees/:id/available', passport.authenticate('jwt', { session: false }) , scheduleController.available);
+<<<<<<< HEAD
+router.get('/employees/:id/available', passport.authenticate('jwt', { session: false }), storeAuth, employeeController.available);
+=======
+router.get('/employees/:id/available', passport.authenticate('jwt', { session: false }) , employeeController.available);
+>>>>>>> 5289e8133c7bcb6d4d004991cf682b710d58610f
 
 /*
   GET - All employees working at the store
@@ -127,7 +131,7 @@ router.get('/employees/:id/available', passport.authenticate('jwt', { session: f
   Params:
     id: - the uid of the store
 */
-router.get('/employees/:id/allEmployees', passport.authenticate('jwt', { session: false }) , employeeController.allEmployees);
+router.get('/employees/:id/allEmployees', passport.authenticate('jwt', { session: false }), storeAuth, employeeController.allEmployees);
 
 
 
