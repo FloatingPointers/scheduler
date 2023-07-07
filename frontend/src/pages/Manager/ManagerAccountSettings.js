@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import ManagerNavbar from '../../components/manager-components/ManagerNavbar';
 import { Virtuoso } from 'react-virtuoso';
+import axios from 'axios';
 
 
 
 import '../../styles/manager.css';
+import { set } from "mongoose";
 
 const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const hourTimes = ["12:00 AM", "12:30 AM", "1:00 AM", "1:30 AM", "2:00 AM", "2:30 AM", "3:00 AM", "3:30 AM", "4:00 AM", "4:30 AM", "5:00 AM",
@@ -21,6 +23,7 @@ function ManagerAccountSettings() {
       name: "",
       email: "",
       startDay: "",
+      endDay: "",
       openTime: "",
       closeTime: "",
       roles: []
@@ -29,10 +32,6 @@ function ManagerAccountSettings() {
   );
   const [newRole, setNewRole] = useState('');
 
-  useEffect(() => {
-    console.log(state);
-    //THIS IS WHERE WE POST CHANGES
-  });
 
   const handleChange = (event) => {
     const { id, value } = event.target;
@@ -44,13 +43,61 @@ function ManagerAccountSettings() {
     console.log(state);
   }
 
-  const handleSave = () => {
-    
+  const handleSave = async () => {
 
-    setUnsavedChanges(false);
-    //backend stuff
+    try {
+      const response = await axios.post('/store/updateSettings', {
+        settings: {
+          name: state.name,
+          email: state.email,
+          startDay: state.startDay,
+          endDay: state.endDay,
+          openTime: state.openTime,
+          closeTime: state.closeTime,
+          roles: state.roles
+        }
+      });
+
+
+      const { success } = response.data;
+      if (success) {
+        setUnsavedChanges(false);
+        alert("Settings Saved!");
+      } else {
+        alert("Error saving settings");
+      }
+    } 
+    
+    catch (error) {
+      console.log(error);
+    }
+
   }
 
+
+  useEffect(() => {
+    const getSettings = async () => {
+      try {
+        const response = await axios.get('/store/getSettings');
+        const { settings } = response.data;
+
+        setState({
+          name: settings.name,
+          email: settings.email,
+          startDay: settings.startDay,
+          endDay: settings.endDay,
+          openTime: settings.openTime,
+          closeTime: settings.closeTime,
+          roles: settings.roles
+        });
+      } 
+      catch (error) {
+        console.log(error);
+        //error stuff
+      }
+    }
+    getSettings();
+  }, []);
 
   const handleDelete = (index) => {
     setState((prevState) => {
@@ -94,16 +141,7 @@ function ManagerAccountSettings() {
     // return timeRegex.test(time);
   };
 
-  /*
-      Settings:   
-      Name
-      email
-      Schedule start day
-      Open time
-      Close time
-      Manage Roles - show all roles , allow add (or delete)
 
-  */
 
   return (
 
@@ -126,6 +164,17 @@ function ManagerAccountSettings() {
         <div className="label-input-combo">
           <label htmlFor="startDay">Schedule Start Day</label>
           <select id="startDay" name="startDay" value={state.startDay} onChange={handleChange}>
+            {daysOfWeek.map((day) => (
+              <option key={day} value={day}>
+                {day}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="label-input-combo">
+          <label htmlFor="endDay">Schedule End Day</label>
+          <select id="endDay" name="endDay" value={state.endDay} onChange={handleChange}>
             {daysOfWeek.map((day) => (
               <option key={day} value={day}>
                 {day}
