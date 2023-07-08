@@ -32,9 +32,9 @@ const applyLoginStrategy = passport => {
       try {
         let user = null;
         if(req.body.type === "store"){
-          user = await User.findOne({ storeID: req.body.storeID, type: req.body.type });
+          user = await User.findOne({ storeId: req.body.storeId, type: req.body.type });
         } else if(req.body.type === "employee"){
-          user = await User.findOne({ storeID: req.body.storeID, type: req.body.type, username: username });
+          user = await User.findOne({ storeId: req.body.storeId, type: req.body.type, username: username });
         } else {
           return done(null, false);
         }

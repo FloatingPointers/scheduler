@@ -1,4 +1,4 @@
-const mongoose = requre('mongoose');
+const mongoose = require('mongoose');
 
 const day = new mongoose.Schema({
   goalsMet: { 
@@ -68,7 +68,7 @@ const Schedule = new mongoose.Schema({
   shifts: [
     { // individual shift
       day: {type: Number, min: 0, max: 6}, //0-6, 0 is Sunday 
-      employeeID: {type: ObjectID},
+      employeeId: mongoose.ObjectId,
       employeeName: {type: String},
       role: {type: String},
       startTime: {type: Date},   //start time of this employee's shift

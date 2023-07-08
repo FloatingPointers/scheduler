@@ -62,7 +62,7 @@ exports.removeShift = asyncHandler(async (req, res, next) => {
   await Schedule.findByIdAndUpdate(req.params.scheduleId, { 
     $pull: {['shifts']: {
       day: req.body.day,
-      employeeID: req.body.employeeID
+      employeeId: req.body.employeeId
     }}
   });
 

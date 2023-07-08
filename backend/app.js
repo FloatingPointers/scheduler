@@ -3,13 +3,14 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors');
 
 // My imports
 const mongoose = require('mongoose');
 require('dotenv').config();
 
 var loginRouter = require('./routes/login');
-var scheduleRouter = require('./routes/manager/scheduler');
+var scheduleRouter = require('./routes/scheduler');
 
 var app = express();
 
@@ -23,6 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors());
 
 // Routes to use
 app.use('/', loginRouter);

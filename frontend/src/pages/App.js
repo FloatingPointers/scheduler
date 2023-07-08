@@ -5,6 +5,8 @@ import "../styles/App.css"
 
 
 
+
+
 function App() {
   const [state, setState] = useState("Manager");
 
@@ -14,7 +16,7 @@ function App() {
     } else if(state === "Employee"){
       return <EmployeeLogin/>;
     } else {
-      console.log("I've been graped");
+      return <div>ERROR</div>
     }
   }
   

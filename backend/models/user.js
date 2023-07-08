@@ -4,10 +4,10 @@ const User = new mongoose.Schema({
   username: {     //only employees have this
     type: String
   },
-  employeeID: {   //only employees have this
+  employeeId: {   //only employees have this
     type: String
   },
-  storeID: {
+  storeId: {
     type: String,
     required: true
   },

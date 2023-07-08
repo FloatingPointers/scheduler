@@ -5,8 +5,8 @@ import axios from 'axios';
 
 
 
+
 import '../../styles/manager.css';
-import { set } from "mongoose";
 
 const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const hourTimes = ["12:00 AM", "12:30 AM", "1:00 AM", "1:30 AM", "2:00 AM", "2:30 AM", "3:00 AM", "3:30 AM", "4:00 AM", "4:30 AM", "5:00 AM",
@@ -46,16 +46,8 @@ function ManagerAccountSettings() {
   const handleSave = async () => {
 
     try {
-      const response = await axios.post('/store/updateSettings', {
-        settings: {
-          name: state.name,
-          email: state.email,
-          startDay: state.startDay,
-          endDay: state.endDay,
-          openTime: state.openTime,
-          closeTime: state.closeTime,
-          roles: state.roles
-        }
+      const response = await axios.put('/store/updateSettings', {
+        settings: state
       });
 
 
@@ -81,15 +73,7 @@ function ManagerAccountSettings() {
         const response = await axios.get('/store/getSettings');
         const { settings } = response.data;
 
-        setState({
-          name: settings.name,
-          email: settings.email,
-          startDay: settings.startDay,
-          endDay: settings.endDay,
-          openTime: settings.openTime,
-          closeTime: settings.closeTime,
-          roles: settings.roles
-        });
+        setState(settings);
       } 
       catch (error) {
         console.log(error);

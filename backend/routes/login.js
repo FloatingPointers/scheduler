@@ -15,6 +15,26 @@ applyLoginStrategy(passport);
 
 
 
+/*
+POST - login as either an employee or store account
+Request Body: {
+  type - "store" or "employee" user type 
+  Store { - included only if login is of type "store"
+    StoreId
+    password
+  }
+  Employee { - included only if login is of type "employee"
+    storeId
+    username
+    password
+  }
+}
+Response Body: {
+  token
+  user  - corresponding user object w/o hashedpassword
+}
+
+*/
 router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
   let user = req.user;  //passportjs adds user property after authenticating
   // Sign token
@@ -28,6 +48,8 @@ router.post('/login', passport.authenticate('local', { session: false }), (req, 
   return res.status(200).json(userToReturn);
 });
 
+
+
 router.get('/hello', passport.authenticate('jwt', { session: false }), (req, res) => {
   return res.status(200).json({message: "hello"});
 });
@@ -37,14 +59,14 @@ router.post("/sign-up", async (req, res, next) => {
   try {
     let found = null;
     if(req.body.type === "store"){
-      found = await User.findOne({type: "store", storeID: req.body.storeID});
+      found = await User.findOne({type: "store", storeId: req.body.storeId});
       if(found) {
-        return res.status(400).json({ error: 'StoreID already exists' });
+        return res.status(400).json({ error: 'StoreId already exists' });
       }
     } else if(req.body.type === "employee"){
-      found = await User.findOne({type: "employee", username: req.body.username, storeID: req.body.storeID});
+      found = await User.findOne({type: "employee", username: req.body.username, storeId: req.body.storeId});
       if(found) {
-        return res.status(400).json({ error: 'Employee username exists at StoreID' });
+        return res.status(400).json({ error: 'Employee username exists at StoreId' });
       }
     } else {
       return res.status(400).json({ error: 'Incorrect Type' });
@@ -55,25 +77,25 @@ router.post("/sign-up", async (req, res, next) => {
       let user = null;
       if(req.body.type === "store"){
         user = new User({
-          storeID: req.body.storeID,
+          storeId: req.body.storeId,
           hashedpassword: hashedPassword,
           type: req.body.type
         });
         // let employee = new Employee({
         //   username: req.body.username,
-        //   storeID: req.body.storeID,
+        //   storeId: req.body.storeId,
         // });
         // employee.save();
       } else if(req.body.type === "employee"){
         user = new User({
           username: req.body.username,
-          storeID: req.body.storeID,
+          storeId: req.body.storeId,
           hashedpassword: hashedPassword,
           type: req.body.type
         });
         let employee = new Employee({
           username: req.body.username,
-          storeID: req.body.storeID,
+          storeId: req.body.storeId,
         });
         employee.save();
       }

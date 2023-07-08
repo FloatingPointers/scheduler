@@ -9,7 +9,7 @@ const EMPLOYEE_QUERY_LIMIT = 20;
 
 exports.available = asyncHandler(async(req, res, next) => {
     
-  let available = await Employee.find({storeID: req.params.id}).
+  let available = await Employee.find({storeId: req.params.id}).
     select({
       [`availability.day.${req.body.dayIndex}.hours`] : {
         $all: [true],
@@ -24,7 +24,7 @@ exports.available = asyncHandler(async(req, res, next) => {
 exports.allEmployees = asyncHandler(async(req, res, next) => {
 
   let employeesFromSchedule = await Employee.find({
-    storeID: req.params.id
+    storeId: req.params.id
   }).limit(EMPLOYEE_QUERY_LIMIT);
 
   return res.status(200).json(employeesFromSchedule);

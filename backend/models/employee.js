@@ -5,7 +5,7 @@ const Employee = new mongoose.Schema({
     type: String,
     required: true
   },
-  storeID: {
+  storeId: {
     type: String,
     required: true
   },
@@ -19,7 +19,7 @@ const Employee = new mongoose.Schema({
         type: String  // Message of employee preference
       },
       hours: [{
-        type: bool,
+        type: Boolean,
       }],
     }],
   }

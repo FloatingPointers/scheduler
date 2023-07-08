@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const Store = new mongoose.Schema({
-    storeID: {
+    storeId: {
         type: String,
         required: true
     },
@@ -9,15 +9,15 @@ const Store = new mongoose.Schema({
     name: {
         type: String,
     },
-    userID: {
-        type: ObjectID,
+    userId: {
+        type: mongoose.ObjectId,
         required: true
     },
     employees: [{
-        employeeID: {type: ObjectID},
+        employeeId: mongoose.ObjectId,
     }],
     schedules: [{
-        scheduleID: {type: ObjectID},
+        scheduleId: mongoose.ObjectId,
     }],
 
 

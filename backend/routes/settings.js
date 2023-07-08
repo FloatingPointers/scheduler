@@ -28,7 +28,7 @@ applyUserStrategy(passport);
   }
 */
 
-router.post('/store/updateSettings', passport.authenticate('jwt', { session: false }), storeAuth, storeController.updateSettings);
+router.put('/store/updateSettings', passport.authenticate('jwt', { session: false }), storeAuth, storeController.updateSettings);
 
 /*
     GET - Get the current settings
@@ -75,7 +75,7 @@ router.get('/store/getSettings', passport.authenticate('jwt', { session: false }
   }
 */
 
-router.post('/employee/updateSettings', passport.authenticate('jwt', { session: false }), employeeAuth, employeeController.updateSettings);
+router.put('/employee/updateSettings', passport.authenticate('jwt', { session: false }), employeeAuth, employeeController.updateSettings);
 
 /*
     GET - Get the current settings

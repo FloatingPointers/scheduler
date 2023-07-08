@@ -77,7 +77,7 @@ router.get('/schedule/:id/working', passport.authenticate('jwt', { session: fals
   Params:
     id: - the uid of the schedule
 */
-router.update('/schedule/:id/addShift', passport.authenticate('jwt', { session: false }), storeAuth, scheduleController.addShift);
+router.put('/schedule/:id/addShift', passport.authenticate('jwt', { session: false }), storeAuth, scheduleController.addShift);
 
 
 
@@ -90,7 +90,7 @@ router.update('/schedule/:id/addShift', passport.authenticate('jwt', { session: 
   Params:
     id: - the uuid of the schedule
 */
-router.update('/schedule/:id/removeShift', passport.authenticate('jwt', { session: false }), storeAuth, scheduleController.removeShift);
+router.put('/schedule/:id/removeShift', passport.authenticate('jwt', { session: false }), storeAuth, scheduleController.removeShift);
 
 
 
