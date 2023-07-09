@@ -9,10 +9,6 @@ const Store = new mongoose.Schema({
     name: {
         type: String,
     },
-    userId: {
-        type: mongoose.ObjectId,
-        required: true
-    },
     employees: [{
         employeeId: mongoose.ObjectId,
     }],
@@ -24,7 +20,7 @@ const Store = new mongoose.Schema({
     settings: {
         email: {
             type: String,
-            required: true
+            // required: true
         },
         openTime: {
             type: Date,

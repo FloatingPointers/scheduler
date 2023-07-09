@@ -14,6 +14,7 @@ function CreateAccount() {
       }
     */
     const signup = async (event) => {
+      event.preventDefault();
       try {
 
         //Ensure passwords match first
@@ -23,12 +24,11 @@ function CreateAccount() {
         }
         const response = await axiosInstance.post('/sign-up', {
           storeId: event.target.storeNum.value,
-          //email: event.target.email.value,
+          email: event.target.email.value,
           password: event.target.password.value,
           type: "store"
-        }).then(
-          navigate('/')
-        );
+        })
+        navigate('/');
         console.log("Store signup status: " + response.status);
       } 
       catch(err) {
@@ -43,7 +43,6 @@ function CreateAccount() {
     <div className="flexcol bordered-element">
       <h1>Store Manager Account Creation</h1>
       <form onSubmit={signup}>
-        
         
         <div className="label-input-combo">
           <label htmlFor="email">Email</label>

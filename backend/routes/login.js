@@ -9,6 +9,7 @@ const User = require('../models/user');
 const config = require('../store/config');
 const {applyUserStrategy, applyLoginStrategy} = require('../store/passport');
 const Employee = require('../models/employee');
+const Store = require('../models/store');
 
 applyUserStrategy(passport);
 applyLoginStrategy(passport);
@@ -33,8 +34,9 @@ Response Body: {
   token
   user  - corresponding user object w/o hashedpassword
 }
-
 */
+
+
 router.post('/login', passport.authenticate('local', { session: false }), (req, res) => {
   let user = req.user;  //passportjs adds user property after authenticating
   // Sign token
@@ -81,11 +83,11 @@ router.post("/sign-up", async (req, res, next) => {
           hashedpassword: hashedPassword,
           type: req.body.type
         });
-        // let employee = new Employee({
-        //   username: req.body.username,
-        //   storeId: req.body.storeId,
-        // });
-        // employee.save();
+        let store = new Store({
+          username: req.body.storeId,
+          storeId: req.body.storeId,
+        });
+        store.save();
       } else if(req.body.type === "employee"){
         user = new User({
           username: req.body.username,

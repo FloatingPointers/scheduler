@@ -1,10 +1,12 @@
-import axios from 'axios';
+
 import React from "react";
-import { NavLink, Navigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import axiosInstance from "../../Axios.js";
 
 function ManagerLogin() {
+  const navigate = useNavigate();
 
-
+  
   /*
     Credentials {
       storeNum
@@ -13,17 +15,18 @@ function ManagerLogin() {
     }
   */
   const login = async (event) => {
+    event.preventDefault();
     try {
-      const response = await axios.post('/login', {
-        storeNum: event.target.storeNum.value,
+      const response = await axiosInstance.post('/login', {
+        storeId: event.target.storeNum.value,
         username: event.target.storeNum.value,
         password: event.target.password.value,
         type: "store"
-      });
+      })
       console.log("Manager login status: " + response.status);
       const { token } = response.data;
       localStorage.setItem('token', token);
-      <Navigate to="/emp/home"/>
+      navigate("/mgr");
     } 
     catch(err) {
       console.log(err);
