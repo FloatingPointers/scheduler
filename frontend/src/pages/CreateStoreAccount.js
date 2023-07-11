@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 
 import axiosInstance from "../Axios.js";
 
-function CreateAccount() {
+function CreateStoreAccount() {
   const [createAccountWithUsername, setCreateAccountWithUsername] = useState(true);
 
   const navigate = useNavigate();
@@ -103,4 +103,4 @@ function CreateAccount() {
   );
 }
 
-export default CreateAccount;
+export default CreateStoreAccount;

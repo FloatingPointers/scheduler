@@ -16,7 +16,6 @@ function ManagerLogin() {
     try {
 
       //Add required parameters to the request
-      //TODO: make it so users can optionally sign in using username
       let params = {
         type: "store",
         password: event.target.password.value
@@ -27,7 +26,6 @@ function ManagerLogin() {
       if(event.target.email && event.target.email.value) params = { ...params, email: event.target.email.value }
       if(event.target.username && event.target.username.value) params = { ...params, username: event.target.username.value }
       else params = { ...params, username: "unspecified" }
-      
 
       //Send the request and await the response
       const response = await axiosInstance.post('/login', params);
@@ -78,7 +76,7 @@ function ManagerLogin() {
 
       <button type="submit">Submit</button>
 
-      <NavLink to="/CreateAccount/" className="create-account">Don't have an account?</NavLink>
+      <NavLink to="/CreateStoreAccount/" className="create-account">Don't have an account?</NavLink>
     </form>
   );
 }
