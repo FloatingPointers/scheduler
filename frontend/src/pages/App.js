@@ -1,33 +1,86 @@
 import React, {useState} from "react"
-import ManagerLogin from "../components/app-components/ManagerLogin";
-import EmployeeLogin from "../components/app-components/EmployeeLogin";
 import "../styles/App.css"
-
-
+import { useNavigate, NavLink } from "react-router-dom";
+import axiosInstance from "../Axios.js";
 
 
 
 function App() {
-  const [state, setState] = useState("Manager");
+  const navigate = useNavigate();
 
-  const loginDisplay = () => {
-    if(state === "Manager") {
-      return <ManagerLogin/>;
-    } else if(state === "Employee"){
-      return <EmployeeLogin/>;
-    } else {
-      return <div>ERROR</div>
-    }
+  /*
+  Fields submitted for login
+  {
+    username AND/OR email
+    password
+    type
   }
+  */
+  const login = async (event) => {
+    event.preventDefault();
+
+    console.log("Login as: " + event.target.loginType.value);
+
+    try {
+
+      //Add required parameters to the request
+      let params = {
+        type: event.target.loginType.value,
+        username: event.target.username.value,
+        password: event.target.password.value,
+      }
+
+      //Send the request and await the response
+      const response = await axiosInstance.post('/login', params);
+
+      //Save the auth token in browser storage
+      const { token } = response.data;
+      localStorage.setItem('token', token);
+
+      //Navigate to home page
+      if(event.target.loginType.value === "EMPLOYEE") navigate("/emp");
+      else navigate("/mgr")
+
+      console.log("Login status: " + response.status);
+
+    } 
+    catch(err) {
+      console.log(err);
+    }
+
+  }
+
+  
   
   return (
     <div className="login">
-      <h1>LOG IN</h1>
-      <div >
-        <button onClick={() => {setState("Manager")}}>Manager</button>
-        <button onClick={() => {setState("Employee")}}>Employee</button>
-      </div>
-      {loginDisplay()}
+      <h1>Log In</h1>
+      
+      <form onSubmit={login}>
+        <div>
+          <div className="label-input-combo">
+            <label htmlFor="username">Username or email address</label>
+            <input name="username" type="text" required />
+          </div>
+        </div>
+
+        <div className="label-input-combo">
+          <label htmlFor="password">Password</label>
+          <input id="password" name="password" type="password" required/>
+        </div>
+
+        <div>
+          <p>Login As: </p>
+          <input type="radio" id="EMPLOYEE" name="loginType" value="EMPLOYEE" defaultChecked/>
+          <label htmlFor="EMPLOYEE">Employee</label>
+          <input type="radio" id="STORE" name="loginType" value="STORE" />
+          <label htmlFor="STORE">Manager</label>
+        </div>
+
+        <button type="submit" id="submit">Submit</button>
+      
+        <NavLink to="/CreateStoreAccount/" className="create-account">Don't have an account?</NavLink>
+      </form>
     </div>
   );
 }

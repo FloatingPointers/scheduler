@@ -11,10 +11,10 @@ const Employee = new mongoose.Schema({
   },
 
   //Optional, for display / searching purposes
-  firstname: {
+  firstName: {
     type: String
   },
-  lastname: {
+  lastName: {
     type: String
   },
 
@@ -39,4 +39,4 @@ const Employee = new mongoose.Schema({
 
 });
 
-module.exports = mongoose.model('Employee', Employee);
+module.exports = mongoose.model('EMPLOYEE', Employee);

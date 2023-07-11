@@ -1,6 +1,6 @@
 const sha256  = require('sha256');
 const check  = require('express-validator');
-export const generateHashedPassword = password => sha256(password);
+export const generatehashedPassword = password => sha256(password);
 export function generateServerErrorCode(res, code, fullError, msg, location = 'server') {
   const errors = {};
   errors[location] = {

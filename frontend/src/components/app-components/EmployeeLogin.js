@@ -1,4 +1,3 @@
-import axios from 'axios';
 import React, {useState} from 'react';
 import { useNavigate, NavLink } from 'react-router-dom';
 import axiosInstance from "../../Axios.js";
@@ -17,7 +16,7 @@ function EmployeeLogin() {
     Fields submitted for login
     {
       username AND/OR email
-      type: "employee"
+      type: "EMPLOYEE"
       password
     }
   */
@@ -28,7 +27,7 @@ function EmployeeLogin() {
 
       //Add required parameters to the request
       let params = {
-        type: "employee",
+        type: "EMPLOYEE",
         password: event.target.password.value
       }
 

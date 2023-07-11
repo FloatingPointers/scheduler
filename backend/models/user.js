@@ -11,7 +11,7 @@ const User = new mongoose.Schema({
     type: String
   },
 
-  hashedpassword: {
+  hashedPassword: {
     type: String,
     required: true
   },
@@ -19,7 +19,7 @@ const User = new mongoose.Schema({
   //Specifies how this account should be handled (as a store manager, or an employee)
   type: {
     type: String,
-    enum: ['employee', 'store'],
+    enum: ['EMPLOYEE', 'STORE'],
     required: true
   },
   
@@ -28,6 +28,11 @@ const User = new mongoose.Schema({
   accountRef: {
     type: mongoose.ObjectId,
     required: true
+  },
+
+  //The store that the employee is apart of (if this user is an employee)
+  employerRef: {
+    type: mongoose.ObjectId
   }
 
 });

@@ -35,22 +35,22 @@ exports.allEmployees = asyncHandler(async(req, res, next) => {
 
 exports.updateSettings = asyncHandler(async(req, res, next) => {
   
-    let employee = await Employee.findById(req.user.id);
+  let employee = await Employee.findById(req.user.id);
   
-    employee.name = req.body.name;
-    employee.email = req.body.email;
-    employee.availability = req.body.availability;
-  
-    await employee.save();
-  
-    return res.status(200).json({success: true});
+  employee.name = req.body.name;
+  employee.email = req.body.email;
+  employee.availability = req.body.availability;
+
+  await employee.save();
+
+  return res.status(200).json({success: true});
   
 });
 
 exports.getSettings = asyncHandler(async(req, res, next) => {
   
-      let employee = await Employee.findById(req.user.id);
+  let employee = await Employee.findById(req.user.id);
       
-      return res.status(200).json({employee : employee}); 
+  return res.status(200).json({employee : employee}); 
     
 });

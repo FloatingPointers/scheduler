@@ -32,25 +32,26 @@ const applyLoginStrategy = passport => {
     //TODO: Make it so local strategy accepts either username or password
     new LocalStrategy({ passReqToCallback: true }, async (req, username, password, done) => {
 
-      console.log("Attempting login of user " + req.body.email + " with\n username: " + req.body.username + "\n email: " + req.body.email + "\n type: " + req.body.type);
+      console.log("Attempting login of user " + req.body.email + " with\n username or email: " + req.body.username + "\n type: " + req.body.type);
 
-      if(req.body.type !== "store" && req.body.type !== "employee") return done(null, false);
+      if(req.body.type !== "STORE" && req.body.type !== "EMPLOYEE") return done(null, false);
 
       try {
-        let searchParams = {
-          type: req.body.type
-        }
-        if(req.body.email) searchParams = { ...searchParams, email: req.body.email }
-        else searchParams = { ...searchParams, username: req.body.username }
 
-        let user = await User.findOne(searchParams);
+        let user = await User.findOne({
+          type: req.body.type,
+          $or: [
+            {username: username},
+            {email: username}
+          ]
+        });
         console.log("Located user?: " + user);
 
         if(!user) {
-          return done(null, false, { message: "Incorrect credentials" });
+          return done(null, false, { message: "Invalid username/email" });
         }
 
-        bcrypt.compare(password, user.hashedpassword, (err, res) => {
+        bcrypt.compare(password, user.hashedPassword, (err, res) => {
 
           if(err) {
             console.log(err);
@@ -76,7 +77,7 @@ const applyLoginStrategy = passport => {
 };
 
 const employeeAuth = (req, res, next) => {
-  if (req.user.type === 'employee') {
+  if (req.user.type === 'EMPLOYEE') {
     next();
   } else {
     res.status(403).json({ error: 'Access denied' });
@@ -84,7 +85,7 @@ const employeeAuth = (req, res, next) => {
 };
 
 const storeAuth = (req, res, next) => {
-  if (req.user.type === 'store') {
+  if (req.user.type === 'STORE') {
     next();
   } else {
     res.status(403).json({ error: 'Access denied' });

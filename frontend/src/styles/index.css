@@ -7,8 +7,8 @@
 --background-dark: #333333;
 --background-dark-dim: #111111;
 
---accent-1: #a0a0ff;
---accent-1-dim: #7c7cff;
+--accent-1: #a0a0DD;
+--accent-1-dim: #5c5cDD;
 
 --font-size-1: 1.3em; 
 
@@ -28,6 +28,18 @@ body {
     justify-content: center;
     align-items: center;
 
+}
+
+
+
+.interactable-text {
+    color: var(--accent-1-dim);
+    text-decoration: underline;
+}
+
+.interactable-text:hover {
+    color: var(--accent-1);
+    text-decoration: underline;
 }
 
 

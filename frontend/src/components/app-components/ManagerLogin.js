@@ -17,7 +17,7 @@ function ManagerLogin() {
 
       //Add required parameters to the request
       let params = {
-        type: "store",
+        type: "STORE",
         password: event.target.password.value
       }
 
