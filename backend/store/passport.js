@@ -2,6 +2,7 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('../models/user');
+const { search } = require('../routes/login');
 const config = require('../store/config');
 const bcrypt = require("bcryptjs");
 
@@ -28,17 +29,54 @@ const applyUserStrategy = passport => {
 
 const applyLoginStrategy = passport => {
   passport.use(
+    //TODO: Make it so local strategy accepts either username or password
     new LocalStrategy({ passReqToCallback: true }, async (req, username, password, done) => {
+
+      console.log("Attempting login of user " + req.body.email + " with\n username: " + req.body.username + "\n email: " + req.body.email + "\n type: " + req.body.type);
+
+      if(req.body.type !== "store" && req.body.type !== "employee") return done(null, false);
+
       try {
-        let user = null;
-        if(req.body.type === "store"){
-          user = await User.findOne({ storeId: req.body.storeId, type: req.body.type });
-        } else if(req.body.type === "employee"){
-          user = await User.findOne({ storeId: req.body.storeId, type: req.body.type, username: username });
-        } else {
-          return done(null, false);
+        let searchParams = {
+          type: req.body.type
         }
-        if(user){
+        if(req.body.email) searchParams = { ...searchParams, email: req.body.email }
+        //if(req.body.username) searchParams = { ...searchParams, username: req.body.username }
+
+        let user = await User.findOne(searchParams);
+        console.log("Located user?: " + user);
+
+        //if(req.body.type === "store"){
+        //  user = await User.findOne({ email: req.body.email, type: req.body.type });
+        //} else if(req.body.type === "employee"){
+        //  user = await User.findOne({ email: req.body.email, type: req.body.type, username: username });
+        //} else {
+        //  return done(null, false);
+        //}
+
+        if(!user) {
+          return done(null, false, { message: "Incorrect credentials" });
+        }
+
+        bcrypt.compare(password, user.hashedpassword, (err, res) => {
+
+          if(err) {
+            console.log(err);
+            return done(err, false);
+          }
+
+          if (res) {
+            // passwords match! log user in
+            console.log(user);
+            return done(null, user);
+          } else {
+            // passwords do not match
+            return done(null, false, { message: "Incorrect password" });
+          }
+
+        });
+
+        /*if(user){
           bcrypt.compare(password, user.hashedpassword, (err, res) => {
             if(err) {
               console.log(err);
@@ -55,7 +93,7 @@ const applyLoginStrategy = passport => {
           });
         } else {
           return done(null, false, { message: "Incorrect credentials" });
-        }
+        }*/
       } catch(err) {
         return done(err, false);  // error occurred
       }

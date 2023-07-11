@@ -7,26 +7,36 @@ function ManagerLogin() {
   const navigate = useNavigate();
 
   
-  /*
-    Credentials {
-      storeNum
-      username
-      password
-    }
-  */
+
   const login = async (event) => {
     event.preventDefault();
+
+    //TODO: Ensure EITHER the username OR email has been filled out
+
+
     try {
-      const response = await axiosInstance.post('/login', {
-        storeId: event.target.storeNum.value,
-        username: event.target.storeNum.value,
-        password: event.target.password.value,
-        type: "store"
-      })
-      console.log("Manager login status: " + response.status);
+
+      //Add required parameters to the request
+      //TODO: make it so users can optionally sign in using username
+      let params = {
+        type: "store",
+        username: "placeholder",
+        email: event.target.email.value,
+        password: event.target.password.value
+      }
+
+      //Send the request and await the response
+      const response = await axiosInstance.post('/login', params);
+
+      //Save the auth token in browser storage
       const { token } = response.data;
       localStorage.setItem('token', token);
+
+      //Navigate to manager home page
       navigate("/mgr");
+
+      console.log("Manager login status: " + response.status);
+
     } 
     catch(err) {
       console.log(err);
@@ -37,16 +47,16 @@ function ManagerLogin() {
   return (
     <form onSubmit={login}>
       <div className="label-input-combo">
-        <label htmlFor="storeNum">Store Number</label>
-        <input id="storeNum" name="storeNum" type="number" placeholder="000000" required />
+        <label htmlFor="email">Email</label>
+        <input name="email" type="email" required />
       </div>
 
       <div className="label-input-combo">
         <label htmlFor="password">Password</label>
-        <input id="password" name="password" type="password" placeholder="******" required />
+        <input id="password" name="password" type="password" required />
       </div>
 
-      <button type="submit" id="submit">Submit</button>
+      <button type="submit">Submit</button>
 
       <NavLink to="/CreateAccount/" className="create-account">Don't have an account?</NavLink>
     </form>
