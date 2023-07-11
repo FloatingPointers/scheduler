@@ -1,4 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 /* Global variables */
+/*
 :root {
 
 --background-light: #EEEEEE;
@@ -100,6 +106,7 @@ button:hover {
 
 
 /* Stacks a label ontop of an input textbox */
+/*
 .label-input-combo {
     display: flex;
     flex-direction: column;
@@ -119,6 +126,7 @@ input {
 
 
 /* Navbar css */
+/*
 nav {
 
     width: 100%;
@@ -144,4 +152,4 @@ nav > a:hover {
 
     background-color: var(--accent-1);
 
-}
+}*/

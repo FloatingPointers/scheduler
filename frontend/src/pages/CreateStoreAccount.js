@@ -7,8 +7,6 @@ import axiosInstance from "../Axios.js";
 function CreateStoreAccount() {
   const navigate = useNavigate();
 
-
-
   const signupStore = async (event) => {
     event.preventDefault();
 

@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import "../styles/App.css"
+//import "../styles/App.css"
 import { useNavigate, NavLink } from "react-router-dom";
 import axiosInstance from "../Axios.js";
 
@@ -53,13 +53,13 @@ function App() {
   
   
   return (
-    <div className="login">
+    <div className="flex flex-row justify-center border-black border-0">
       <h1>Log In</h1>
       
       <form onSubmit={login}>
         <div>
           <div className="label-input-combo">
-            <label htmlFor="username">Username or email address</label>
+            <label htmlFor="username" className="text-blue-600">Username or email address</label>
             <input name="username" type="text" required />
           </div>
         </div>
