@@ -41,18 +41,10 @@ const applyLoginStrategy = passport => {
           type: req.body.type
         }
         if(req.body.email) searchParams = { ...searchParams, email: req.body.email }
-        //if(req.body.username) searchParams = { ...searchParams, username: req.body.username }
+        else searchParams = { ...searchParams, username: req.body.username }
 
         let user = await User.findOne(searchParams);
         console.log("Located user?: " + user);
-
-        //if(req.body.type === "store"){
-        //  user = await User.findOne({ email: req.body.email, type: req.body.type });
-        //} else if(req.body.type === "employee"){
-        //  user = await User.findOne({ email: req.body.email, type: req.body.type, username: username });
-        //} else {
-        //  return done(null, false);
-        //}
 
         if(!user) {
           return done(null, false, { message: "Incorrect credentials" });
@@ -76,24 +68,6 @@ const applyLoginStrategy = passport => {
 
         });
 
-        /*if(user){
-          bcrypt.compare(password, user.hashedpassword, (err, res) => {
-            if(err) {
-              console.log(err);
-              return done(err, false);
-            }
-            if (res) {
-              // passwords match! log user in
-              console.log(user);
-              return done(null, user);
-            } else {
-              // passwords do not match
-              return done(null, false, { message: "Incorrect password" });
-            }
-          });
-        } else {
-          return done(null, false, { message: "Incorrect credentials" });
-        }*/
       } catch(err) {
         return done(err, false);  // error occurred
       }

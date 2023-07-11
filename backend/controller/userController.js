@@ -122,8 +122,6 @@ exports.signup = asyncHandler(async (req, res, next) => {
     //Upload the store/employee account to the database
     linkedAccount.save();
 
-
-    
     //Create a new user account, store the user's hashed password in it, and link the user's employee or store account
     let user;
     bcrypt.hash(req.body.password, 10, async(err, hashedPassword) => {

@@ -1,9 +1,11 @@
 
-import React from "react";
+import React, {useState} from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import axiosInstance from "../../Axios.js";
 
 function ManagerLogin() {
+  const [loginWithUsername, setLoginWithUsername] = useState(true);
+
   const navigate = useNavigate();
 
   
@@ -11,19 +13,21 @@ function ManagerLogin() {
   const login = async (event) => {
     event.preventDefault();
 
-    //TODO: Ensure EITHER the username OR email has been filled out
-
-
     try {
 
       //Add required parameters to the request
       //TODO: make it so users can optionally sign in using username
       let params = {
         type: "store",
-        username: "placeholder",
-        email: event.target.email.value,
         password: event.target.password.value
       }
+
+      //Since passport requires the username field be set, we must set it to something, the value doesn't matter as long as it isn't null or undefined
+      //if we're logging in with email instead
+      if(event.target.email && event.target.email.value) params = { ...params, email: event.target.email.value }
+      if(event.target.username && event.target.username.value) params = { ...params, username: event.target.username.value }
+      else params = { ...params, username: "unspecified" }
+      
 
       //Send the request and await the response
       const response = await axiosInstance.post('/login', params);
@@ -46,11 +50,27 @@ function ManagerLogin() {
 
   return (
     <form onSubmit={login}>
-      <div className="label-input-combo">
-        <label htmlFor="email">Email</label>
-        <input name="email" type="email" required />
-      </div>
-
+      {
+      loginWithUsername ? 
+        (
+          <div>
+            <p onClick={() => {setLoginWithUsername(false)}}>Login with email instead...</p>
+            <div className="label-input-combo">
+              <label htmlFor="username">Username</label>
+              <input name="username" type="text" required />
+            </div>
+          </div>
+        ) : (
+          <div>
+            <p onClick={() => {setLoginWithUsername(true)}}>Login with username instead...</p>
+            <div className="label-input-combo">
+              <label htmlFor="email">Email</label>
+              <input name="email" type="email" required />
+            </div>
+          </div>
+        )
+      }
+      
       <div className="label-input-combo">
         <label htmlFor="password">Password</label>
         <input id="password" name="password" type="password" required />

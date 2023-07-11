@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import axiosInstance from "../Axios.js";
 
 function CreateAccount() {
+  const [createAccountWithUsername, setCreateAccountWithUsername] = useState(true);
+
   const navigate = useNavigate();
 
 
@@ -23,12 +25,15 @@ function CreateAccount() {
 
       //Add required parameters to the request
       let params = {
-        email: event.target.email.value,
-        password: event.target.password.value,
-        type: "store"
+        type: "store",
+        password: event.target.password.value
       }
 
-      //Add optional parramters to the request (if any)
+      //Add username / email to request
+      if(event.target.username && event.target.username.value) params.username = event.target.username.value;
+      if(event.target.email && event.target.email.value) params.email = event.target.email.value;
+
+      //Add optional parameters to the request (if any)
       if(event.target.storeName.value) params.storeName = event.target.storeName.value;
 
       //Send the request and await the response
@@ -53,15 +58,30 @@ function CreateAccount() {
     <div className="flexcol bordered-element">
       <h1>Store Account Creation</h1>
       <form onSubmit={signupStore}>
-        
+        {
+          createAccountWithUsername ? 
+          (
+            <div>
+              <p onClick={() => {setCreateAccountWithUsername(false)}}>Create with email instead...</p>
+              <div className="label-input-combo">
+                <label htmlFor="username">Username</label>
+                <input type="text" name="username" required/> 
+              </div>
+            </div>
+          ) : (
+            <div>
+              <p onClick={() => {setCreateAccountWithUsername(true)}}>Create with username instead...</p>
+              <div className="label-input-combo">
+                <label htmlFor="email">Email</label>
+                <input type="email" name="email" required/> 
+              </div>
+            </div>
+          )
+        }
+
         <div className="label-input-combo">
-          <label htmlFor="email">Email</label>
-          <input type="email" name="email" required/> 
-        </div>
-        
-        <div className="label-input-combo">
-          <label htmlFor="storeName">Store Name</label>
-          <input type="text" name="storeName" required/>
+          <label htmlFor="storeName">Store Name (Optional)</label>
+          <input type="text" name="storeName" />
         </div>
 
         <div className="label-input-combo">
