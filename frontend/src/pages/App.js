@@ -53,33 +53,42 @@ function App() {
   
 
   return (
-    <div className="flex flex-row justify-center items-center h-screen w-screen
-                  bg-bgPrimary text-2xl">
+    <div className="flex flex-row justify-center items-center h-screen w-screen bg-bgSecondary text-xl font-normal">
       
-      
-      <form onSubmit={login} className="border border-secondary bg-bgSecondary shadow-md drop-shadow p-8 flex flex-col gap-2">
-        <label htmlFor="username">Username or email address</label>
-        <input name="username" type="text" className="border border-secondary focus:border-accent focus:outline-none" required />
-
-        <label htmlFor="password">Password</label>
-        <input id="password" name="password" type="password" className="border border-secondary focus:border-accent focus:outline-none" required/>
+      <form onSubmit={login} className="border border-secondary bg-bgPrimary rounded-lg shadow-md p-8 flex flex-col gap-8 w-96">
         
-        <p>Login As: </p>
-        <ul className="bg-bgPrimary grid w-full gap-2 md:grid-cols-2"> 
-          <li>
-            <input type="radio" id="EMPLOYEE" name="loginType" value="EMPLOYEE" defaultChecked className="hidden peer"/>
-            <label htmlFor="EMPLOYEE" className="inline-flex items-center justify-center w-full p-1 cursor-pointer bg-bgSecondary border border-secondary rounded hover:bg-bgPrimary hover:border-primary peer-checked:bg-bgAccent peer-checked:border-accent peer-checked:text-accent">Employee</label>
-          </li>
-          <li>
-            <input type="radio" id="STORE" name="loginType" value="STORE" className="hidden peer"/>
-            <label htmlFor="STORE" className="inline-flex items-center justify-center w-full p-1 cursor-pointer bg-bgSecondary border border-secondary rounded hover:bg-bgPrimary hover:border-primary peer-checked:bg-bgAccent peer-checked:border-accent peer-checked:text-accent">Manager</label>
-          </li>
-        </ul>
+        <div className="inline-flex flex-col gap-2 w-full">
+          <label htmlFor="username">Username or email address</label>
+          <input name="username" type="text" className="font-light border shadow-inner border-secondary rounded focus:border-accent focus:outline-none p-1 w-full" required />
+        </div>
 
-        <button type="submit" id="submit" className="text-3xl font-semibold p-2 m-2 bg-bgPrimary">Sign In</button>
+        <div className="inline-flex flex-col gap-2 w-full">
+          <label htmlFor="password">Password</label>
+          <input id="password" name="password" type="password" className="font-light border shadow-inner border-secondary rounded focus:border-accent focus:outline-none p-1 w-full" required/>
+        </div>
+
+        <div className="inline-flex flex-col gap-2 w-full">
+          <p>I'm an</p>
+          <ul className="bg-bgPrimary grid w-full gap-2 md:grid-cols-2"> 
+            <li>
+              <input type="radio" id="EMPLOYEE" name="loginType" value="EMPLOYEE" defaultChecked className="hidden peer"/>
+              <label htmlFor="EMPLOYEE" className="font-light inline-flex items-center justify-center w-full p-1 cursor-pointer bg-slate-100 border border-slate-200 rounded hover:bg-slate-200 hover:border-slate-300 peer-checked:bg-slate-300 peer-checked:border-slate-300">Employee</label>
+            </li>
+            <li>
+              <input type="radio" id="STORE" name="loginType" value="STORE" className="hidden peer"/>
+              <label htmlFor="STORE" className="font-light inline-flex items-center justify-center w-full p-1 cursor-pointer bg-slate-100 border border-slate-200 rounded hover:bg-slate-200 hover:border-slate-300 peer-checked:bg-slate-300 peer-checked:border-slate-300">Manager</label>
+            </li>
+          </ul>
+        </div>
+
+        <div className="inline-flex flex-col gap-1 w-full items-center">
+          <button type="submit" id="submit" className="w-full text-4xl font-semibold p-2 mt-4 bg-slate-600 border border-slate-300 text-white rounded hover:bg-slate-700">Sign In</button>
+          <p>or</p>
+          <NavLink to="/CreateStoreAccount/" className="text-blue-500 hover:text-blue-400">Create an Account</NavLink>
+        </div>
       
-        <NavLink to="/CreateStoreAccount/" className="create-account">Don't have an account?</NavLink>
       </form>
+
     </div>
   );
 }
