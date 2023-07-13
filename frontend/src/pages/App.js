@@ -53,7 +53,7 @@ function App() {
   
 
   return (
-    <div className="flex flex-row justify-center items-center h-screen w-screen bg-bgSecondary text-xl font-normal">
+    <div className="flex flex-row justify-center items-center h-screen w-screen bg-bgSecondary text-xl">
       
       <form onSubmit={login} className="border border-secondary bg-bgPrimary rounded-lg shadow-md p-8 flex flex-col gap-8 w-96">
         
@@ -82,7 +82,7 @@ function App() {
         </div>
 
         <div className="inline-flex flex-col gap-1 w-full items-center">
-          <button type="submit" id="submit" className="w-full text-4xl font-semibold p-2 mt-4 bg-slate-600 border border-slate-300 text-white rounded hover:bg-slate-700">Sign In</button>
+          <button type="submit" id="submit" className="w-full text-4xl font-semibold p-2 bg-slate-600 border border-slate-300 text-white rounded hover:bg-slate-700">Sign In</button>
           <p>or</p>
           <NavLink to="/CreateStoreAccount/" className="text-blue-500 hover:text-blue-400">Create an Account</NavLink>
         </div>
