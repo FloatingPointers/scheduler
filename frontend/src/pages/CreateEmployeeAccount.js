@@ -44,6 +44,11 @@ function CreateEmployeeAccount() {
       }
         
     }
+
+    
+    const handleInviteChange = (e) => {
+      e.target.value = e.target.value.toUpperCase();
+    }
       
       //TODO: make email required when its required in the backend as well
       //yum
@@ -75,7 +80,7 @@ function CreateEmployeeAccount() {
               <input type="text" name="lastName" required className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full"/> 
             </div>
           </div>
-  
+
           <div className="inline-flex flex-row gap-20 justify-evenly">
             <div className="inline-flex flex-col gap-2 w-full">
               <label htmlFor="password">Password</label>
@@ -87,6 +92,12 @@ function CreateEmployeeAccount() {
               <input type="password" name="pwdConfirm" required className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full"/>
             </div>
           </div>
+
+          <div className="inline-flex flex-col gap-2 w-full">
+              <label htmlFor="storeInvite">Store Invite Code</label>
+              <input type="text" name="storeInvite" required onChange={handleInviteChange} maxLength={6} minLength={6} className="tracking-widest font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full"/>
+          </div>
+
           <div className="inline-flex flex-col gap-1 w-full items-center">
             <button type="submit" className="w-full text-3xl font-semibold p-2 mt-2 bg-slate-600 border border-slate-300 text-white rounded hover:bg-slate-700">Confirm</button>
             <p>or</p>
