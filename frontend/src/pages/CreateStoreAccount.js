@@ -47,41 +47,47 @@ function CreateStoreAccount() {
     //TODO: make email required when its required in the backend as well
     //yum
   return (
-    <div className="flexcol bordered-element">
-      <h1>Store Account Creation</h1>
-      <form onSubmit={signupStore}>
+    <div className="flex flex-row justify-center items-center h-screen w-screen bg-bgSecondary text-xl">
+      
+      <form onSubmit={signupStore} className="border border-slate-300 bg-bgPrimary rounded-lg shadow-md p-8 flex flex-col gap-4">
+        <h1 className="text-3xl font-semibold pb-2">Store Account Creation</h1>
+        <hr class="h-px bg-slate-200 border-0"></hr>
+        <div className="inline-flex flex-row gap-20 justify-evenly">
+          <div className="inline-flex flex-col gap-2 w-full">
+            <label htmlFor="username">Username</label>
+            <input type="text" name="username" required className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full"/> 
+          </div>
 
-        <div className="label-input-combo">
-          <label htmlFor="username">Username</label>
-          <input type="text" name="username" required/> 
+          <div className="inline-flex flex-col gap-2 w-full">
+            <label htmlFor="email">Email</label>
+            <input type="email" name="email" required className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full"/> 
+          </div>
         </div>
 
-        <div className="label-input-combo">
-          <label htmlFor="email">Email</label>
-          <input type="email" name="email" required/> 
+        <div className="inline-flex flex-row gap-20 justify-evenly">
+          <div className="inline-flex flex-col gap-2 w-full">
+            <label htmlFor="password">Password</label>
+            <input type="password" name="password" required className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full"/>
+          </div>
+
+          <div className="inline-flex flex-col gap-2 w-full">
+            <label htmlFor="pwdConfirm">Confirm Password</label>
+            <input type="password" name="pwdConfirm" required className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full"/>
+          </div>
         </div>
 
-
-        <div className="label-input-combo">
+        <div className="inline-flex flex-col gap-2 w-full">
           <label htmlFor="storeName">Store Name</label>
-          <input type="text" name="storeName" required/>
+          <input type="text" name="storeName" required className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full"/>
         </div>
 
-        <div className="label-input-combo">
-          <label htmlFor="password">Password</label>
-          <input type="password" name="password" required/>
+        <div className="inline-flex flex-col gap-1 w-full items-center">
+          <button type="submit" className="w-full text-3xl font-semibold p-2 mt-2 bg-slate-600 border border-slate-300 text-white rounded hover:bg-slate-700">Confirm</button>
+          <p>or</p>
+          <NavLink to="/" className="text-blue-500 hover:text-blue-400">Already have an account?</NavLink>
         </div>
-
-        <div className="label-input-combo">
-          <label htmlFor="pwdConfirm">Confirm Password</label>
-          <input type="password" name="pwdConfirm" required/>
-        </div>
-
-        <button type="submit">Confirm</button>
-        
       </form>
 
-      <NavLink to="/" className="create-account">Already have an account?</NavLink>
     </div>
   );
 }

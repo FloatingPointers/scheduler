@@ -55,16 +55,16 @@ function App() {
   return (
     <div className="flex flex-row justify-center items-center h-screen w-screen bg-bgSecondary text-xl">
       
-      <form onSubmit={login} className="border border-secondary bg-bgPrimary rounded-lg shadow-md p-8 flex flex-col gap-8 w-96">
+      <form onSubmit={login} className="border border-slate-300 bg-bgPrimary rounded-lg shadow-md p-8 flex flex-col gap-8 w-96">
         
         <div className="inline-flex flex-col gap-2 w-full">
           <label htmlFor="username">Username or email address</label>
-          <input name="username" type="text" className="font-light border shadow-inner border-secondary rounded focus:border-accent focus:outline-none p-1 w-full" required />
+          <input name="username" type="text" className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full" required />
         </div>
 
         <div className="inline-flex flex-col gap-2 w-full">
           <label htmlFor="password">Password</label>
-          <input id="password" name="password" type="password" className="font-light border shadow-inner border-secondary rounded focus:border-accent focus:outline-none p-1 w-full" required/>
+          <input id="password" name="password" type="password" className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full" required/>
         </div>
 
         <div className="inline-flex flex-col gap-2 w-full">
