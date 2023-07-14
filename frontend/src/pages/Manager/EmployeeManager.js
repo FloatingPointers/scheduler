@@ -199,78 +199,82 @@ function EmployeeManager() {
 
   return (
 
-    <div className="manager-body">
-
+    <div className='bg-slate-100 w-full h-full'>
       <ManagerNavbar />
 
-      <table>
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Password</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employee.map((employee) => (
-            <tr key={employee.id}>
-              <td>
-                <input
-                  type="text"
-                  className={employee.id + "-input"}
-                  name="username"
-                  value={employee.username}
-                  onChange={(event) => handleUsernameChange(employee.id, event)}
-                  readOnly
-                />
-              </td>
-              <td>
-                <input
-                  type="text"
-                  className={employee.id + "-input"}
-                  name="password"
-                  value={employee.password}
-                  onChange={(event) => handlePasswordChange(employee.id, event)}
-                  readOnly
-                />
-              </td>
-              <td className="table-row-buttons">
-                <button type="button" className={employee.id + " hideOnEdit"} onClick={(event) => handleEditBtn(employee.id, event)}>Edit</button>
-                <button type="button" className={employee.id + " showOnEdit"} onClick={(event) => handleCancelBtn(employee.id, event)} hidden>Cancel</button>
-                <button type="button" className={employee.id + " showOnEdit"} onClick={(event) => handleSubmitBtn(employee.id, event)} hidden>Submit</button>
-                <button type="button" className={employee.id + " hideOnEdit"} onClick={(event) => handleDeleteBtn(employee.id, event)}>Delete</button>
-              </td>
-            </tr>
+      <div className="flex flex-row w-full h-full justify-center items-center gap-10 p-10">
 
-          ))}
-          <tr>
-            <td>
-              <input
-                type="text"
-                className="addInput"
-                name="username"
-                placeholder="username"
-              />
-            </td>
-            <td>
-              <input
-                type="text"
-                className="addInput"
-                name="password"
-                placeholder="password"
-              />
-            </td>
-            <td className="table-row-buttons">
-              <button type="button" onClick={handleAddBtn}>Add Employee</button>
-            </td>
-          </tr>
-        </tbody>
-        
+        <div className='w-1/2 p-4 flex flex-col items-center border bg-slate-50 border-slate-300 rounded shadow-md'>
+          <h1 className='text-center font-semibold text-2xl'>Employees</h1>
 
-      </table>
+          <hr class="h-px bg-slate-200 border-0 m-6 w-full"></hr>
 
+          <table>
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Password</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {employee.map((employee) => (
+                <tr key={employee.id}>
+                  <td>
+                    <input
+                      type="text"
+                      className={employee.id + "-input"}
+                      name="username"
+                      value={employee.username}
+                      onChange={(event) => handleUsernameChange(employee.id, event)}
+                      readOnly
+                    />
+                  </td>
+                  <td>
+                    <input
+                      type="text"
+                      className={employee.id + "-input"}
+                      name="password"
+                      value={employee.password}
+                      onChange={(event) => handlePasswordChange(employee.id, event)}
+                      readOnly
+                    />
+                  </td>
+                  <td className="table-row-buttons">
+                    <button type="button" className={employee.id + " hideOnEdit"} onClick={(event) => handleEditBtn(employee.id, event)}>Edit</button>
+                    <button type="button" className={employee.id + " showOnEdit"} onClick={(event) => handleCancelBtn(employee.id, event)} hidden>Cancel</button>
+                    <button type="button" className={employee.id + " showOnEdit"} onClick={(event) => handleSubmitBtn(employee.id, event)} hidden>Submit</button>
+                    <button type="button" className={employee.id + " hideOnEdit"} onClick={(event) => handleDeleteBtn(employee.id, event)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+            
+          <div className="inline-flex flex-row w-1/3 bg-slate-100 px-1 py-1 rounded">
+            <button className='hover:bg-slate-50 hover:shadow-sm hover:shadow-slate-200 transition-all w-1/2 rounded'>Prev Page</button>
+            <button className='hover:bg-slate-50 hover:shadow-sm hover:shadow-slate-200 transition-all w-1/2 rounded'>Next Page</button>
+          </div>
+        </div>
+
+        <div className='w-1/2 p-4 border bg-slate-50 border-slate-300 rounded shadow-md'>
+          <h1 className='text-center font-semibold text-2xl'>Invites</h1>
+
+          <hr class="h-px bg-slate-200 border-0 m-4"></hr>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Code</th>
+                <th>Expires In</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+          </table>
+        </div>
+
+      </div>
     </div>
-
 
   );
 
