@@ -124,7 +124,12 @@ router.get('/employees/:id/available', passport.authenticate('jwt', { session: f
       endTime
     }
   }
+  Params:
+    id: - the uid of the store
 */
-router.get('/employees/allEmployees', passport.authenticate('jwt', { session: false }), storeAuth, employeeController.allEmployees);
+router.get('/employees/:id/allEmployees', passport.authenticate('jwt', { session: false }), storeAuth, employeeController.allEmployees);
+
+
+
 
 module.exports = router;

@@ -2,14 +2,12 @@ const mongoose = require('mongoose');
 
 const Employee = new mongoose.Schema({
 
-  
+  //Employee must have EITHER email OR username
   username: {
-    type: String,
-    required: true
+    type: String
   },
   email: {
-    type: String,
-    required: true
+    type: String
   },
 
   //Optional, for display / searching purposes

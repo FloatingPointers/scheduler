@@ -17,6 +17,7 @@ const Store = new mongoose.Schema({
         required: true
     },
 
+
     settings: {
         email: {
             type: String,
@@ -37,10 +38,6 @@ const Store = new mongoose.Schema({
         endDay: {
             type: Date,
         }
-    },
-
-    inviteCode: {
-        type: String,
     }
 
 });

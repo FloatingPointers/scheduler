@@ -22,23 +22,12 @@ exports.available = asyncHandler(async(req, res, next) => {
 
 
 exports.allEmployees = asyncHandler(async(req, res, next) => {
-  
-  //passportjs adds user property after authenticating
-  let user = req.user;  
 
   let employeesFromSchedule = await Employee.find({
-    storeId: user.accountRef
+    storeId: req.params.id
   }).limit(EMPLOYEE_QUERY_LIMIT);
 
   return res.status(200).json(employeesFromSchedule);
-
-});
-
-exports.deleteEmployee = asyncHandler(async(req, res, next) => {
-
-  await Employee.findByIdAndDelete(req.params.id);
-
-  return res.status(200);
 
 });
 
