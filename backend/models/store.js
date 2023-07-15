@@ -13,7 +13,6 @@ const Store = new mongoose.Schema({
         scheduleId: mongoose.ObjectId,
     }],
 
-
     settings: {
         email: {
             type: String,
@@ -34,6 +33,10 @@ const Store = new mongoose.Schema({
         endDay: {
             type: Date,
         }
+    },
+
+    inviteCode: {
+        type: String,
     }
 
 });
