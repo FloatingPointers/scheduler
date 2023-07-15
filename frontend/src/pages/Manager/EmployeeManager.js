@@ -2,7 +2,8 @@ import React from 'react';
 import { useState } from 'react';
 import ManagerNavbar from '../../components/manager-components/ManagerNavbar';
 import uniqid from 'uniqid';
-
+import {Button, Notification} from '@mantine/core'
+import InviteCode from '../../components/manager-components/InviteCode';
 
 
 
@@ -26,7 +27,7 @@ function EmployeeManager() {
   ]);
 
   const [employee, setEmployee] = useState(intlEmployee);
-
+  const [inviteCode, setInviteCode] = useState('123456');
 
 
 
@@ -255,23 +256,12 @@ function EmployeeManager() {
             <button className='hover:bg-slate-50 hover:shadow-sm hover:shadow-slate-200 transition-all w-1/2 rounded'>Prev Page</button>
             <button className='hover:bg-slate-50 hover:shadow-sm hover:shadow-slate-200 transition-all w-1/2 rounded'>Next Page</button>
           </div>
+
+          <InviteCode inviteCode={inviteCode} setInviteCode={setInviteCode} />
+
         </div>
+        
 
-        <div className='w-1/2 p-4 border bg-slate-50 border-slate-300 rounded shadow-md'>
-          <h1 className='text-center font-semibold text-2xl'>Invites</h1>
-
-          <hr class="h-px bg-slate-200 border-0 m-4"></hr>
-
-          <table>
-            <thead>
-              <tr>
-                <th>Code</th>
-                <th>Expires In</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
 
       </div>
     </div>
