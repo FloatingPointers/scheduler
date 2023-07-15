@@ -4,6 +4,7 @@ import ManagerNavbar from '../../components/manager-components/ManagerNavbar';
 import uniqid from 'uniqid';
 import {Button, Notification} from '@mantine/core'
 import InviteCode from '../../components/manager-components/InviteCode';
+import axiosInstance from '../../Axios';
 
 
 
@@ -27,7 +28,8 @@ function EmployeeManager() {
   ]);
 
   const [employee, setEmployee] = useState(intlEmployee);
-  const [inviteCode, setInviteCode] = useState('123456');
+
+  
 
 
 
@@ -257,7 +259,7 @@ function EmployeeManager() {
             <button className='hover:bg-slate-50 hover:shadow-sm hover:shadow-slate-200 transition-all w-1/2 rounded'>Next Page</button>
           </div>
 
-          <InviteCode inviteCode={inviteCode} setInviteCode={setInviteCode} />
+          <InviteCode  />
 
         </div>
         

@@ -9,7 +9,15 @@ const Employee = require('../models/employee');
 const Store = require('../models/store');
 const config = require('../store/config');
 
-
+async function generateInviteCode() {
+  let inviteCode;
+  let isTaken = true;
+  do {
+    inviteCode = Math.random().toString(36).substring(2, 8).toUpperCase();
+    isTaken = await Store.exists({ inviteCode }); //if broken use findone inviteCode:inviteCode
+  } while (isTaken);
+  return inviteCode;
+}
 
 exports.login = asyncHandler(async (req, res, next) => {
 
@@ -79,7 +87,9 @@ exports.signup = asyncHandler(async (req, res, next) => {
   if(req.body.type === "STORE") {
 
     linkedAccount = new Store({
-      name: req.body.storeName
+      name: req.body.storeName,
+      inviteCode: await generateInviteCode()
+      
     });
 
   } else {

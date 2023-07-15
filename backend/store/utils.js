@@ -17,27 +17,28 @@ return res.status(code).json({
 }
 
 
-
-
 //Converts "HH:mm" time format to a number in hours
-function StringToHours(time) {
+// function StringToHours(time) {
 
-  const minutes = Number(time.split(":")[1]) / 60;
-  const hours = Number(time.split(":")[0]);
-  return minutes + hours;
+//   const minutes = Number(time.split(":")[1]) / 60;
+//   const hours = Number(time.split(":")[0]);
+//   return minutes + hours;
   
-}
+// }
 
 
-//Returns true if the first given range is within the second range
-function rangeOverlapping(rangeStart, rangeEnd, rangeStart2, rangeEnd2) {
+// //Returns true if the first given range is within the second range
+// function rangeOverlapping(rangeStart, rangeEnd, rangeStart2, rangeEnd2) {
   
-  return (rangeStart >= rangeStart2 && rangeStart <= rangeEnd2) || (rangeEnd >= rangeStart2 && rangeEnd <= rangeEnd2);
+//   return (rangeStart >= rangeStart2 && rangeStart <= rangeEnd2) || (rangeEnd >= rangeStart2 && rangeEnd <= rangeEnd2);
   
-}
+// }
 
-function timeInRange(timeStart, timeEnd, rangeStart, rangeEnd) {
+// function timeInRange(timeStart, timeEnd, rangeStart, rangeEnd) {
 
-  return rangeOverlapping(StringToHours(timeStart), StringToHours(timeEnd), StringToHours(rangeStart), StringToHours(rangeEnd));
+//   return rangeOverlapping(StringToHours(timeStart), StringToHours(timeEnd), StringToHours(rangeStart), StringToHours(rangeEnd));
 
-}
+// }
+
+
+

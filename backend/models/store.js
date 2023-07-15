@@ -12,6 +12,10 @@ const Store = new mongoose.Schema({
     schedules: [{
         scheduleId: mongoose.ObjectId,
     }],
+    inviteCode: {
+        type: String,
+        required: true
+    },
 
 
     settings: {

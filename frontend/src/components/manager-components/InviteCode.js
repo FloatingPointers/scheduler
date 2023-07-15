@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Notification } from '@mantine/core'
+import axiosInstance from '../../Axios';
 
-function InviteCode( {inviteCode, setInviteCode} ) {
+
+function InviteCode( ) {
 
   
   
   const [notify, setNotify] = useState(false);
+  const [inviteCode, setInviteCode] = useState("111111");
 
 
   const handleInviteCodeClick = () => {
@@ -14,9 +17,17 @@ function InviteCode( {inviteCode, setInviteCode} ) {
   }
 
   const handleRefreshInviteCode = () => {
-    const randomCode = Math.random().toString(36).substring(2, 8); //do this in backend later
-    setInviteCode(randomCode);
+
+    axiosInstance.get('/store/new-invite-code').then((res) => {
+      setInviteCode(res.data.inviteCode);
+    })
   }
+
+  useEffect(() => {
+    axiosInstance.get('/store/invite-code').then((res) => {
+      setInviteCode(res.data.inviteCode);
+    })
+  }, [])
 
   return(
     <div className='w-1/2 p-4 flex flex-col items-center  bg-slate-50  rounded '>
