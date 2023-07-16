@@ -14,13 +14,14 @@ const applyUserStrategy = passport => {
   options.secretOrKey = config.passport.secret;
   passport.use(new JwtStrategy(options, async (payload, done) => {
     try {
-      let user = User.find({_id: payload.id, type: payload.type});
+      let user = await User.findOne({_id: payload.id, type: payload.type});
       // user found
       if (user) {
+        console.log(user);
         return done(null, user);
+      } else {
+        return done(null, false);
       }
-      // User not found
-      return done(null, false);
     } catch (err) {
       return done(err, false);  
     }
@@ -88,7 +89,7 @@ const storeAuth = (req, res, next) => {
   if (req.user.type === 'STORE') {
     next();
   } else {
-    res.status(403).json({ error: 'Access denied' });
+    res.status(403).json({ error: 'Access denied'});
   }
 };
 
