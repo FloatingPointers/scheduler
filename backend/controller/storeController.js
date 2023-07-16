@@ -24,8 +24,9 @@ exports.getSettings = asyncHandler(async (req, res, next) => {
 
 //returns invite code 
 exports.getInviteCode = asyncHandler(async (req, res, next) => {
-  
+
   return res.status(200).json(await Store.findById(req.user.accountRef).select('inviteCode'));
+   
 }
 );
 

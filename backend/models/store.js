@@ -39,9 +39,6 @@ const Store = new mongoose.Schema({
         }
     },
 
-    inviteCode: {
-        type: String,
-    }
 
 });
 

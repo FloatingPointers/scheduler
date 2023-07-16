@@ -18,13 +18,13 @@ function InviteCode( ) {
 
   const handleRefreshInviteCode = () => {
 
-    axiosInstance.get('/store/new-invite-code').then((res) => {
+    axiosInstance.get('/invite/store/new-invite-code').then((res) => {
       setInviteCode(res.data.inviteCode);
     })
   }
 
   useEffect(() => {
-    axiosInstance.get('/store/invite-code').then((res) => {
+    axiosInstance.get('/invite/store/invite-code').then((res) => {
       setInviteCode(res.data.inviteCode);
     })
   }, [])

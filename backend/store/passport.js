@@ -14,15 +14,18 @@ const applyUserStrategy = passport => {
   options.secretOrKey = config.passport.secret;
   passport.use(new JwtStrategy(options, async (payload, done) => {
     try {
-      let user = User.find({_id: payload.id, type: payload.type});
-      // user found
+      console.log('Payload:', payload);
+
+      const user = await User.findOne({ _id: payload.id, type: payload.type });
+      console.log('User:', user);
+
       if (user) {
         return done(null, user);
       }
-      // User not found
       return done(null, false);
     } catch (err) {
-      return done(err, false);  
+      console.error('Error:', err);
+      return done(err, false);
     }
   }));
 };
