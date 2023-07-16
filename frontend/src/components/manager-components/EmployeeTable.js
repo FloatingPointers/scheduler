@@ -27,7 +27,7 @@ function EmployeeTable() {
 
   const getEmployees = async () => {
     try {
-      setEmployees(await JSON.parse(axiosInstance.get('/emp-table/allEmployees')));
+      setEmployees(await JSON.parse(axiosInstance.get('/emp-table/employee/allEmployees')));
     } catch (e) {
       console.log("ERROR: Employee table query failed")
     }
@@ -36,7 +36,7 @@ function EmployeeTable() {
 
   const deleteEmployee = async (id) => {
     try {
-      await axiosInstance.delete(`/emp-table/${id}/deleteEmployee`);
+      await axiosInstance.delete(`/emp-table/employee/${id}/deleteEmployee`);
       
 
     } catch (e) {

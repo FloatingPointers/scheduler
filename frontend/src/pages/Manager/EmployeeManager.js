@@ -25,13 +25,14 @@ function EmployeeManager() {
 
           <hr class="h-px bg-slate-200 border-0 m-6 w-full"></hr>
 
-          {/* <EmployeeTable/> */}
+
+          <EmployeeTable/>
+          <InviteCode/>
             
           {/* <div className="inline-flex flex-row w-1/3 bg-slate-100 px-1 py-1 rounded">
             <button className='hover:bg-slate-50 hover:shadow-sm hover:shadow-slate-200 transition-all w-1/2 rounded'>Prev Page</button>
             <button className='hover:bg-slate-50 hover:shadow-sm hover:shadow-slate-200 transition-all w-1/2 rounded'>Next Page</button>
           </div> */}
-          <InviteCode/>
         </div>
 
       </div>
