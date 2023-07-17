@@ -88,7 +88,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
 
     linkedAccount = new Store({
       name: req.body.storeName,
-      inviteCode: await generateInviteCode()
+      inviteCode: await generateInviteCode(), 
       
     });
 
