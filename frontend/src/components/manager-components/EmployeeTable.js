@@ -50,20 +50,20 @@ function EmployeeTable() {
   
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th></th>
+    <table className="">
+      <thead className='w-full'>
+        <tr className='w-full'>
+          <th className='w-1/2'>Name</th>
+          <th className='w-1/2'>Email</th>
+          <th className='w-[1%]'></th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className='w-full'>
         {employees.map((employee) => (
-          <tr key={employee._id}>
-            <td className="truncate">{`${employee.firstName} ${employee.lastName}`}</td>
-            <td className="truncate">{employee.email}</td>
-            <td onClick={() => deleteEmployee(employee._id)}><TiDelete /></td>
+          <tr key={employee._id} className='w-full'>
+            <td className="w-1/2">{`${employee.firstName} ${employee.lastName}`}</td>
+            <td className="w-1/2">{employee.email}</td>
+            <td className='w-[1%]' onClick={() => deleteEmployee(employee._id)}><TiDelete /></td>
           </tr>
         ))}
       </tbody>
