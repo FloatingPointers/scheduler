@@ -80,7 +80,7 @@ function ScheduleManager() {
   //NEEDS MULTIPLE COMPONENT BREAKDOWN
   return (
 
-    <div className="manager-body">
+    <div className="manager-body ">
       <ManagerNavbar />
       <HourlyView shiftInfo={shiftInfo} currentShift={currentShift} setCurrentShift={setCurrentShift}/>
       
