@@ -125,3 +125,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
   })
 
 })
+
+exports.getType = asyncHandler(async (req, res, next) => {
+  return res.status(200).json({type: req.user.type});
+})

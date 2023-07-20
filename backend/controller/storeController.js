@@ -26,8 +26,6 @@ exports.updateSettings = asyncHandler(async (req, res, next) => {
   const closeTimeDate = new Date(baseDate);
   closeTimeDate.setUTCHours(closeTimeParts[0], closeTimeParts[1]);
 
-  // No need to convert days into dates, as frontend is sending them as numbers (0-6)
-
   // Update settings
   store.name = name;
   store.settings = {
@@ -45,12 +43,9 @@ exports.updateSettings = asyncHandler(async (req, res, next) => {
 
 exports.getSettings = asyncHandler(async (req, res, next) => {
   const store = await Store.findById(req.user.accountRef);
-  const settings = store.settings;
-  const name = store.name;
+  const {settings, name} = store;
 
-  // Convert dates back to frontend-friendly format
-  const startDay = settings.startDay.getDay();
-  const endDay = settings.endDay.getDay();
+  const {startDay, endDay} = settings; //end day is a string for some reason
 
   // Extract hours and minutes from Date object and pad with 0 if necessary
   const openTime = `${padTimeUnit(settings.openTime.getUTCHours())}:${padTimeUnit(settings.openTime.getUTCMinutes())}`;

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import ManagerNavbar from '../../components/manager-components/ManagerNavbar';
 import { Virtuoso } from 'react-virtuoso';
 import axios from 'axios';
-import { Modal, Button, Group } from '@mantine/core'
+import { Modal, Button, Group, Inp } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks';
 import { TiDelete } from 'react-icons/ti'
 import axiosInstance from "../../Axios";
@@ -66,6 +66,11 @@ function ManagerAccountSettings() {
 
 
   const handleSave = async () => {
+
+    if(+state.settings.startDay === +state.settings.endDay) {
+      alert("Start day must not be end day");
+      return;
+    }
     try {
       const response = await axiosInstance.put('/settings/store/updateSettings', {
         name: state.name,
@@ -153,6 +158,12 @@ function ManagerAccountSettings() {
       }
     }));
     setUnsavedChanges(true);
+  };
+
+  const handleEnterButton = (event) => {
+    if (event.key === "Enter") {
+      handleAddRole();
+    }
   };
 
   const [opened, { open, close }] = useDisclosure(false);
@@ -258,7 +269,7 @@ function ManagerAccountSettings() {
             )}
           />
           <div className="">
-            <input id="addRole" name="addRole" type="text" value={newRole} onChange={handleNewRole} autoFocus className="border border-gray-300 rounded-md px-3 py-2 m-1" />
+            <input id="addRole" name="addRole" type="text" value={newRole} onChange={handleNewRole} className="border border-gray-300 rounded-md px-3 py-2 m-1" onKeyPress={handleEnterButton} />
             <button onClick={handleAddRole} className="px-3 py-2 bg-blue-500 text-white rounded-md">Add Role</button>
           </div>
         </div>

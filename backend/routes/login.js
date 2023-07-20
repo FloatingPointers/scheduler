@@ -62,6 +62,17 @@ Request Body: {
 */
 router.post("/sign-up", userController.signup);
 
+/*
+GET - Get type of user account
+Request Body: {
+
+  --- REQUIRED fields
+  only attached jwt token to auth header
+
+}
+*/
+router.post("/get-type", passport.authenticate('jwt', { session: false }), userController.getType);
+
 
 
 module.exports = router;

@@ -12,7 +12,8 @@ function ManagerHome() {
 
             <ManagerNavbar />
 
-            <p>I'm feeling at home</p>
+            
+
 
         </div>
     );

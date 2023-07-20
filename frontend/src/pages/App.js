@@ -1,4 +1,4 @@
-import React, {useState } from "react"
+import React, {useState, useEffect } from "react"
 //import "../styles/App.css"
 import { useNavigate, NavLink } from "react-router-dom";
 import axiosInstance from "../Axios.js";
@@ -8,6 +8,27 @@ function App() {
   const navigate = useNavigate();
   const [signInAsEmployee, setSignInAsEmployee] = useState(true);
 
+  // Check if user is already logged in
+  const checkLogin = async () => {
+    try {
+      // works by using the axios interceptor that adds jwt from local storage to 
+      // all req headers if it is available
+      const response = await axiosInstance.post('/get-type');
+      if(response.data.type != null) {
+        if(response.data.type === "EMPLOYEE"){
+          navigate("/emp");
+        } else if (response.data.type === "STORE") {
+          navigate("/mgr")
+        } else {
+          throw Error("ERROR: Invalid type recieved");
+        }
+      } // else the user is not logged in yet
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  
+  checkLogin();
 
   /*
   Fields submitted for login
@@ -40,7 +61,7 @@ function App() {
 
       //Navigate to home page
       if(event.target.loginType.value === "EMPLOYEE") navigate("/emp");
-      else navigate("/mgr")
+      else navigate("/mgr");
 
       console.log("Login status: " + response.status);
 

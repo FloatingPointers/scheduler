@@ -31,12 +31,12 @@ const Store = new mongoose.Schema({
             type: String,
         }],
         startDay: {
-            type: Date,
-            default: new Date()
+            type: Number,
+            default: 1
         },
         endDay: {
-            type: Date,
-            default: new Date()
+            type: Number,
+            default: 6 //this is a string, thanks jobin. 
         }
     },
 

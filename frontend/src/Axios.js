@@ -1,5 +1,4 @@
 import axios from "axios";
-const token = localStorage.getItem('token');
 const axiosInstance = axios.create(
   {
     baseURL: 'http://localhost:8000', 
@@ -19,5 +18,6 @@ axiosInstance.interceptors.request.use(config => {
   // Handle request error here
   return Promise.reject(error);
 });
+
 
 export default axiosInstance;
