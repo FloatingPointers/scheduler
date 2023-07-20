@@ -83,10 +83,10 @@ function HourlyView(props) {
       let selection_start = selectionStartTime !== null && cur_date.getHours() === selectionStartTime.getHours();
       let selection_end = selectionEndTime !== null && cur_date.getHours() === selectionEndTime.getHours();
 
-      let classList = "";
-      if(selected) classList += "selected";
-      if(selection_start) classList += "selected-start";
-      if(selection_end) classList += "selected-end";
+      let classList = "px-4 py-2 w-20 h-20 text-center text-sm cursor-pointer hover:bg-blue-200 flex items-center justify-center";
+      if(selected) classList += " bg-blue-400";
+      if(selection_start) classList += " bg-green-400";
+      if(selection_end) classList += " bg-green-400";
 
       hoursContent.push(
         <li
@@ -107,8 +107,8 @@ function HourlyView(props) {
   }
 
   return (
-    <div className="hourly">
-      <ul id="hour-display">{generateHoursContent()}</ul>
+    <div className="flex bg-slate-100 shadow rounded-lg overflow-hidden flex-col m-5 w-11/12 shadow-slate-600">
+      <ul className="divide-x divide-gray-200 flex flex-row">{generateHoursContent()}</ul>
     </div>
   );
 }

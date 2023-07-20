@@ -15,12 +15,14 @@ function EditingView({ currentShift, setCurrentShift }) {
   };
 
   return (
-    <div>
-      <h2>Employee Name: {employee}</h2>
-      <form onSubmit={handleSubmit}>
+    <div className="flex flex-col items-center justify-center py-4">
+      <h2 className="text-2x1 font-semibold mb-4 ">Employee Name: {employee}</h2>
+      <div className="bg-white shadow shadow-slate-600 rounded-lg p-5 w-80">
+      <form className="space-y-4" onSubmit={handleSubmit}>
         <label>
           Shift Start:
           <input
+            className=" mt-2 block w-full border-2 border-blue-300 rounded-md py-2 px-3 mb-5"
             type="time"
             name="start"
             value={start}
@@ -31,6 +33,7 @@ function EditingView({ currentShift, setCurrentShift }) {
         <label>
           Shift End:
           <input
+            className=" mt-2 block w-full border-2 border-blue-300 rounded-md py-2 px-3 mb-5"
             type="time"
             name="end"
             value={end}
@@ -38,8 +41,9 @@ function EditingView({ currentShift, setCurrentShift }) {
             onChange={handleInputChange}
           />
         </label>
-        <button type="submit">Add to Shift</button>
+        <button type="submit" className="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600">Add to Shift</button>
       </form>
+      </div>
     </div>
   );
 }
