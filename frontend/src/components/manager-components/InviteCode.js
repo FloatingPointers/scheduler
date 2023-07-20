@@ -30,8 +30,8 @@ function InviteCode( ) {
   }, [])
 
   return(
-    <div className='w-1/2 p-4 flex flex-col items-center  bg-slate-50  rounded '>
-  <p className='p-2 text-xl'>Your invite code: <b className='hover:text-blue-700 hover:bg-blue-100 hover:cursor-pointer' onClick={handleInviteCodeClick}>{inviteCode}</b></p>
+    <div className='w-full flex flex-col items-center justify-center gap-2'>
+  <p className='text-xl'>Your invite code: <b className='hover:text-blue-700 hover:bg-blue-100 hover:cursor-pointer' onClick={handleInviteCodeClick}>{inviteCode}</b></p>
   {
     notify && <Notification
       title="Copied to clipboard"
@@ -41,7 +41,7 @@ function InviteCode( ) {
       onClose={() => setNotify(false)}
     />
   }
-  <button className='bg-slate-300 w-1/4 rounded shadow-sm hover:bg-red-200' onClick={handleRefreshInviteCode}>Refresh?</button>
+  <button className='bg-slate-300 px-3 py-1 rounded shadow-sm hover:bg-red-200' onClick={handleRefreshInviteCode}>New Code</button>
   </div>
   );
 

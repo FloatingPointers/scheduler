@@ -4,6 +4,8 @@ const router = express.Router();
 const passport = require('passport');
 const { applyUserStrategy, storeAuth, employeeAuth } = require('../store/passport.js');
 applyUserStrategy(passport);
+const storeController = require('../controller/storeController');
+const employeeController = require('../controller/employeeController');
 
 
 
@@ -12,17 +14,16 @@ applyUserStrategy(passport);
 
 /*
   POST - Update the current settings
-  Request Body: {
-    storeSettings: {
-      name
-      email
-      startDay
-      endDay
-      openTime
-      closeTime
-      roles
+    Request Body: {
+        name: name
+        settings: {
+            startDay
+            endDay
+            openTime
+            closeTime
+            roles
+        }
     }
-  }
   Response Body: {
     success: True if the settings were successfully updated
   }
@@ -33,9 +34,8 @@ router.put('/store/updateSettings', passport.authenticate('jwt', { session: fals
 /*
     GET - Get the current settings
     Response Body: {
-        storeSettings: {
-            name
-            email
+        name: name
+        settings: {
             startDay
             endDay
             openTime
@@ -99,4 +99,6 @@ router.put('/employee/updateSettings', passport.authenticate('jwt', { session: f
 */
 
 router.get('/employee/getSettings', passport.authenticate('jwt', { session: false }), employeeAuth, employeeController.getSettings);
+
+module.exports = router;
 

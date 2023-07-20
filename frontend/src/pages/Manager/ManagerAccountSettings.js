@@ -2,54 +2,75 @@ import React, { useState, useEffect } from "react";
 import ManagerNavbar from '../../components/manager-components/ManagerNavbar';
 import { Virtuoso } from 'react-virtuoso';
 import axios from 'axios';
-
-
-
+import { Modal, Button, Group } from '@mantine/core'
+import { useDisclosure } from '@mantine/hooks';
+import { TiDelete } from 'react-icons/ti'
+import axiosInstance from "../../Axios";
+import { getDay, setDay, setHours, setMinutes, parseISO, formatISO, startOfDay, getHours, getMinutes } from "date-fns";
 
 import '../../styles/manager.css';
 
-const daysOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-const hourTimes = ["12:00 AM", "12:30 AM", "1:00 AM", "1:30 AM", "2:00 AM", "2:30 AM", "3:00 AM", "3:30 AM", "4:00 AM", "4:30 AM", "5:00 AM",
- "5:30 AM", "6:00 AM", "6:30 AM", "7:00 AM", "7:30 AM", "8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM",
-  "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM", "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", 
-  "4:30 PM", "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM", "8:00 PM", "8:30 PM", "9:00 PM", "9:30 PM", "10:00 PM", "10:30 PM", "11:00 PM", "11:30 PM"]
+const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+const hourTimes = [];
+for (let i = 0; i < 24; i++) {
+  const hour = i < 10 ? `0${i}` : `${i}`;
+  hourTimes.push(`${hour}:00`);
+  hourTimes.push(`${hour}:30`);
+}
 
 
 function ManagerAccountSettings() {
-
   const [unsavedChanges, setUnsavedChanges] = useState(false);
-  const [state, setState] = useState(
-    {
-      name: "",
-      email: "",
-      startDay: "",
-      endDay: "",
-      openTime: "",
-      closeTime: "",
-      roles: []
-
-    }
-  );
+  const [state, setState] = useState({
+    name: "",
+    settings: {
+      startDay: 0,
+      endDay: 0,
+      openTime: '00:00',
+      closeTime: '00:00',
+      roles: [],
+    },
+  });
   const [newRole, setNewRole] = useState('');
-
 
   const handleChange = (event) => {
     const { id, value } = event.target;
-    setState({
-      ...state,
-      [id]: value
-    });
+    let newValue;
+    if (id === "name") {
+      setState((prevState) => ({
+        ...prevState,
+        name: value,
+      }));
+    } else if (id === "startDay" || id === "endDay") {
+      newValue = value;
+    } else if (id === "openTime" || id === "closeTime") {
+      newValue = value;
+    } else {
+      newValue = value;
+    }
+
+    if (id !== "name") {
+      setState((prevState) => ({
+        ...prevState,
+        settings: {
+          ...prevState.settings,
+          [id]: newValue,
+        },
+      }));
+    }
+
     setUnsavedChanges(true);
-    console.log(state);
-  }
+};
+
+
 
   const handleSave = async () => {
-
     try {
-      const response = await axios.put('/store/updateSettings', {
-        settings: state
+      const response = await axiosInstance.put('/settings/store/updateSettings', {
+        name: state.name,
+        settings: state.settings
       });
-
 
       const { success } = response.data;
       if (success) {
@@ -58,36 +79,48 @@ function ManagerAccountSettings() {
       } else {
         alert("Error saving settings");
       }
-    } 
-    
-    catch (error) {
+    } catch (error) {
       console.log(error);
     }
-
-  }
-
+  };
 
   useEffect(() => {
     const getSettings = async () => {
       try {
-        const response = await axios.get('/store/getSettings');
+        const response = await axiosInstance.get('/settings/store/getSettings');
         const { settings } = response.data;
 
-        setState(settings);
-      } 
-      catch (error) {
-        console.log(error);
-        //error stuff
+        setState((prevState) => ({
+          ...prevState,
+          name: response.data.name,
+          settings: {
+            ...prevState.settings,
+            startDay: settings.startDay,
+            endDay: settings.endDay,
+            openTime: settings.openTime,
+            closeTime: settings.closeTime,
+            roles: settings.roles,
+          },
+        }));
+      } catch (error) {
+        console.log("Error:", error);
+        // Error handling
       }
-    }
+    };
     getSettings();
   }, []);
 
   const handleDelete = (index) => {
     setState((prevState) => {
-      const updatedRoles = [...prevState.roles];
+      const updatedRoles = [...prevState.settings.roles];
       updatedRoles.splice(index, 1);
-      return { ...prevState, roles: updatedRoles };
+      return {
+        ...prevState,
+        settings: {
+          ...prevState.settings,
+          roles: updatedRoles,
+        },
+      };
     });
     setUnsavedChanges(true);
   };
@@ -95,137 +128,143 @@ function ManagerAccountSettings() {
   const handleNewRole = (event) => {
     setNewRole(event.target.value);
     setUnsavedChanges(true);
-  }
+  };
 
   const handleAddRole = () => {
     setState((prevState) => ({
-      ...prevState, 
-      roles: [...prevState.roles, newRole]
+      ...prevState,
+      settings: {
+        ...prevState.settings,
+        roles: [...prevState.settings.roles, newRole],
+      },
     }));
-    setNewRole('');
+    setNewRole("");
     setUnsavedChanges(true);
-  }
-
+  };
 
   const handleRoleChange = (event, index) => {
-    const updatedRoles = [...state.roles];
+    const updatedRoles = [...state.settings.roles];
     updatedRoles[index] = event.target.value;
     setState((prevState) => ({
       ...prevState,
-      roles: updatedRoles
+      settings: {
+        ...prevState.settings,
+        roles: updatedRoles
+      }
     }));
     setUnsavedChanges(true);
   };
 
-  const isValidTime = (time, string) => {
-    const timeRegex = /^(0[0-9]|1[0-9]|2[0-3]):([0-5][0-9])$/;
-    if(!timeRegex.test(time)){
-      alert("Invalid " + string + " Time")
-    }
-    // return timeRegex.test(time);
-  };
-
-
+  const [opened, { open, close }] = useDisclosure(false);
 
   return (
-
-    <div className="manager-body">
+    <div className="bg-slate-100 w-full h-full flex flex-col">
       <ManagerNavbar />
-      {/* <div className="settings"> */}
-      <div>
-
-        <h2>Change Account Settings</h2>
-        <div className="label-input-combo">
-          <label htmlFor="name">Name</label>
-          <input id="name" name="name" type="text" value={state.name} onChange={handleChange} />
-        </div>
-
-        <div className="label-input-combo">
-          <label htmlFor="email">Email</label>
-          <input id="email" name="email" type="email" value={state.email} onChange={handleChange} />
-        </div>
-
-        <div className="label-input-combo">
-          <label htmlFor="startDay">Schedule Start Day</label>
-          <select id="startDay" name="startDay" value={state.startDay} onChange={handleChange}>
-            {daysOfWeek.map((day) => (
-              <option key={day} value={day}>
-                {day}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="label-input-combo">
-          <label htmlFor="endDay">Schedule End Day</label>
-          <select id="endDay" name="endDay" value={state.endDay} onChange={handleChange}>
-            {daysOfWeek.map((day) => (
-              <option key={day} value={day}>
-                {day}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="label-input-combo">
-          <label htmlFor="openTime">Open Time</label>
-          <select id="openTime" name="openTime" type="text" value={state.openTime} onChange={handleChange} >
-            {hourTimes.map((hour) => (
-                <option key={hour} value={hour}>
-                    {hour}
+      <div className="flex flex-row w-full h-full">
+        <div className="flex  justify-center items-center gap-3 p-10 flex-col w-full">
+          <h2>Change Account Settings</h2>
+          <div className="">
+            <label className="p-2" htmlFor="name">Store Name</label>
+            <input id="name" name="name" type="text" value={state.name} onChange={handleChange} className="border border-gray-300 rounded-md px-3 py-2" />
+          </div>
+          <div className="">
+            <label htmlFor="startDay">Schedule Start Day</label>
+            <select
+              id="startDay"
+              name="startDay"
+              value={state.settings.startDay}
+              onChange={handleChange}
+              className="border border-gray-300 rounded-md px-3 py-2"
+            >
+              {daysOfWeek.map((day, index) => (
+                <option key={index} value={index}>
+                  {day}
                 </option>
-            ))}
+              ))}
             </select>
-        </div>
-        <div className="label-input-combo">
-          <label htmlFor="closeTime">Close Time</label>
-          <select id="closeTime" name="closeTime" type="text" value={state.closeTime} onChange={handleChange} >
-            {hourTimes.map((hour) => (
-                <option key={hour} value={hour}>
-                    {hour}
+          </div>
+          <div className="">
+            <label htmlFor="endDay">Schedule End Day</label>
+            <select
+              id="endDay"
+              name="endDay"
+              value={state.settings.endDay}
+              onChange={handleChange}
+              className="border border-gray-300 rounded-md px-3 py-2"
+            >
+              {daysOfWeek.map((day, index) => (
+                <option key={index} value={index}>
+                  {day}
                 </option>
-            ))}
+              ))}
             </select>
+          </div>
+
+          <div className="">
+            <label htmlFor="openTime">Open Time</label>
+            <select
+              id="openTime"
+              name="openTime"
+              value={state.settings.openTime} 
+              onChange={handleChange}
+              className="border border-gray-300 rounded-md px-3 py-2"
+            >
+              {hourTimes.map((time, index) => (
+                <option key={index} value={time}>
+                  {time}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="">
+            <label htmlFor="closeTime">Close Time</label>
+            <select
+              id="closeTime"
+              name="closeTime"
+              value={state.settings.closeTime} 
+              onChange={handleChange}
+              className="border border-gray-300 rounded-md px-3 py-2"
+            >
+              {hourTimes.map((time, index) => (
+                <option key={index} value={time}>
+                  {time}
+                </option>
+              ))}
+            </select>
+          </div>
+          <Button onClick={open} className="px-3 py-2 bg-blue-500 text-white rounded-md">Manage Roles</Button>
+          {unsavedChanges && (
+            <div>
+              <button onClick={handleSave} className="px-3 py-2 bg-green-500 text-white rounded-md">Save Changes</button>
+            </div>
+          )}
         </div>
-
-
-        <div>
-          <h3>Manage Roles</h3>
+      </div>
+      <Modal opened={opened} onClose={close} size="50%" shadow="md" padding="xl" title="Manage Roles" centered >
+        <div className="w-full h-full flex flex-col justify-center items-center ">
           <Virtuoso
-            style={{ height: '200px', width: '600px' }}
-            data={state.roles}
+            style={{ height: '400px', width: '400px' }}
+            data={state.settings.roles}
             itemContent={(index, role) => (
-              <div key={index}>
+              <div key={index} className="px-5 gap-5 w-full h-full">
                 <input
                   type="text"
                   value={role}
                   onChange={(event) => handleRoleChange(event, index)}
+                  className="border border-gray-300 rounded-md px-3 py-2 m-1"
                 />
-                <button onClick={() => handleDelete(index)}>Delete Role</button>
+                <button onClick={() => handleDelete(index)} className="px-3 py-2 bg-red-500 text-white rounded-md gap-20"><TiDelete /></button>
               </div>
             )}
           />
-          <div className="label-input-combo">
-            <input id="addRole" name="addRole" type="text" value={newRole} onChange={handleNewRole} />
-
-            <button onClick={handleAddRole}>
-              Add Role
-            </button>
-
+          <div className="">
+            <input id="addRole" name="addRole" type="text" value={newRole} onChange={handleNewRole} autoFocus className="border border-gray-300 rounded-md px-3 py-2 m-1" />
+            <button onClick={handleAddRole} className="px-3 py-2 bg-blue-500 text-white rounded-md">Add Role</button>
           </div>
-
         </div>
-
-        {unsavedChanges && (
-          <div>
-            <p>Bojo!</p>
-            <button onClick={handleSave}>Save Changes</button>
-          </div>
-        )}
-      </div>
+      </Modal>
     </div>
   );
-
 }
 
 export default ManagerAccountSettings;

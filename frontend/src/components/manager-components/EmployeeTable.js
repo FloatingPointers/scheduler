@@ -53,20 +53,36 @@ function EmployeeTable() {
   
 
   return (
+<<<<<<< HEAD
     <table className="table-fixed w-4/5">
       <thead>
         <tr>
           <th className="text-left">Name</th>
           <th className="text-left">Email</th>
           <th className='w-5'></th>
+=======
+    <table className="">
+      <thead className='w-full'>
+        <tr className='w-full'>
+          <th className='w-1/2'>Name</th>
+          <th className='w-1/2'>Email</th>
+          <th className='w-[1%]'></th>
+>>>>>>> aa2ee95e84cc5ad750b7b00baccad7554b880ec9
         </tr>
       </thead>
-      <tbody>
+      <tbody className='w-full'>
         {employees.map((employee) => (
+<<<<<<< HEAD
           <tr key={employee._id} >
             <td className="truncate">{`${employee.firstName} ${employee.lastName}`}</td>
             <td className="truncate">{employee.email}</td>
             <td onClick={() => deleteEmployee(employee._id)} className='w-3'><TiDelete /></td>
+=======
+          <tr key={employee._id} className='w-full'>
+            <td className="w-1/2">{`${employee.firstName} ${employee.lastName}`}</td>
+            <td className="w-1/2">{employee.email}</td>
+            <td className='w-[1%]' onClick={() => deleteEmployee(employee._id)}><TiDelete /></td>
+>>>>>>> aa2ee95e84cc5ad750b7b00baccad7554b880ec9
           </tr>
         ))}
       </tbody>

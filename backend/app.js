@@ -12,7 +12,8 @@ require('dotenv').config();
 var loginRouter = require('./routes/login');
 var scheduleRouter = require('./routes/scheduler');
 var empTableRouter = require('./routes/employeeTable');
-var empInviteRouter = require('./routes/invite')
+var storeInviteRouter = require('./routes/invite')
+var empSettingsRouter = require('./routes/settings')
 
 var app = express();
 
@@ -33,7 +34,8 @@ app.use(cors());
 app.use('/', loginRouter);
 app.use('/scheduler', scheduleRouter);
 app.use('/emp-table', empTableRouter);
-app.use('/invite', empInviteRouter);
+app.use('/invite', storeInviteRouter);
+app.use('/settings', empSettingsRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
