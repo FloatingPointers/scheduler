@@ -20,7 +20,7 @@ function EmployeeManager() {
 
       <div className="flex flex-row w-full h-full justify-center items-center gap-10 p-10">
 
-        <div className='w-1/2 p-4 flex flex-col items-center border bg-slate-50 border-slate-300 rounded shadow-md'>
+        <div className='w-1/2 p-4 flex flex-col items-center justify-center border bg-slate-50 border-slate-300 rounded shadow-md'>
           <h1 className='text-center font-semibold text-2xl'>Employees</h1>
 
           <hr class="h-px bg-slate-200 border-0 m-6 w-full"></hr>

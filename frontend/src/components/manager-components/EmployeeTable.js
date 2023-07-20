@@ -5,24 +5,27 @@ import {TiDelete} from 'react-icons/ti'
 function EmployeeTable() {
 
   let [employees, setEmployees] = useState([
-    {
-      _id: 1,
-      firstName: "john",
-      lastName: "smith",
-      email: "johnsmith@gmail.com",
-    },
-    {
-      _id: 2,
-      firstName: "ron",
-      lastName: "kim",
-      email: "ronnie@gmail.com",
-    },
-    {
-      _id: 3,
-      firstName: "isaac",
-      lastName: "rein",
-      email: "rein@gmail.com",
-    },
+  //   {
+  //     _id: 1,
+  //     firstName: "john",
+  //     lastName: "smith",
+  //     employer: "64b3664a0918445e2eb28fb6",
+  //     email: "johnsmith@gmail.com",
+  //   },
+  //   {
+  //     _id: 2,
+  //     firstName: "ron",
+  //     lastName: "kim",
+  //     employer: "64b3664a0918445e2eb28fb6",
+  //     email: "ronnie@gmail.com",
+  //   },
+  //   {
+  //     _id: 3,
+  //     firstName: "isaac",
+  //     lastName: "rein",
+  //     employer: "64b3664a0918445e2eb28fb6",
+  //     email: "rein@gmail.com",
+  //   },
   ]);
 
   const getEmployees = async () => {
@@ -50,20 +53,20 @@ function EmployeeTable() {
   
 
   return (
-    <table>
+    <table className="table-fixed w-4/5">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th></th>
+          <th className="text-left">Name</th>
+          <th className="text-left">Email</th>
+          <th className='w-5'></th>
         </tr>
       </thead>
       <tbody>
         {employees.map((employee) => (
-          <tr key={employee._id}>
+          <tr key={employee._id} >
             <td className="truncate">{`${employee.firstName} ${employee.lastName}`}</td>
             <td className="truncate">{employee.email}</td>
-            <td onClick={() => deleteEmployee(employee._id)}><TiDelete /></td>
+            <td onClick={() => deleteEmployee(employee._id)} className='w-3'><TiDelete /></td>
           </tr>
         ))}
       </tbody>

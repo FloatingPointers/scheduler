@@ -17,7 +17,6 @@ const applyUserStrategy = passport => {
       let user = await User.findOne({_id: payload.id, type: payload.type});
       // user found
       if (user) {
-        console.log(user);
         return done(null, user);
       } else {
         return done(null, false);
