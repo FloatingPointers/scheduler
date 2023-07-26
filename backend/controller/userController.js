@@ -8,6 +8,8 @@ const User = require('../models/user');
 const Employee = require('../models/employee');
 const Store = require('../models/store');
 const config = require('../store/config');
+const { sendEmail } = require("../store/emailer");
+const { v4: uuidv4 } = require('uuid');
 
 async function generateInviteCode() {
   let inviteCode;
@@ -126,6 +128,22 @@ exports.signup = asyncHandler(async (req, res, next) => {
 
 })
 
-exports.getType = asyncHandler(async (req, res, next) => {
-  return res.status(200).json({type: req.user.type});
+exports.forgotPassword = asyncHandler(async (req, res, next) => {
+  const email = await User.findOne({email: req.body.email})
+                    .select('email');
+  if(!email) return;
+  const token = uuidv4();
+  const url = `http://localhost:3000/changePassword/${token}`;
+  sendEmail(email, "Scheduler App: Forgot Password Request",
+    (
+      <div>
+        <h1><a href={url}>Click here to change password</a> </h1>
+        <p>Or copy this link into your browser: {url}</p>
+        <p>This link will expire in 24 hours. If you did not request a password reset, you can ignore this email.</p>
+      </div>
+    )
+    
+  );
+
 })
+

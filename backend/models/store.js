@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 
 const Store = new mongoose.Schema({
@@ -19,6 +18,10 @@ const Store = new mongoose.Schema({
     },
 
     settings: {
+        email: {
+            type: String,
+            // required: true
+        },
         openTime: {
             type: Date,
             default: new Date().setHours(8, 0)

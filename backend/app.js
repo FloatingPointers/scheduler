@@ -5,6 +5,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
 
+const {sendEmail} = require('./store/emailer');
+
 // My imports
 const mongoose = require('mongoose');
 require('dotenv').config();
@@ -12,8 +14,8 @@ require('dotenv').config();
 var loginRouter = require('./routes/login');
 var scheduleRouter = require('./routes/scheduler');
 var empTableRouter = require('./routes/employeeTable');
-var storeInviteRouter = require('./routes/invite')
-var empSettingsRouter = require('./routes/settings')
+var storeInviteRouter = require('./routes/invite');
+var empSettingsRouter = require('./routes/settings');
 
 var app = express();
 

@@ -8,27 +8,6 @@ function App() {
   const navigate = useNavigate();
   const [signInAsEmployee, setSignInAsEmployee] = useState(true);
 
-  // Check if user is already logged in
-  const checkLogin = async () => {
-    try {
-      // works by using the axios interceptor that adds jwt from local storage to 
-      // all req headers if it is available
-      const response = await axiosInstance.post('/get-type');
-      if(response.data.type != null) {
-        if(response.data.type === "EMPLOYEE"){
-          navigate("/emp");
-        } else if (response.data.type === "STORE") {
-          navigate("/mgr")
-        } else {
-          throw Error("ERROR: Invalid type recieved");
-        }
-      } // else the user is not logged in yet
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  
-  checkLogin();
 
   /*
   Fields submitted for login
@@ -56,10 +35,13 @@ function App() {
       const response = await axiosInstance.post('/login', params);
 
       //Save the auth token in browser storage
-      const { token } = response.data;
+      const { token, role } = response.data;
       localStorage.setItem('token', token);
 
-      //Navigate to home page
+      //Used ONLY for checking if this role can access the page  :  important!
+      localStorage.setItem('role', role);
+
+      // Navigate to home page
       if(event.target.loginType.value === "EMPLOYEE") navigate("/emp");
       else navigate("/mgr");
 
@@ -92,7 +74,10 @@ function App() {
         </div>
 
         <div className="inline-flex flex-col gap-2 w-full">
-          <label htmlFor="password">Password</label>
+          <div className="inline-flex flex-row w-full space-between items-center">
+            <label htmlFor="password" className="w-full">Password</label>
+            <NavLink to={"/forgotPassword/"} className="text-sm text-blue-500 hover:text-blue-400 transition-colors whitespace-nowrap">Forgot password?</NavLink> 
+          </div>
           <input id="password" name="password" type="password" className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full transition-colors" required/>
         </div>
 
