@@ -10,11 +10,12 @@ import ManagerAccountSettings from './pages/Manager/ManagerAccountSettings';
 
 import SchedulerHome from "./pages/Manager/SchedulerHome";
 import DailyView from "./pages/Manager/DailyView";
-import PasswordReset from "./pages/PasswordReset";
 import EmployeeHome from "./pages/Employee/EmployeeHome";
 import EmployeeRequests from "./pages/Employee/EmployeeRequests";
 import EmployeeSchedule from "./pages/Employee/EmployeeSchedule";
 import EmployeeSettings from "./pages/Employee/EmployeeSettings";
+import ForgotPassword from "./pages/ForgotPassword";
+import ChangePassword from "./pages/ChangePassword";
 
 
 //Checks the type of account that the user is currently signed in to,
@@ -51,7 +52,8 @@ const RouteSwitch = () => {
         {/* //Accessible only if not signed in */}
         <Route path="/" element={<RoleAccess role="" />} >
           <Route path="" element={<App />} />
-          <Route path="/forgotPassword" element={<PasswordReset />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route path="/changePassword" element={<ChangePassword />} />
           <Route path="/CreateStoreAccount" element={<CreateStoreAccount/>} />
           <Route path="/CreateEmployeeAccount" element={<CreateEmployeeAccount />} />
         </Route>
