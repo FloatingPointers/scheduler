@@ -28,3 +28,6 @@ router.post('reset', userController.changePassword);
 router.post('request', userController.forgotPassword);
 
 
+module.exports = router;
+
+
