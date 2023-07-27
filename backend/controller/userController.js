@@ -10,6 +10,7 @@ const Store = require('../models/store');
 const config = require('../store/config');
 const { sendEmail } = require("../store/emailer");
 const { v4: uuidv4 } = require('uuid');
+const { redis } = require("../store/redis");
 
 async function generateInviteCode() {
   let inviteCode;
@@ -129,12 +130,13 @@ exports.signup = asyncHandler(async (req, res, next) => {
 })
 
 exports.forgotPassword = asyncHandler(async (req, res, next) => {
-  const email = await User.findOne({email: req.body.email})
-                    .select('email');
-  if(!email) return;
+  const user = await User.findOne({email: req.body.email});
+  if(!user) return;
   const token = uuidv4();
+  await redis.set('forgotPassword:' + token, user._id,
+      'ex', 1000 * 60 * 60 * 24 )
   const url = `http://localhost:3000/changePassword/${token}`;
-  sendEmail(email, "Scheduler App: Forgot Password Request",
+  sendEmail(user.email, "Scheduler App: Forgot Password Request",
     (
       <div>
         <h1><a href={url}>Click here to change password</a> </h1>

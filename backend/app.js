@@ -5,7 +5,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
 
-const {sendEmail} = require('./store/emailer');
 
 // My imports
 const mongoose = require('mongoose');
@@ -16,6 +15,7 @@ var scheduleRouter = require('./routes/scheduler');
 var empTableRouter = require('./routes/employeeTable');
 var storeInviteRouter = require('./routes/invite');
 var empSettingsRouter = require('./routes/settings');
+const { redisStore } = require('./store/redis');
 
 var app = express();
 
