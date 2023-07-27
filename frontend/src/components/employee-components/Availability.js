@@ -6,32 +6,46 @@ function Availability({ initialAvailability, onChange }) {
     initialAvailability || Array(7).fill().map(() => ({ preference: '', hours: Array(24).fill(false) }))
   );
   const [selectedDay, setSelectedDay] = useState(null);
-
-
+  const [dragging, setDragging] = useState(false);
   
   useEffect(() => {
     onChange(availability);
   }, [availability, onChange]);
 
-
-
-
-  const handleHourSelection = (dayIndex, hourIndex) => {
+  useEffect(() => {
+    //add thing to global state
+    const stopDrag = () => setDragging(false);
+    window.addEventListener('mouseup', stopDrag);
+    
+    //remove when mouseup from global
+    return () => {
+      window.removeEventListener('mouseup', stopDrag);
+    };
+  }, []);
+  
+  const toggleHour = (dayIndex, hourIndex) => {
     const newAvailability = [...availability];
     newAvailability[dayIndex].hours[hourIndex] = !newAvailability[dayIndex].hours[hourIndex];
     setAvailability(newAvailability);
   };
-
+  
   const handlePreferenceChange = (dayIndex, newPreference) => {
     const newAvailability = [...availability];
     newAvailability[dayIndex].preference = newPreference;
     setAvailability(newAvailability);
   };
-
-
-
-
-
+  
+  const handleMouseDown = (dayIndex, hourIndex) => {
+    setDragging(true);
+    toggleHour(dayIndex, hourIndex);
+  };
+  
+  const handleMouseEnter = (dayIndex, hourIndex) => {
+    if (dragging) {
+      toggleHour(dayIndex, hourIndex);
+    }
+  };
+  
   return (
     <div className='flex flex-col items-center'>
       {['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'].map((day, dayIndex) => (
@@ -40,7 +54,6 @@ function Availability({ initialAvailability, onChange }) {
           <button className="hover:text-green-500" onClick={() => setSelectedDay(dayIndex)}>Set Preference</button>
           <Modal opened={selectedDay === dayIndex} onClose={() => setSelectedDay(null)} title={`Set preference for ${day}`}>
             <Textarea
-
               value={availability[dayIndex].preference}
               onChange={(e) => handlePreferenceChange(dayIndex, e.currentTarget.value)}
             />
@@ -49,9 +62,10 @@ function Availability({ initialAvailability, onChange }) {
             {availability[dayIndex].hours.map((available, hourIndex) => (
               <button
                 key={hourIndex}
-                className={`"px-4 py-2 w-20 h-20 text-center text-sm cursor-pointer flex items-center justify-center" 
+                className={`"px-4 py-2 w-20 h-20 text-center text-sm cursor-pointer flex items-center justify-center"
                 ${available ? 'bg-green-400 hover:bg-green-200 ' : 'bg-red-400 hover:bg-red-200'}`}
-                onClick={() => handleHourSelection(dayIndex, hourIndex)}
+                onMouseDown={() => handleMouseDown(dayIndex, hourIndex)}
+                onMouseEnter={() => handleMouseEnter(dayIndex, hourIndex)}
               >
                 {`${hourIndex}:00`}
               </button>
