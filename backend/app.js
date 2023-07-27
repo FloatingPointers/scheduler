@@ -15,6 +15,7 @@ var scheduleRouter = require('./routes/scheduler');
 var empTableRouter = require('./routes/employeeTable');
 var storeInviteRouter = require('./routes/invite');
 var empSettingsRouter = require('./routes/settings');
+var resetPasswordRouter = require('./routes/resetPassword');
 
 var app = express();
 
@@ -37,6 +38,7 @@ app.use('/scheduler', scheduleRouter);
 app.use('/emp-table', empTableRouter);
 app.use('/invite', storeInviteRouter);
 app.use('/settings', empSettingsRouter);
+app.use('/resetPassword', resetPasswordRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

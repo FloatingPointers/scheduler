@@ -135,17 +135,33 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   const token = uuidv4();
   await redis.set('forgotPassword:' + token, user._id,
       'ex', 1000 * 60 * 60 * 24 )
-  const url = `http://localhost:3000/changePassword/${token}`;
+  const url = `http://localhost:3000/changePassword?token=${token}`;
   await sendEmail(user.email, "Scheduler App: Forgot Password Request",
     `
       <div>
-        <h1><a href={url}>Click here to change password</a> </h1>
-        <p>Or copy this link into your browser: {url}</p>
+        <h1><a href=${url}>Click here to change password</a> </h1>
+        <p>Or copy this link into your browser: ${url}</p>
         <p>This link will expire in 24 hours. If you did not request a password reset, you can ignore this email.</p>
       </div>
     `
-    
   );
+  res.status(200).json({ success: true })
 
-})
+});
 
+exports.verifyToken = asyncHandler(async (req, res, next) => {
+  const token = req.body.token;
+  const success = redis.exists('forgotPassword:' + token) === 1;
+  return res.status(200).json({success});
+});
+
+exports.changePassword = asyncHandler(async (req, res, next) => {
+  const token = req.body.token;
+  const userId = await redis.get('forgotPassword:' + token);
+  if(!userId) {
+    return res.status(404).json({error: "Token is expired"});
+  }
+  const newPassword = await bcrypt.hash(req.body.password, 10);
+  await User.findByIdAndUpdate(userId, {hashedPassword: newPassword});
+  return res.status(200).json({success: true});
+});
