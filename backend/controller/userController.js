@@ -136,14 +136,14 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
   await redis.set('forgotPassword:' + token, user._id,
       'ex', 1000 * 60 * 60 * 24 )
   const url = `http://localhost:3000/changePassword/${token}`;
-  sendEmail(user.email, "Scheduler App: Forgot Password Request",
-    (
+  await sendEmail(user.email, "Scheduler App: Forgot Password Request",
+    `
       <div>
         <h1><a href={url}>Click here to change password</a> </h1>
         <p>Or copy this link into your browser: {url}</p>
         <p>This link will expire in 24 hours. If you did not request a password reset, you can ignore this email.</p>
       </div>
-    )
+    `
     
   );
 

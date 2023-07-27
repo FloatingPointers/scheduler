@@ -3,7 +3,7 @@ const Redis = require("ioredis");
 
 // Initialize client.
 const redis = new Redis();
-redis.connect().catch(console.error);
+console.log("Connected to Redis");
 
 module.exports = {
   redis,

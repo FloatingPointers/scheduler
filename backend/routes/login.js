@@ -71,7 +71,7 @@ Request Body: {
 
 }
 */
-router.post("/get-type", passport.authenticate('jwt', { session: false }), userController.getType);
+// router.post("/get-type", passport.authenticate('jwt', { session: false }), userController.getType);
 
 
 

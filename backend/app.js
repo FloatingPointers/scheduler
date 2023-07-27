@@ -15,7 +15,6 @@ var scheduleRouter = require('./routes/scheduler');
 var empTableRouter = require('./routes/employeeTable');
 var storeInviteRouter = require('./routes/invite');
 var empSettingsRouter = require('./routes/settings');
-const { redisStore } = require('./store/redis');
 
 var app = express();
 
