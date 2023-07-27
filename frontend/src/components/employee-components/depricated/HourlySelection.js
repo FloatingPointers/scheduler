@@ -60,29 +60,29 @@ function HourlySelection(props) {
       ],
     },
     {
-        dayOfWeek: new Date(2023, 6, 3, 12, 0, 0, 0),
-        hours: [
-            {
-                hour: new Date(2023, 6, 3, 12, 0, 0, 0).getHours(),
-                preference: 'not',
-            },
-            {
-                hour: new Date(2023, 6, 3, 13, 0, 0, 0).getHours(),
-                preference: 'not',
-            },
-            {
-                hour: new Date(2023, 6, 3, 14, 0, 0, 0).getHours(),
-                preference: 'not',
-            },
-            {
-                hour: new Date(2023, 6, 3, 15, 0, 0, 0).getHours(),
-                preference: 'not',
-            },
-            {
-                hour: new Date(2023, 6, 3, 16, 0, 0, 0).getHours(),
-                preference: 'not',
-            },
-        ],
+      dayOfWeek: new Date(2023, 6, 3, 12, 0, 0, 0),
+      hours: [
+        {
+          hour: new Date(2023, 6, 3, 12, 0, 0, 0).getHours(),
+          preference: 'not',
+        },
+        {
+          hour: new Date(2023, 6, 3, 13, 0, 0, 0).getHours(),
+          preference: 'not',
+        },
+        {
+          hour: new Date(2023, 6, 3, 14, 0, 0, 0).getHours(),
+          preference: 'not',
+        },
+        {
+          hour: new Date(2023, 6, 3, 15, 0, 0, 0).getHours(),
+          preference: 'not',
+        },
+        {
+          hour: new Date(2023, 6, 3, 16, 0, 0, 0).getHours(),
+          preference: 'not',
+        },
+      ],
     }
   ]);
 
@@ -95,51 +95,51 @@ function HourlySelection(props) {
   const generateHoursContent = () => {
 
     return (
-        <div className="availability-selector">
+      <div className="availability-selector">
 
 
         {week.map((day, dayIndex) => {
-            let { dayOfWeek, hours } = day;
-            let curDate = new Date(dayOfWeek);
+          let { dayOfWeek, hours } = day;
+          let curDate = new Date(dayOfWeek);
 
-            return (
+          return (
 
 
-                <div key={`week-total-${dayIndex}`} className="week-total">
-                    <div className="day-separator" >
-                        {format(curDate, 'EEEE')}
-                    </div>
+            <div key={`week-total-${dayIndex}`} className="week-total">
+              <div className="day-separator" >
+                {format(curDate, 'EEEE')}
+              </div>
 
-                    {
-                        <ul className="week-hour-display" key={`hours-list-${dayIndex}`}>
-                            {
-                                hours.map((hour, hourIndex) => {
+              {
+                <ul className="week-hour-display" key={`hours-list-${dayIndex}`}>
+                  {
+                    hours.map((hour, hourIndex) => {
 
-                                    let { preference } = hour;
-                                    let classList = `hour-selector-${preference}`;
-                                    curDate = add(curDate, { hours: 1 })
-                                    console.log(hourIndex)
-                                    console.log(curDate)
-                                    return (
-                                        <li
-                                            key={`hour-selector-${dayIndex}-${hourIndex}`}
-                                            className={classList}
-                                            onClick={() => handleHourSelection(dayIndex, hourIndex)}
-                                        >
-                                            {format(curDate, 'h a')}
-                                        </li>
-                                    )
-                                })}
-                        </ul>}
-                </div>
-            );
+                      let { preference } = hour;
+                      let classList = `hour-selector-${preference}`;
+                      curDate = add(curDate, { hours: 1 })
+                      console.log(hourIndex)
+                      console.log(curDate)
+                      return (
+                        <li
+                          key={`hour-selector-${dayIndex}-${hourIndex}`}
+                          className={classList}
+                          onClick={() => handleHourSelection(dayIndex, hourIndex)}
+                        >
+                          {format(curDate, 'h a')}
+                        </li>
+                      )
+                    })}
+                </ul>}
+            </div>
+          );
 
 
         })}
-        </div>
+      </div>
 
     )
-};
+  };
 
   return (
     <div >
@@ -175,7 +175,7 @@ function HourlySelection(props) {
 
       {generateHoursContent()}
     </div>
-    
+
   );
 }
 
