@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "@mantine/core";
@@ -16,19 +16,24 @@ function ChangePassword() {
 
   console.log(token);
 
-  //Verify token hasn't expired yet
-  axiosInstance.post('/resetPassword/verifyToken', {
-    token: token
-  })
-  .then((res) => {
-    if(!res.data.success) {
-      //Token expired / not valid
-      setTokenVerified(false);
+  const verifyToken = async() => {
+    try {
+      //Verify token hasn't expired yet
+      const res = await axiosInstance.post('/resetPassword/verifyToken', {
+        token: token
+      });
+      if(!res.data.success) {
+        //Token expired / not valid
+        setTokenVerified(false);
+      }
+    } catch (err) {
+      console.log(err);
     }
-  })
-  .catch((err) => {
+  }
 
-  });
+  useEffect(() => {
+    verifyToken();
+  }, []);
 
 
 

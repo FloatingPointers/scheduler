@@ -8,7 +8,7 @@ const userController = require('../controller/userController');
     Response data
       success - Bool
 */
-router.post('verifyToken', userController.verifyToken);
+router.post('/verifyToken', userController.verifyToken);
 
 /*  Request body 
       token
@@ -16,7 +16,7 @@ router.post('verifyToken', userController.verifyToken);
     Response data
       success - Bool
 */
-router.post('reset', userController.changePassword);
+router.put('/reset', userController.changePassword);
 
 /*  Request body 
       email
@@ -25,7 +25,7 @@ router.post('reset', userController.changePassword);
        or
       error - invalid token
 */
-router.post('request', userController.forgotPassword);
+router.post('/request', userController.forgotPassword);
 
 
 module.exports = router;

@@ -151,7 +151,8 @@ exports.forgotPassword = asyncHandler(async (req, res, next) => {
 
 exports.verifyToken = asyncHandler(async (req, res, next) => {
   const token = req.body.token;
-  const success = redis.exists('forgotPassword:' + token) === 1;
+  const success = await redis.exists('forgotPassword:' + token) == 1;
+  console.log(success);
   return res.status(200).json({success});
 });
 
