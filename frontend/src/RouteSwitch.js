@@ -24,6 +24,8 @@ function RoleAccess( props ) {
   const { role } = props;
   const localrole = localStorage.getItem("role");
 
+  if(localrole === 'DEV') return <Outlet />;
+
   //If the user is trying to access the log in page, but is already logged in
   //  reroute them to the proper home page
   if(!role) {
@@ -43,6 +45,8 @@ function RoleAccess( props ) {
 };
 
 const RouteSwitch = () => {
+
+  localStorage.setItem('role', 'DEV');
 
   
   return (
