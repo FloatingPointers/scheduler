@@ -26,7 +26,9 @@ function CreateEmployeeAccount() {
           email: event.target.email.value,
           username: event.target.username.value,
           firstName: event.target.firstName.value,
-          lastName: event.target.lastName.value
+          lastName: event.target.lastName.value,
+          inviteCode: event.target.storeInvite.value,
+
         }
   
         //Send the request and await the response

@@ -95,19 +95,31 @@ exports.signup = asyncHandler(async (req, res, next) => {
       
     });
 
+    
+    //Upload the store account to the database
+    await linkedAccount.save();
+
   } else {
+    const inviteCode =  req.body.inviteCode;
+
+    const store = Store.findOne({inviteCode});
+
+    if(!store._id) return res.status(404).json({error: "Invite Code is not valid" });
 
     linkedAccount = new Employee({
       username: req.body.username,
       email: req.body.email,
       firstName: req.body.firstName,
-      lastName: req.body.lastName
+      lastName: req.body.lastName,
+      employer: store._id
     })
-    
+
+    //Upload the employee account to the database
+    await linkedAccount.save();
+    store.employees.push(linkedAccount._id);
+    await store.save();
   }
 
-  //Upload the store/employee account to the database
-  await linkedAccount.save();
 
   //Create a new user account, store the user's hashed password in it, and link the user's employee or store account
   let user;
@@ -164,5 +176,6 @@ exports.changePassword = asyncHandler(async (req, res, next) => {
   }
   const newPassword = await bcrypt.hash(req.body.password, 10);
   await User.findByIdAndUpdate(userId, {hashedPassword: newPassword});
+  await redis.del('forgotPassword:' + token);
   return res.status(200).json({success: true});
 });
