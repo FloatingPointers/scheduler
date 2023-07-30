@@ -122,11 +122,9 @@ function SchedulerHome() {
                         )
                       }
                       {
-                        schedule.goalsMet ? (
-                          <div>
-                            Schedule Issues Here
-                          </div>
-                        ) : (<div />)
+                        schedule.goalsMet ? ( <div/> ) : (
+                          <div>Schedule Issues Here</div>
+                        )
                       }
                     </div>
                   </li>
