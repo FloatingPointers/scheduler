@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { NavLink } from "react-router-dom";
 import ManagerNavbar from "../../components/manager-components/ManagerNavbar";
 import { add, format } from "date-fns";
-import { IoMdCheckmark, IoMdAlarm, IoMdClipboard, IoMdDownload, IoIosArchive } from "react-icons/io";
+import { IoMdCheckmark, IoMdAlarm, IoMdClipboard, IoMdDownload, IoIosArchive, IoMdTrash } from "react-icons/io";
 import { Modal } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import axiosInstance from "../../Axios";
@@ -54,6 +54,10 @@ function SchedulerHome() {
   }
 
   const handleArchiveSchedule = (event) => {
+
+  }
+
+  const handleDeleteSchedule = (event) => {
 
   }
 
@@ -173,6 +177,7 @@ function SchedulerHome() {
 
                       <IoMdDownload onClick={handleDownloadSchedule} className="inline text-2xl cursor-pointer"/>
                       <IoIosArchive onClick={handleArchiveSchedule} className="inline text-2xl cursor-pointer"/>
+                      <IoMdTrash onClick={handleDeleteSchedule} className="inline text-2xl cursor-pointer"/>
 
                     </td>
                   </tr>
