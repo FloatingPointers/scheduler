@@ -24,7 +24,7 @@ const employeeController = require('../controller/employeeController.js');
   Request Body: {
     scheduleInfo: {
       storeId
-      weekStartDate
+      startDate
       startTime
       endTime
     }

@@ -22,7 +22,7 @@ function SchedulerHome() {
   ]);
 
   //The next few schedule start dates (get from db)
-  const [nextScheduleStartDates, setNextScheduleStartDates] = useState([]);
+  const [nextScheduleStartDates, setNextScheduleStartDates] = useState([new Date()]);
 
   useEffect(() => {
 
@@ -44,8 +44,30 @@ function SchedulerHome() {
   const [opened, {open, close}] = useDisclosure(false);
 
 
-  const handleCreateSchedule = (event) => {
+  const handleCreateSchedule = async (event) => {
     event.preventDefault();
+
+    if(event.target.closeTime.value < event.target.openTime.value) {
+      event.target.closeTime.setCustomValidity("Close time must be greater than open time");
+      return;
+    }
+
+    let closeTime = new Date(event.target.scheduleStartDate.value);
+    closeTime.setHours(event.target.closeTime.value);
+    let openTime = new Date(event.target.scheduleStartDate.value);
+    openTime.setHours(event.target.openTime.value)
+
+    axiosInstance.post("/schedule/createSchedule", {
+      startDate: new Date(event.target.scheduleStartDate.value),
+      startTime: openTime,
+      endTime: closeTime,
+    }).then((res) => {
+      console.log("Created Schedule")
+    }).catch((err) => {
+      console.err("Error creating schedule");
+      console.err(err);
+    })
+
     close();
   }
 
@@ -71,16 +93,28 @@ function SchedulerHome() {
     <div>
 
       <Modal opened={opened} onClose={close} title="New Schedule" classNames={{ header: "h-1/4 gap-4 p-4 bg-blue-100", title: "text-xl font-semibold"}}> 
-        <form name="create-schedule-form" onSubmit={handleCreateSchedule} className="p-4 flex flex-col gap-6">
+        <form name="createScheduleForm" onSubmit={handleCreateSchedule} className="p-4 flex flex-col gap-6">
           <div className="flex flex-col shrink">
-            <label htmlFor="schedule-start-date" className="">Start Date </label>
-            <select required name="schedule-start-date" id="schedule-start-date" form="create-schedule-form" className="p-1 bg-slate-200 rounded font-light">
+            <label htmlFor="scheduleStartDate" className="">Start Date </label>
+            <select required name="scheduleStartDate" className="p-1 bg-slate-200 rounded font-light">
               {
                 nextScheduleStartDates.map((date) => 
                   <option value={date}>{format(date, "MMMM dd")}</option>
                 )
               }
             </select>
+          </div>
+            
+          <div className="flex flex-row gap-8">
+            <div className="">
+              <label htmlFor="openTime" className="">Open Time</label>
+              <input type="number" name="openTime" defaultValue={0} required min={0} max={24} className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full" />
+            </div>
+
+            <div className="">
+              <label htmlFor="close" className="">Close Time</label>
+              <input type="number" name="closeTime" defaultValue={24} required min={0} max={24} className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full" />
+            </div>
           </div>
 
           <button type="submit" className="bg-blue-200 shadow-sm rounded p-1 hover:bg-blue-100 transition-colors">Create Schedule</button>
@@ -89,10 +123,9 @@ function SchedulerHome() {
       </Modal>
 
       <ManagerNavbar />
-      <div className="flex flex-col justify-start items-center bg-slate-100 w-screen h-screen text-lg">
-        
-        <h1 className="text-3xl font-semibold pt-8">Recent Schedules</h1>
 
+      <div className="flex flex-col justify-start items-center bg-slate-100 w-screen h-screen text-lg">
+        <h1 className="text-3xl font-semibold pt-8">Recent Schedules</h1>
 
         <ul className="px-16 py-8 w-full flex flex-row justify-center items-stretch gap-12">
           {
