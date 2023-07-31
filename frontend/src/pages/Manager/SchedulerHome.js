@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import ManagerNavbar from "../../components/manager-components/ManagerNavbar";
 import { add, format } from "date-fns";
-import { IoMdCheckmark, IoMdAlarm, IoMdClipboard, IoMdDownload, IoIosArchive, IoMdTrash } from "react-icons/io";
+import { IoMdCheckmark, IoMdAlarm, IoMdDownload, IoIosArchive, IoMdCreate } from "react-icons/io";
 import { Modal } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import axiosInstance from "../../Axios";
@@ -13,22 +13,43 @@ import { generateDummySchedule } from "../../test/TestingFunctions.js";
 
 
 function SchedulerHome() {
+  const navigate = useNavigate();
 
   //GET a list of all schedules from the database
-  const [schedules, setSchedules] = useState([
-    generateDummySchedule(),
-    generateDummySchedule(),
-    generateDummySchedule(),
-  ]);
+  const [schedules, setSchedules] = useState([]);
+  const [page, setPage] = useState(1);
+
+  const [recent, setRecent] = useState([]);
 
   //The next few schedule start dates (get from db)
   const [nextScheduleStartDates, setNextScheduleStartDates] = useState([new Date()]);
 
+
+
+
+
   useEffect(() => {
 
     //Get list of recent schedules
-    
+    axiosInstance.get('/scheduler/recentSchedules')
+    .then((res) => {
+      if(!res.data) return;
+      setRecent(res.data);
+      console.log('Schedules: ' + res.data)
+    }).catch((err) => {
+      console.error('Error getting recent schedules')
+      console.error(err)
+    });
+
     //Get list of next few dates to create a schedule
+    axiosInstance.post('/scheduler/paginatedSchedules', { page: 0 } )
+    .then((res) => {
+      if(!res.data) return;
+      setSchedules(res.data)
+    })
+    .catch((err) => {
+
+    })    
     
     /*nextScheduleStartDay = new Date();
     let dayOfWeek = nextScheduleStartDay.getDate() % 7;
@@ -57,15 +78,16 @@ function SchedulerHome() {
     let openTime = new Date(event.target.scheduleStartDate.value);
     openTime.setHours(event.target.openTime.value)
 
-    axiosInstance.post("/schedule/createSchedule", {
+    axiosInstance.post('/scheduler/create', {
       startDate: new Date(event.target.scheduleStartDate.value),
       startTime: openTime,
       endTime: closeTime,
     }).then((res) => {
       console.log("Created Schedule")
+      navigate(`/scheduler/daily?scheduleId=${res.data.id}?day=0`)
     }).catch((err) => {
-      console.err("Error creating schedule");
-      console.err(err);
+      console.error("Error creating schedule");
+      console.error(err);
     })
 
     close();
@@ -79,9 +101,6 @@ function SchedulerHome() {
 
   }
 
-  const handleDeleteSchedule = (event) => {
-
-  }
 
 
 
@@ -129,14 +148,16 @@ function SchedulerHome() {
 
         <ul className="px-16 py-8 w-full flex flex-row justify-center items-stretch gap-12">
           {
-            schedules.map((schedule) => {
+            recent.map((schedule) => {
+
+              console.log(schedule.startDate)
 
               return (
                 <NavLink key={"schedule-id:" + schedule._id} to={"/mgr/scheduler/daily?scheduleId=" + schedule._id} className="bg-slate-50 border border-slate-300 rounded-md shadow-md hover:-translate-y-2 transition-all">
                   <li className="">
                     <div className="w-full h-1/4 inline-flex flex-row gap-4 p-4 bg-blue-100 justify-center items-center">
                       
-                      <p className="font-semibold">{format(new Date(schedule.weekStartDate), "MMMM dd")}</p>
+                      <p className="font-semibold">{format(new Date(schedule.startDate), "MMMM dd")}</p>
                       
                       {
                         schedule.markedAsComplete ? (
@@ -197,20 +218,19 @@ function SchedulerHome() {
               <tbody className='w-full text-md'>
                 { schedules.map((schedule, index) => (
                   <tr key={schedule._id} className={ index % 2 === 0 ? ("bg-slate-100") : ("")}>
-                    <td className="pl-4 py-1">{format(new Date(schedule.weekStartDate), "MMMM dd")}</td>
+                    <td className="pl-4 py-1">{format(new Date(schedule.startDate), "MMMM dd")}</td>
                     <td className='w-[1%]'>
                       { schedule.markedAsComplete ? (<IoMdCheckmark className="inline text-2xl mr-4" />) : (<div />) }
                       { schedule.goalsMet ? (<div />) : (<IoMdAlarm className="inline text-2xl mr-4" />) }
                     </td>
                     <td>{ schedule.goalsMet ? (<div />) : (<p>Issues here</p>) }</td>
-                    <td className='w-full flex flex-row justify-evenly items-center '>
+                    <td className='w-2/3 flex flex-row justify-between items-center '>
                       <NavLink key={"schedule-id:" + schedule._id} to={"/mgr/scheduler/daily?scheduleId=" + schedule._id} className="inline">
-                        <IoMdClipboard className="text-2xl inline cursor-pointer" />
+                        <IoMdCreate className="text-2xl inline cursor-pointer" />
                       </NavLink>
 
                       <IoMdDownload onClick={handleDownloadSchedule} className="inline text-2xl cursor-pointer"/>
                       <IoIosArchive onClick={handleArchiveSchedule} className="inline text-2xl cursor-pointer"/>
-                      <IoMdTrash onClick={handleDeleteSchedule} className="inline text-2xl cursor-pointer"/>
 
                     </td>
                   </tr>

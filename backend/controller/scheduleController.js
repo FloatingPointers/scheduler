@@ -74,17 +74,47 @@ exports.removeShift = asyncHandler(async (req, res, next) => {
 
 exports.createSchedule = asyncHandler(async (req, res, next) => {
 
+  console.log("Got request to create schedule")
+
   const newSchedule = new Schedule({
-    ...req.body.scheduleInfo
+    ...req.body
   });
 
   await newSchedule.save();
 
   return res.status(200).json({
-    newScheduleId: newSchedule._id
+    id: newSchedule._id
   });
 
 });
+
+
+
+exports.getRecentSchedules = asyncHandler(async (req, res, next) => {
+
+  const schedules = await Schedule.find({}).limit(3).sort({ startDate: 1 }).select('startDate markedAsComplete goalsMet');
+
+  return(res.status(200).json(
+    schedules
+  ));
+
+})
+
+exports.getPaginatedSchedules = asyncHandler(async (req, res, next) => {
+
+  console.log('page: ' + req.body.page)
+
+  const schedules = await Schedule.find({}).skip(10 * req.body.page).limit(10).sort({ startDate: 1 }).select('startDate markedAsComplete goalsMet');
+
+  return(res.status(200).json(
+    schedules
+  ));
+
+})
+
+
+
+
 
 exports.updateSchedule = asyncHandler(async (req, res, next) => {
 

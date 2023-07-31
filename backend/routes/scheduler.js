@@ -33,7 +33,40 @@ const employeeController = require('../controller/employeeController.js');
     newScheduleId: Id of the newly created schedule
   }
 */
-router.post('/schedule/createSchedule', passport.authenticate('jwt', { session: false }), storeAuth, scheduleController.createSchedule);
+router.post('/create', passport.authenticate('jwt', { session: false }), storeAuth, scheduleController.createSchedule);
+
+
+/*
+  GET - Get 3 most recent schedules
+  Response Body: {
+    [
+      schedules (only contain) {
+        _id
+        startDate
+        isMarkedComplete
+        goalsMet
+        issues
+      }
+    ]
+  }
+*/
+router.get('/recentSchedules', passport.authenticate('jwt', { session: false}), storeAuth, scheduleController.getRecentSchedules)
+
+/*
+  GET - A page of schedules
+  Response Body: {
+    [
+      schedules (only contain) {
+        _id
+        startDate
+        isMarkedComplete
+        goalsMet
+        issues
+      }
+    ]
+  }
+*/
+router.post('/paginatedSchedules', passport.authenticate('jwt', { session: false}), storeAuth, scheduleController.getPaginatedSchedules)
 
 
 

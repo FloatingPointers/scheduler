@@ -35,11 +35,11 @@ function App() {
       const response = await axiosInstance.post('/login', params);
 
       //Save the auth token in browser storage
-      const { token, role } = response.data;
+      const { token } = response.data;
       localStorage.setItem('token', token);
 
       //Used ONLY for checking if this role can access the page  :  important!
-      localStorage.setItem('role', role);
+      localStorage.setItem('role', response.data.type);
 
       // Navigate to home page
       if(event.target.loginType.value === "EMPLOYEE") navigate("/emp");

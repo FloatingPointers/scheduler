@@ -46,7 +46,7 @@ function RoleAccess( props ) {
 
 const RouteSwitch = () => {
 
-  localStorage.setItem('role', 'DEV');
+  //localStorage.setItem('role', 'DEV');
 
   
   return (
