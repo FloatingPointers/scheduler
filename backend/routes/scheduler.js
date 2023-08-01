@@ -80,6 +80,15 @@ router.post('/paginatedSchedules', passport.authenticate('jwt', { session: false
 */
 router.delete('/schedule/:id/deleteSchedule', passport.authenticate('jwt', {session: false}), storeAuth, scheduleController.deleteSchedule)
 
+/*
+  POST - Set archvial status of a schedule by id
+  Request Body: {
+    id
+    archived: true/false
+  }
+*/
+router.post('/archive', passport.authenticate('jwt', {session: false}), storeAuth, scheduleController.archiveSchedule)
+
 
 
 /*

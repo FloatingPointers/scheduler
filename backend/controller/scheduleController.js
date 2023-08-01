@@ -92,7 +92,7 @@ exports.createSchedule = asyncHandler(async (req, res, next) => {
 
 exports.getRecentSchedules = asyncHandler(async (req, res, next) => {
 
-  const schedules = await Schedule.find({}).limit(3).sort({ startDate: 1 }).select('startDate markedAsComplete goalsMet');
+  const schedules = await Schedule.find({}).limit(3).sort({ startDate: -1, archived: 1 }).select('startDate markedAsComplete goalsMet archived');
 
   return(res.status(200).json(
     schedules
@@ -104,11 +104,20 @@ exports.getPaginatedSchedules = asyncHandler(async (req, res, next) => {
 
   console.log('page: ' + req.body.page)
 
-  const schedules = await Schedule.find({}).skip(10 * req.body.page).limit(10).sort({ startDate: 1 }).select('startDate markedAsComplete goalsMet');
+  const schedules = await Schedule.find({}).skip(10 * req.body.page).limit(10).sort({ startDate: -1, archived: 1 }).select('startDate markedAsComplete goalsMet archived');
 
   return(res.status(200).json(
     schedules
   ));
+
+})
+
+exports.archiveSchedule = asyncHandler( async(req, res, next) => {
+
+  console.log('Archiving Schedule: ' + req.body.id);
+  await Schedule.findByIdAndUpdate(req.body.id, { archived: req.body.archived })
+
+  return res.status(200);
 
 })
 

@@ -51,6 +51,12 @@ const Schedule = new mongoose.Schema({
     default: false
   },
 
+  archived: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+
   day: {
     type:[day],
     default: [

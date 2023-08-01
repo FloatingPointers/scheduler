@@ -133,7 +133,18 @@ function SchedulerHome() {
 
   }
 
-  const handleArchiveSchedule = (event) => {
+  const handleArchiveSchedule = (id, value) => {
+
+    console.log('Archiving schedule: ' + id);
+
+    axiosInstance.post('/scheduler/archive', {
+      id: id,
+      archived: value
+    }).then(res => {
+
+    }).catch(err => {
+      console.error(err);
+    })
 
   }
 
@@ -290,7 +301,7 @@ function SchedulerHome() {
                       </NavLink>
 
                       <IoMdDownload onClick={handleDownloadSchedule} className="inline text-2xl cursor-pointer"/>
-                      <IoIosArchive onClick={handleArchiveSchedule} className="inline text-2xl cursor-pointer"/>
+                      <IoIosArchive onClick={() => {handleArchiveSchedule(schedule._id, !schedule.archived)}} className={"inline text-2xl cursor-pointer " + schedule.archived ? "text-red-500" : ""}/>
 
                     </td>
                   </tr>
