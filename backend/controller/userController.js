@@ -102,7 +102,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
   } else {
     const inviteCode =  req.body.inviteCode;
 
-    const store = Store.findOne({inviteCode});
+    const store = await Store.findOne({inviteCode});
 
     if(!store._id) return res.status(404).json({error: "Invite Code is not valid" });
 

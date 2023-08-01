@@ -26,16 +26,13 @@ const Employee = new mongoose.Schema({
   },
 
   //The weekly availability of this employee
-  availability:{
-    day: [{
-      preference: {
-        type: String  // Message of employee preference
-      },
-      hours: [{
-        type: Boolean,
-      }],
-    }],
-  }
+  availability: [
+    {
+      preference: { type: String }, // Message of employee preference
+      hours: [{ type: Boolean }]
+    }
+  ]
+  
 
   
 

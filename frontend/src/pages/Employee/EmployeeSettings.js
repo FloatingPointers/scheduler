@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Navbar from '../../components/employee-components/Navbar';
 import "../../styles/employee.css"
-import HourlySelection from '../../components/employee-components/Availability';
+import Availability from '../../components/employee-components/Availability';
 import { differenceInHours, format, add, compareAsc } from "date-fns";
 import axiosInstance from "../../Axios";
 
@@ -75,14 +75,14 @@ function EmployeeSettings() {
     const getSettings = async () => {
       try {
         const response = await axiosInstance.get('/settings/employee/getSettings');
-        const { settings } = response.data;
 
         setState((prevState) => ({
           ...prevState,
-          firstName: settings.firstName,
-          lastName: settings.lastName,
-          availability: settings.availability
+          firstName: response.data.firstName,
+          lastName: response.data.lastName,
+          availability: response.data.availability
         }));
+
       } catch (error) {
         console.log("Error:", error);
         // Error handling
@@ -104,16 +104,16 @@ function EmployeeSettings() {
 
           <div className="">
             <label className="p-2" htmlFor="firstName">First Name</label>
-            <input id="firstName" name="firstName" type="text" value={state.name} onChange={handleChange} className="border border-gray-300 rounded-md px-3 py-2" />
+            <input id="firstName" name="firstName" type="text" value={state.firstName} onChange={handleChange} className="border border-gray-300 rounded-md px-3 py-2" />
           </div>
 
           <div className="">
             <label className="p-2" htmlFor="lastName">Last Name</label>
-            <input id="lastName" name="lastName" type="text" value={state.name} onChange={handleChange} className="border border-gray-300 rounded-md px-3 py-2" />
+            <input id="lastName" name="lastName" type="text" value={state.lastName} onChange={handleChange} className="border border-gray-300 rounded-md px-3 py-2" />
           </div>
 
 
-          <HourlySelection onChange={handleAvailabilityChange} initialAvailability={state.availability}  /> 
+          <Availability onChange={handleAvailabilityChange} initialAvailability={state.availability}  /> 
 
           {unsavedChanges && (
             <div>

@@ -1,23 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Paper, Textarea } from '@mantine/core';
+import {isEqual} from 'lodash';
 
 function Availability({ initialAvailability, onChange }) {
   const [availability, setAvailability] = useState(
-    initialAvailability || Array(7).fill().map(() => ({ preference: '', hours: Array(24).fill(false) }))
+    Array(7).fill().map(() => ({ preference: '', hours: Array(24).fill(false) }))
   );
   const [selectedDay, setSelectedDay] = useState(null);
   const [dragging, setDragging] = useState(false);
-  
-  useEffect(() => {
-    onChange(availability);
-  }, [availability, onChange]);
+  const [shouldCallOnChange, setShouldCallOnChange] = useState(false);
 
   useEffect(() => {
-    //add thing to global state
+    setAvailability(initialAvailability);
+    setShouldCallOnChange(false);
+  }, [initialAvailability]);
+
+  useEffect(() => {
+    if (!isEqual(availability, initialAvailability)) {
+      setShouldCallOnChange(true);
+    }
+  }, [availability, initialAvailability]);
+
+  useEffect(() => {
+    if (shouldCallOnChange) {
+      onChange(availability);
+      setShouldCallOnChange(false);
+    }
+  }, [shouldCallOnChange, availability, onChange]);
+
+  useEffect(() => {
     const stopDrag = () => setDragging(false);
     window.addEventListener('mouseup', stopDrag);
-    
-    //remove when mouseup from global
     return () => {
       window.removeEventListener('mouseup', stopDrag);
     };
@@ -58,11 +71,11 @@ function Availability({ initialAvailability, onChange }) {
               onChange={(e) => handlePreferenceChange(dayIndex, e.currentTarget.value)}
             />
           </Modal>
-          <div className="divide-x divide-gray-200 flex flex-row">
+          <div className="divide-x divide-gray-200 flex flex-row text-center items-center justify-center">
             {availability[dayIndex].hours.map((available, hourIndex) => (
               <button
                 key={hourIndex}
-                className={`"px-4 py-2 w-20 h-20 text-center text-sm cursor-pointer flex items-center justify-center"
+                className={`"px-4 py-2 w-20 h-20 text-center text-sm cursor-pointer flex items-center justify-center text-justify"
                 ${available ? 'bg-green-400 hover:bg-green-200 ' : 'bg-red-400 hover:bg-red-200'}`}
                 onMouseDown={() => handleMouseDown(dayIndex, hourIndex)}
                 onMouseEnter={() => handleMouseEnter(dayIndex, hourIndex)}

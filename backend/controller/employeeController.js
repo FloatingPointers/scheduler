@@ -50,12 +50,12 @@ exports.updateSettings = asyncHandler(async(req, res, next) => {
   const {firstName, lastName, availability} = req.body;
 
   let employee = await Employee.findById(req.user.accountRef);
-  
+  console.log(availability)
   employee.firstName = firstName;
   employee.lastName = lastName;
   employee.availability = availability;
-
   await employee.save();
+  console.log(employee.availability);
 
   return res.status(200).json({success: true});
   
