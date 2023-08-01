@@ -17,7 +17,7 @@ function SchedulerHome() {
 
   //GET a list of all schedules from the database
   const [schedules, setSchedules] = useState([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
 
   const [recent, setRecent] = useState([]);
 
@@ -25,6 +25,26 @@ function SchedulerHome() {
   const [nextScheduleStartDates, setNextScheduleStartDates] = useState([new Date()]);
 
 
+
+  const updatePage = async(value) => {
+
+    if(value < 0) {
+      return;
+    }
+
+    axiosInstance.post('/scheduler/paginatedSchedules', { page: value } )
+    .then((res) => {
+      if(!res.data || res.data.length === 0) return;
+      else {
+        setPage(value);
+        setSchedules(res.data)
+      }
+    })
+    .catch((err) => {
+      
+    })    
+
+  }
 
 
 
@@ -143,7 +163,7 @@ function SchedulerHome() {
 
       <ManagerNavbar />
 
-      <div className="flex flex-col justify-start items-center bg-slate-100 w-screen h-screen text-lg">
+      <div className="flex flex-col justify-start items-center bg-slate-100 w-screen text-lg">
         <h1 className="text-3xl font-semibold pt-8">Recent Schedules</h1>
 
         <ul className="px-16 py-8 w-full flex flex-row justify-center items-stretch gap-12">
@@ -200,13 +220,17 @@ function SchedulerHome() {
         </ul>
 
 
-        <div className="w-full px-16 pt-8">
-          <div className="w-full bg-slate-50 border border-slate-200 rounded shadow-md">
+        <div className="w-full px-16 pt-8 pb-16">
+          <div className="w-full bg-slate-50 border border-slate-200 rounded shadow-md p-6">
             
-            <h2 className="font-semibold text-2xl pt-6 pl-6">All Schedules</h2>
-            <hr class="h-px bg-slate-200 border-0 m-6"></hr>
+            <div className="flex flex-row w-full items-center justify-between space-between">
+              <h2 className="font-semibold text-2xl">All Schedules</h2>
+              <p>Page {page+1}</p>
+            </div>
 
-            <table className="px-6 pb-6 block w-full">
+            <hr class="h-px bg-slate-200 border-0 mt-6 mb-6"></hr>
+
+            <table className="block w-full">
               <thead className=''> 
                 <tr className='text-xl'>
                   <th className="w-1/5 text-left font-semibold pl-4">Start Date</th>
@@ -237,6 +261,12 @@ function SchedulerHome() {
                 ))}
               </tbody>
             </table>
+            
+            
+            <div className="flex w-full flex-row justify-center items-center gap-4 pt-6">
+              <button className="bg-blue-200 shadow-sm rounded px-2 py-1 hover:bg-blue-100 transition-colors m-2" onClick={() => {updatePage(page-1)}}>Prev Page</button>
+              <button className="bg-blue-200 shadow-sm rounded px-2 py-1 hover:bg-blue-100 transition-colors m-2" onClick={() => {updatePage(page+1)}}>Next Page</button>
+            </div>
           </div>
         </div>
 
