@@ -52,7 +52,7 @@ router.get('/store/getSettings', passport.authenticate('jwt', { session: false }
 //employee routes
 
 /*
-  POST - Update the current settings
+  PUT - Update the current settings
   Request Body: {
     employeeSettings: {
       name

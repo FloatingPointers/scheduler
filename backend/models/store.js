@@ -9,9 +9,11 @@ const Store = new mongoose.Schema({
     employees: [{
         employeeId: mongoose.ObjectId,
     }],
+
     schedules: [{
         scheduleId: mongoose.ObjectId,
     }],
+    
     inviteCode: {
         type: String,
         required: true
