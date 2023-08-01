@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
-import ManagerNavbar from '../../components/manager-components/ManagerNavbar';
-import '../../styles/manager.css';
+import ManagerNavbar from "../../components/manager-components/ManagerNavbar";
+import "../../styles/manager.css";
 import HourlyView from "../../components/manager-components/scheduler-components/HourlyView";
 import WorkingView from "../../components/manager-components/scheduler-components/WorkingView";
 import EmployeeSelector from "../../components/manager-components/scheduler-components/EmployeeSelector";
 import EditingView from "../../components/manager-components/scheduler-components/EditingView";
 
-
 function ScheduleManager() {
-
-
   //Format type
   let [info, setInfo] = useState({
     _id: "ObjectId",
@@ -44,7 +41,6 @@ function ScheduleManager() {
         ],
         totalHours: 13,
         totalCost: 4000,
-
       },
       {
         goalsMet: false,
@@ -60,7 +56,7 @@ function ScheduleManager() {
       },
     ],
   });
-  
+
   let shiftInfo = info.format[0];
 
   //Setting the start and end time for a shift using any approach
@@ -69,33 +65,38 @@ function ScheduleManager() {
     employee: "",
     employeeID: -1,
     start: "",
-    end: ""
-  }); 
-
-
-
-
-
+    end: "",
+  });
 
   //NEEDS MULTIPLE COMPONENT BREAKDOWN
   return (
-
     <div className="manager-body ">
       <ManagerNavbar />
-      <HourlyView shiftInfo={shiftInfo} currentShift={currentShift} setCurrentShift={setCurrentShift}/>
-      
+      <HourlyView
+        shiftInfo={shiftInfo}
+        currentShift={currentShift}
+        setCurrentShift={setCurrentShift}
+      />
+
       <div className="scheduler-lower-component-container">
         <div className="scheduler-lower-component">
-          <EmployeeSelector  currentShift={currentShift} setCurrentShift={setCurrentShift}/>
+          <EmployeeSelector
+            currentShift={currentShift}
+            setCurrentShift={setCurrentShift}
+          />
         </div>
-        <div className="scheduler-lower-component"><EditingView currentShift={currentShift} setCurrentShift={setCurrentShift}/></div>
-        <div className="scheduler-lower-component"><WorkingView /></div>
+        <div className="scheduler-lower-component">
+          <EditingView
+            currentShift={currentShift}
+            setCurrentShift={setCurrentShift}
+          />
+        </div>
+        <div className="scheduler-lower-component">
+          <WorkingView />
+        </div>
       </div>
-
     </div>
-
   );
-
 }
 
 export default ScheduleManager;

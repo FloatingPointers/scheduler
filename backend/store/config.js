@@ -1,8 +1,8 @@
 const config = {
   passport: {
-    secret: 'secret',
+    secret: "secret",
     expiresIn: 10000,
-  }
+  },
 };
 
 module.exports = config;

@@ -52,8 +52,10 @@ function InviteCode() {
         className="bg-slate-300 px-3 py-1 rounded shadow-sm hover:bg-red-200"
         onClick={handleRefreshInviteCode}
         disabled={disabled}
-      > {disabled ? <Loader/> : "New Code"} </button>
-
+      >
+        {" "}
+        {disabled ? <Loader /> : "New Code"}{" "}
+      </button>
     </div>
   );
 }

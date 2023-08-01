@@ -4,30 +4,33 @@ import { differenceInHours, format, add, compareAsc } from "date-fns";
 import "../../../styles/manager.css";
 
 function HourlyView(props) {
-
   let { shiftInfo, currentShift } = props;
-  let selectionStartTime = currentShift.start ? new Date([shiftInfo.date + "T" + currentShift.start]) : null;
-  let selectionEndTime = currentShift.end ? new Date([shiftInfo.date + "T" + currentShift.end]) : null;
-  
+  let selectionStartTime = currentShift.start
+    ? new Date([shiftInfo.date + "T" + currentShift.start])
+    : null;
+  let selectionEndTime = currentShift.end
+    ? new Date([shiftInfo.date + "T" + currentShift.end])
+    : null;
+
   let setSelectionStartTime = (date) => {
     props.setCurrentShift({
       ...currentShift,
       start: date ? format(date, "HH:mm") : "",
     });
-  }
+  };
   let setSelectionEndTime = (date) => {
     props.setCurrentShift({
       ...currentShift,
       end: date ? format(date, "HH:mm") : "",
     });
-  }
+  };
   let setSelectionTime = (start, end) => {
     props.setCurrentShift({
       ...currentShift,
       start: start ? format(start, "HH:mm") : "",
-      end:  end ? format(end, "HH:mm") : "",
+      end: end ? format(end, "HH:mm") : "",
     });
-  }
+  };
 
   let startTime = new Date([shiftInfo.date + "T" + shiftInfo.startTime]);
   let startTimeRound = new Date(startTime.getTime());
@@ -49,7 +52,6 @@ function HourlyView(props) {
       let newStart = new Date(startTime.getTime());
       newStart = add(newStart, { hours: index });
       setSelectionStartTime(newStart);
-
     } else if (selectionEndTime === null) {
       let newEnd = new Date(startTime.getTime());
       newEnd = add(newEnd, { hours: index });
@@ -61,7 +63,6 @@ function HourlyView(props) {
       } else {
         setSelectionEndTime(newEnd);
       }
-
     } else {
       //Clear selection if both start and end times are selected
       setSelectionTime(null, null);
@@ -80,13 +81,18 @@ function HourlyView(props) {
         compareAsc(cur_date, selectionStartTime) === 1 &&
         compareAsc(cur_date, selectionEndTime) === -1;
 
-      let selection_start = selectionStartTime !== null && cur_date.getHours() === selectionStartTime.getHours();
-      let selection_end = selectionEndTime !== null && cur_date.getHours() === selectionEndTime.getHours();
+      let selection_start =
+        selectionStartTime !== null &&
+        cur_date.getHours() === selectionStartTime.getHours();
+      let selection_end =
+        selectionEndTime !== null &&
+        cur_date.getHours() === selectionEndTime.getHours();
 
-      let classList = "px-4 py-2 w-20 h-20 text-center text-sm cursor-pointer hover:bg-blue-200 flex items-center justify-center";
-      if(selected) classList += " bg-blue-400";
-      if(selection_start) classList += " bg-green-400";
-      if(selection_end) classList += " bg-green-400";
+      let classList =
+        "px-4 py-2 w-20 h-20 text-center text-sm cursor-pointer hover:bg-blue-200 flex items-center justify-center";
+      if (selected) classList += " bg-blue-400";
+      if (selection_start) classList += " bg-green-400";
+      if (selection_end) classList += " bg-green-400";
 
       hoursContent.push(
         <li
@@ -108,7 +114,9 @@ function HourlyView(props) {
 
   return (
     <div className="flex bg-slate-100 shadow rounded-lg overflow-hidden flex-col m-5 w-11/12 shadow-slate-600">
-      <ul className="divide-x divide-gray-200 flex flex-row">{generateHoursContent()}</ul>
+      <ul className="divide-x divide-gray-200 flex flex-row">
+        {generateHoursContent()}
+      </ul>
     </div>
   );
 }

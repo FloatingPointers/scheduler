@@ -1,14 +1,15 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const passport = require('passport');
-const { applyUserStrategy, storeAuth, employeeAuth } = require('../store/passport.js');
+const passport = require("passport");
+const {
+  applyUserStrategy,
+  storeAuth,
+  employeeAuth,
+} = require("../store/passport.js");
 applyUserStrategy(passport);
-const storeController = require('../controller/storeController');
-const employeeController = require('../controller/employeeController');
-
-
-
+const storeController = require("../controller/storeController");
+const employeeController = require("../controller/employeeController");
 
 //store routes
 
@@ -29,7 +30,12 @@ const employeeController = require('../controller/employeeController');
   }
 */
 
-router.put('/store/updateSettings', passport.authenticate('jwt', { session: false }), storeAuth, storeController.updateSettings);
+router.put(
+  "/store/updateSettings",
+  passport.authenticate("jwt", { session: false }),
+  storeAuth,
+  storeController.updateSettings
+);
 
 /*
     GET - Get the current settings
@@ -44,10 +50,12 @@ router.put('/store/updateSettings', passport.authenticate('jwt', { session: fals
         }
     }
 */
-router.get('/store/getSettings', passport.authenticate('jwt', { session: false }), storeAuth, storeController.getSettings);
-
-
-
+router.get(
+  "/store/getSettings",
+  passport.authenticate("jwt", { session: false }),
+  storeAuth,
+  storeController.getSettings
+);
 
 //employee routes
 
@@ -75,7 +83,12 @@ router.get('/store/getSettings', passport.authenticate('jwt', { session: false }
   }
 */
 
-router.put('/employee/updateSettings', passport.authenticate('jwt', { session: false }), employeeAuth, employeeController.updateSettings);
+router.put(
+  "/employee/updateSettings",
+  passport.authenticate("jwt", { session: false }),
+  employeeAuth,
+  employeeController.updateSettings
+);
 
 /*
     GET - Get the current settings
@@ -98,7 +111,11 @@ router.put('/employee/updateSettings', passport.authenticate('jwt', { session: f
     }
 */
 
-router.get('/employee/getSettings', passport.authenticate('jwt', { session: false }), employeeAuth, employeeController.getSettings);
+router.get(
+  "/employee/getSettings",
+  passport.authenticate("jwt", { session: false }),
+  employeeAuth,
+  employeeController.getSettings
+);
 
 module.exports = router;
-

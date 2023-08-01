@@ -1,14 +1,14 @@
-var express = require('express');
+var express = require("express");
 const router = express.Router();
 
-const userController = require('../controller/userController');
+const userController = require("../controller/userController");
 
 /*  Request body 
       token
     Response data
       success - Bool
 */
-router.post('/verifyToken', userController.verifyToken);
+router.post("/verifyToken", userController.verifyToken);
 
 /*  Request body 
       token
@@ -16,7 +16,7 @@ router.post('/verifyToken', userController.verifyToken);
     Response data
       success - Bool
 */
-router.put('/reset', userController.changePassword);
+router.put("/reset", userController.changePassword);
 
 /*  Request body 
       email
@@ -25,9 +25,6 @@ router.put('/reset', userController.changePassword);
        or
       error - invalid token
 */
-router.post('/request', userController.forgotPassword);
-
+router.post("/request", userController.forgotPassword);
 
 module.exports = router;
-
-

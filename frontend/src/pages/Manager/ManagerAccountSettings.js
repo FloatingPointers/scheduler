@@ -1,16 +1,34 @@
 import React, { useState, useEffect } from "react";
-import ManagerNavbar from '../../components/manager-components/ManagerNavbar';
-import { Virtuoso } from 'react-virtuoso';
-import axios from 'axios';
-import { Modal, Button, Group, Inp } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks';
-import { TiDelete } from 'react-icons/ti'
+import ManagerNavbar from "../../components/manager-components/ManagerNavbar";
+import { Virtuoso } from "react-virtuoso";
+import axios from "axios";
+import { Modal, Button, Group, Inp } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
+import { TiDelete } from "react-icons/ti";
 import axiosInstance from "../../Axios";
-import { getDay, setDay, setHours, setMinutes, parseISO, formatISO, startOfDay, getHours, getMinutes } from "date-fns";
+import {
+  getDay,
+  setDay,
+  setHours,
+  setMinutes,
+  parseISO,
+  formatISO,
+  startOfDay,
+  getHours,
+  getMinutes,
+} from "date-fns";
 
-import '../../styles/manager.css';
+import "../../styles/manager.css";
 
-const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+const daysOfWeek = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
 const hourTimes = [];
 for (let i = 0; i < 24; i++) {
@@ -19,7 +37,6 @@ for (let i = 0; i < 24; i++) {
   hourTimes.push(`${hour}:30`);
 }
 
-
 function ManagerAccountSettings() {
   const [unsavedChanges, setUnsavedChanges] = useState(false);
   const [state, setState] = useState({
@@ -27,12 +44,12 @@ function ManagerAccountSettings() {
     settings: {
       startDay: 0,
       endDay: 0,
-      openTime: '00:00',
-      closeTime: '00:00',
+      openTime: "00:00",
+      closeTime: "00:00",
       roles: [],
     },
   });
-  const [newRole, setNewRole] = useState('');
+  const [newRole, setNewRole] = useState("");
 
   const handleChange = (event) => {
     const { id, value } = event.target;
@@ -61,21 +78,21 @@ function ManagerAccountSettings() {
     }
 
     setUnsavedChanges(true);
-};
-
-
+  };
 
   const handleSave = async () => {
-
-    if(+state.settings.startDay === +state.settings.endDay) {
+    if (+state.settings.startDay === +state.settings.endDay) {
       alert("Start day must not be end day");
       return;
     }
     try {
-      const response = await axiosInstance.put('/settings/store/updateSettings', {
-        name: state.name,
-        settings: state.settings
-      });
+      const response = await axiosInstance.put(
+        "/settings/store/updateSettings",
+        {
+          name: state.name,
+          settings: state.settings,
+        }
+      );
 
       const { success } = response.data;
       if (success) {
@@ -92,7 +109,7 @@ function ManagerAccountSettings() {
   useEffect(() => {
     const getSettings = async () => {
       try {
-        const response = await axiosInstance.get('/settings/store/getSettings');
+        const response = await axiosInstance.get("/settings/store/getSettings");
         const { settings } = response.data;
 
         setState((prevState) => ({
@@ -154,8 +171,8 @@ function ManagerAccountSettings() {
       ...prevState,
       settings: {
         ...prevState.settings,
-        roles: updatedRoles
-      }
+        roles: updatedRoles,
+      },
     }));
     setUnsavedChanges(true);
   };
@@ -175,8 +192,17 @@ function ManagerAccountSettings() {
         <div className="flex  justify-center items-center gap-3 p-10 flex-col w-full">
           <h2>Change Account Settings</h2>
           <div className="">
-            <label className="p-2" htmlFor="name">Store Name</label>
-            <input id="name" name="name" type="text" value={state.name} onChange={handleChange} className="border border-gray-300 rounded-md px-3 py-2" />
+            <label className="p-2" htmlFor="name">
+              Store Name
+            </label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              value={state.name}
+              onChange={handleChange}
+              className="border border-gray-300 rounded-md px-3 py-2"
+            />
           </div>
           <div className="">
             <label htmlFor="startDay">Schedule Start Day</label>
@@ -216,7 +242,7 @@ function ManagerAccountSettings() {
             <select
               id="openTime"
               name="openTime"
-              value={state.settings.openTime} 
+              value={state.settings.openTime}
               onChange={handleChange}
               className="border border-gray-300 rounded-md px-3 py-2"
             >
@@ -232,7 +258,7 @@ function ManagerAccountSettings() {
             <select
               id="closeTime"
               name="closeTime"
-              value={state.settings.closeTime} 
+              value={state.settings.closeTime}
               onChange={handleChange}
               className="border border-gray-300 rounded-md px-3 py-2"
             >
@@ -243,18 +269,36 @@ function ManagerAccountSettings() {
               ))}
             </select>
           </div>
-          <Button onClick={open} className="px-3 py-2 bg-blue-500 text-white rounded-md">Manage Roles</Button>
+          <Button
+            onClick={open}
+            className="px-3 py-2 bg-blue-500 text-white rounded-md"
+          >
+            Manage Roles
+          </Button>
           {unsavedChanges && (
             <div>
-              <button onClick={handleSave} className="px-3 py-2 bg-green-500 text-white rounded-md">Save Changes</button>
+              <button
+                onClick={handleSave}
+                className="px-3 py-2 bg-green-500 text-white rounded-md"
+              >
+                Save Changes
+              </button>
             </div>
           )}
         </div>
       </div>
-      <Modal opened={opened} onClose={close} size="50%" shadow="md" padding="xl" title="Manage Roles" centered >
+      <Modal
+        opened={opened}
+        onClose={close}
+        size="50%"
+        shadow="md"
+        padding="xl"
+        title="Manage Roles"
+        centered
+      >
         <div className="w-full h-full flex flex-col justify-center items-center ">
           <Virtuoso
-            style={{ height: '400px', width: '400px' }}
+            style={{ height: "400px", width: "400px" }}
             data={state.settings.roles}
             itemContent={(index, role) => (
               <div key={index} className="px-5 gap-5 w-full h-full">
@@ -264,13 +308,31 @@ function ManagerAccountSettings() {
                   onChange={(event) => handleRoleChange(event, index)}
                   className="border border-gray-300 rounded-md px-3 py-2 m-1"
                 />
-                <button onClick={() => handleDelete(index)} className="px-3 py-2 bg-red-500 text-white rounded-md gap-20"><TiDelete /></button>
+                <button
+                  onClick={() => handleDelete(index)}
+                  className="px-3 py-2 bg-red-500 text-white rounded-md gap-20"
+                >
+                  <TiDelete />
+                </button>
               </div>
             )}
           />
           <div className="">
-            <input id="addRole" name="addRole" type="text" value={newRole} onChange={handleNewRole} className="border border-gray-300 rounded-md px-3 py-2 m-1" onKeyPress={handleEnterButton} />
-            <button onClick={handleAddRole} className="px-3 py-2 bg-blue-500 text-white rounded-md">Add Role</button>
+            <input
+              id="addRole"
+              name="addRole"
+              type="text"
+              value={newRole}
+              onChange={handleNewRole}
+              className="border border-gray-300 rounded-md px-3 py-2 m-1"
+              onKeyPress={handleEnterButton}
+            />
+            <button
+              onClick={handleAddRole}
+              className="px-3 py-2 bg-blue-500 text-white rounded-md"
+            >
+              Add Role
+            </button>
           </div>
         </div>
       </Modal>
