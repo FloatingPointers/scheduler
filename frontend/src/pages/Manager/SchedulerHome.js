@@ -11,6 +11,10 @@ import { generateDummySchedule } from "../../test/TestingFunctions.js";
 
 
 
+const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+
+
 
 function SchedulerHome() {
   const navigate = useNavigate();
@@ -22,7 +26,9 @@ function SchedulerHome() {
   const [recent, setRecent] = useState([]);
 
   //The next few schedule start dates (get from db)
-  const [nextScheduleStartDates, setNextScheduleStartDates] = useState([new Date()]);
+  const [scheduleStartDate, setScheduleStartDate] = useState([new Date()]);
+  const [monthsFromNow, setMonthsFromNow] = useState([new Date()]);
+  const [selectedMonth, setSelectedMonth] = useState(new Date());
 
 
 
@@ -70,6 +76,14 @@ function SchedulerHome() {
     .catch((err) => {
 
     })    
+
+    let mo = new Date();
+    let nextMo = []
+    for(let i = 0; i < 12; i++) {
+      nextMo.push(new Date(mo.getTime()));
+      mo.setMonth(mo.getMonth()+1);
+    }
+    setMonthsFromNow(nextMo);
     
     /*nextScheduleStartDay = new Date();
     let dayOfWeek = nextScheduleStartDay.getDate() % 7;
@@ -93,13 +107,15 @@ function SchedulerHome() {
       return;
     }
 
-    let closeTime = new Date(event.target.scheduleStartDate.value);
+    let startDate = new Date(event.target.month.value, event.target.year.value, event.target.day.value);
+
+    let closeTime = new Date(startDate);
     closeTime.setHours(event.target.closeTime.value);
-    let openTime = new Date(event.target.scheduleStartDate.value);
+    let openTime = new Date(startDate);
     openTime.setHours(event.target.openTime.value)
 
     axiosInstance.post('/scheduler/create', {
-      startDate: new Date(event.target.scheduleStartDate.value),
+      startDate: startDate,
       startTime: openTime,
       endTime: closeTime,
     }).then((res) => {
@@ -122,6 +138,12 @@ function SchedulerHome() {
   }
 
 
+  const handleSelectMonth = (event) => {
+    let mo = new Date();
+    mo.setMonth(event.target.value);
+    document.getElementById("daySelector").value = 1;
+    setSelectedMonth(mo);
+  }
 
 
 
@@ -133,15 +155,29 @@ function SchedulerHome() {
 
       <Modal opened={opened} onClose={close} title="New Schedule" classNames={{ header: "h-1/4 gap-4 p-4 bg-blue-100", title: "text-xl font-semibold"}}> 
         <form name="createScheduleForm" onSubmit={handleCreateSchedule} className="p-4 flex flex-col gap-6">
-          <div className="flex flex-col shrink">
-            <label htmlFor="scheduleStartDate" className="">Start Date </label>
-            <select required name="scheduleStartDate" className="p-1 bg-slate-200 rounded font-light">
-              {
-                nextScheduleStartDates.map((date) => 
-                  <option value={date}>{format(date, "MMMM dd")}</option>
-                )
-              }
-            </select>
+
+          <div className="flex flex-row justify-between">
+            <div className="flex flex-col w-1/3">
+              <label htmlFor="month" className="">Month</label>
+              <select required name="month" onChange={handleSelectMonth} className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full h-full">
+                {
+                  monthsFromNow.map((month) => {
+                    return (<option value={month.getMonth()}>{format(month, "MMMM")}</option>);
+                  })
+                }
+              </select>
+            </div>
+
+            <div className="flex flex-col w-1/4">
+              <label htmlFor="day" className="">Day</label>
+              {console.log(selectedMonth.getMonth())}
+              <input type="number" name="day" id="daySelector" required defaultValue={new Date().getDay()} min={1} max={daysInMonth[selectedMonth.getMonth()]} className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full"></input>
+            </div>
+
+            <div className="flex flex-col w-1/4">
+              <label htmlFor="year" className="">Year</label>
+              <input type="number" name="year" required defaultValue={new Date().getUTCFullYear()} min={2020} max={2050} className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full"></input>
+            </div>
           </div>
             
           <div className="flex flex-row gap-8">
