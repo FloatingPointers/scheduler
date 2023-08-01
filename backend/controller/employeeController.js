@@ -47,11 +47,13 @@ exports.deleteEmployee = asyncHandler(async(req, res, next) => {
 
 exports.updateSettings = asyncHandler(async(req, res, next) => {
   
-  let employee = await Employee.findById(req.user.id);
+  const {firstName, lastName, availability} = req.body;
+
+  let employee = await Employee.findById(req.user.accountRef);
   
-  employee.name = req.body.name;
-  employee.email = req.body.email;
-  employee.availability = req.body.availability;
+  employee.firstName = firstName;
+  employee.lastName = lastName;
+  employee.availability = availability;
 
   await employee.save();
 
@@ -61,8 +63,14 @@ exports.updateSettings = asyncHandler(async(req, res, next) => {
 
 exports.getSettings = asyncHandler(async(req, res, next) => {
   
-  let employee = await Employee.findById(req.user.id);
+  let employee = await Employee.findById(req.user.accountRef);
+  const {firstName, lastName, availability} = employee;
+
       
-  return res.status(200).json({employee : employee}); 
+  return res.status(200).json({
+    firstName,
+    lastName,
+    availability
+  }); 
     
 });
