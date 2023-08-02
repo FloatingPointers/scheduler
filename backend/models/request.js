@@ -14,15 +14,15 @@ const Request = new mongoose.Schema({
     default: new Date(),
   },
 
+  end: {
+    type: Date,
+    default: new Date(),
+  },
+
   status: {
     type: String,
     enum: ["PENDING", "DENIED", "APPROVED"],
     default: "PENDING",
-  },
-
-  end: {
-    type: Date,
-    default: new Date(),
   },
 
   storeId: {
@@ -33,7 +33,7 @@ const Request = new mongoose.Schema({
     name: {
       type: String,
     },
-    userId: {
+    id: {
       type: mongoose.ObjectId,
     },
   },

@@ -5,6 +5,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, TextInput } from "@mantine/core";
 import "../../styles/employee.css";
 import axiosInstance from "../../Axios";
+import Request from "../../components/employee-components/Request";
 
 function EmployeeRequests() {
   const [activeRequests, setActiveRequests] = useState([]);
@@ -13,30 +14,32 @@ function EmployeeRequests() {
   const [opened, { open, close }] = useDisclosure(false);
   const [submitLoading, setSubmitLoading] = useState(false);
 
-  const getRequests = async () => {
+  const getRequests = async (update = false) => {
     try {
-      if (activeRequests) {
+      if (activeRequests.length !== 0 && !update) {
         return;
       }
-      const requests = await axiosInstance.get("/requests/emp/active");
-      setActiveRequests(requests);
+      const res = await axiosInstance.get(
+        "/employeeRequests/request/getPage/0"
+      );
+      setActiveRequests(res.data);
     } catch (err) {
       console.log("Error:", err);
     }
   };
   const getArchived = async () => {
-    try {
-      if (archived) {
-        return;
-      }
-      const requests = await axiosInstance.get("/requests/emp/archived");
-      setArchived(requests);
-    } catch (err) {
-      console.log("Error:", err);
-    }
+    // try {
+    //   if (archived) {
+    //     return;
+    //   }
+    //   const requests = await axiosInstance.get("/requests/emp/:id/archived");
+    //   setArchived(requests);
+    // } catch (err) {
+    //   console.log("Error:", err);
+    // }
   };
 
-  useEffect(() => {
+  useEffect((activeRequests, archived) => {
     getRequests();
     getArchived();
   }, []);
@@ -55,22 +58,22 @@ function EmployeeRequests() {
 
     try {
       const res = await axiosInstance.post(
-        "/manageRequests/request/create",
+        "/employeeRequests/request/create",
         params
       );
-      if (!res.error) {
+      if (!res.data.error) {
         close();
-        getRequests();
+        await getRequests(true);
       }
+      setSubmitLoading(false);
     } catch (err) {
       console.log("ERROR: Create Employee Req: " + err);
-    } finally {
       setSubmitLoading(false);
     }
   };
 
   return (
-    <div className="body w-screen">
+    <div className="body w-screen bg-slate-50">
       <Navbar />
       <Modal
         opened={opened}
@@ -97,7 +100,7 @@ function EmployeeRequests() {
               type="text"
               name="description"
               required
-              maxlength="300"
+              maxLength="300"
               className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full h-24 resize-none leading-tight"
             />
           </div>
@@ -145,7 +148,7 @@ function EmployeeRequests() {
 
         <div className="flex justify-end">
           <button
-            className="bg-blue-600 text-white p-3 rounded-md mt-4 active:bg-blue-500 transition"
+            className="bg-blue-600 mb-4 text-white p-3 rounded-md mt-4 active:bg-blue-500 transition"
             onClick={open}
           >
             Create New Request
@@ -156,10 +159,7 @@ function EmployeeRequests() {
           <div className="space-y-4">
             {activeRequests.map((req) => (
               <div className="">
-                <h3 className="text-xl font-semibold mb-2">{req.title}</h3>
-                {/* name, status: (pending, denied, approved), description dropdown
-                    Date Range, Length?
-                 */}
+                <Request data={req} />
               </div>
             ))}
           </div>

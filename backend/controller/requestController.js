@@ -4,13 +4,17 @@ const asyncHandler = require("express-async-handler");
 exports.createReq = asyncHandler(async (req, res, next) => {
   let request = new Request({
     ...req.body,
+    senderTag: {
+      name: req.user.name,
+      id: req.user._id,
+    },
   });
   await request.save();
   return res.status(200).json(request);
 });
 
 exports.getPage = asyncHandler(async (req, res, next) => {
-  const requests = await Request.find({})
+  const requests = await Request.find({ "senderTag.id": req.user._id })
     .skip(10 * req.params.page)
     .limit(10)
     .sort({ start: -1 });

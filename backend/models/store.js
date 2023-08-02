@@ -1,11 +1,6 @@
 const mongoose = require("mongoose");
 
 const Store = new mongoose.Schema({
-  name: {
-    //The name of the store or manager in charge
-    type: String,
-  },
-
   employees: [
     {
       employeeId: mongoose.ObjectId,
