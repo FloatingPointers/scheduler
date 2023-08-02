@@ -68,7 +68,7 @@ router.get(
     ]
   }
 */
-router.post(
+router.get(
   "/paginatedSchedules",
   passport.authenticate("jwt", { session: false }),
   storeAuth,

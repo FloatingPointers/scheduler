@@ -3,7 +3,7 @@ let Store = require("../models/store");
 const asyncHandler = require("express-async-handler");
 
 function padTimeUnit(unit) {
-  return unit.toString().padStart(2, '0');
+  return unit.toString().padStart(2, "0");
 }
 
 exports.updateSettings = asyncHandler(async (req, res, next) => {
@@ -12,10 +12,10 @@ exports.updateSettings = asyncHandler(async (req, res, next) => {
 
   // Get current Store model from the database.
   let store = await Store.findById(req.user.accountRef);
-  
+
   // Create date objects for openTime and closeTime
-  const openTimeParts = openTime.split(':').map(Number);
-  const closeTimeParts = closeTime.split(':').map(Number);
+  const openTimeParts = openTime.split(":").map(Number);
+  const closeTimeParts = closeTime.split(":").map(Number);
 
   // Create a base date object from epoch time
   const baseDate = new Date(0);
@@ -33,23 +33,27 @@ exports.updateSettings = asyncHandler(async (req, res, next) => {
     endDay: endDay,
     openTime: openTimeDate,
     closeTime: closeTimeDate,
-    roles
+    roles,
   };
 
   await store.save();
-  
+
   return res.status(200).json({ success: true });
 });
 
 exports.getSettings = asyncHandler(async (req, res, next) => {
   const store = await Store.findById(req.user.accountRef);
-  const {settings, name} = store;
+  const { settings, name } = store;
 
-  const {startDay, endDay} = settings; //end day is a string for some reason
+  const { startDay, endDay } = settings; //end day is a string for some reason
 
   // Extract hours and minutes from Date object and pad with 0 if necessary
-  const openTime = `${padTimeUnit(settings.openTime.getUTCHours())}:${padTimeUnit(settings.openTime.getUTCMinutes())}`;
-  const closeTime = `${padTimeUnit(settings.closeTime.getUTCHours())}:${padTimeUnit(settings.closeTime.getUTCMinutes())}`;
+  const openTime = `${padTimeUnit(
+    settings.openTime.getUTCHours()
+  )}:${padTimeUnit(settings.openTime.getUTCMinutes())}`;
+  const closeTime = `${padTimeUnit(
+    settings.closeTime.getUTCHours()
+  )}:${padTimeUnit(settings.closeTime.getUTCMinutes())}`;
 
   return res.status(200).json({
     name,
@@ -58,20 +62,17 @@ exports.getSettings = asyncHandler(async (req, res, next) => {
       startDay,
       endDay,
       openTime,
-      closeTime
-    }
+      closeTime,
+    },
   });
 });
 
-
-
-//returns invite code 
+//returns invite code
 exports.getInviteCode = asyncHandler(async (req, res, next) => {
-
-  return res.status(200).json(await Store.findById(req.user.accountRef).select('inviteCode'));
-   
-}
-);
+  return res
+    .status(200)
+    .json(await Store.findById(req.user.accountRef).select("inviteCode"));
+});
 
 exports.getNewInviteCode = asyncHandler(async (req, res, next) => {
   let store = await Store.findById(req.user.accountRef);
@@ -85,6 +86,5 @@ exports.getNewInviteCode = asyncHandler(async (req, res, next) => {
   store.inviteCode = inviteCode;
   await store.save();
 
-  return res.status(200).json({ inviteCode : inviteCode });
-
-})
+  return res.status(200).json({ inviteCode: inviteCode });
+});

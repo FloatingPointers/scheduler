@@ -1,41 +1,35 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const Employee = new mongoose.Schema({
-
-  
   username: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
-    required: true
+    required: true,
   },
 
   //Optional, for display / searching purposes
   firstName: {
-    type: String
+    type: String,
   },
   lastName: {
-    type: String
+    type: String,
   },
 
   //A reference to the store that this employee is currently in (if any)
   employer: {
-    type: mongoose.ObjectId
+    type: mongoose.ObjectId,
   },
 
   //The weekly availability of this employee
   availability: [
     {
       preference: { type: String }, // Message of employee preference
-      hours: [{ type: Boolean }]
-    }
-  ]
-  
-
-  
-
+      hours: [{ type: Boolean }],
+    },
+  ],
 });
 
-module.exports = mongoose.model('EMPLOYEE', Employee);
+module.exports = mongoose.model("EMPLOYEE", Employee);

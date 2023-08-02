@@ -1,76 +1,60 @@
 let Employee = require("../models/employee");
 const asyncHandler = require("express-async-handler");
 
-
-
 const EMPLOYEE_QUERY_LIMIT = 20;
 
-
-
-exports.available = asyncHandler(async(req, res, next) => {
-    
-  let available = await Employee.find({storeId: req.params.id}).
-    select({
-      [`availability.day.${req.body.dayIndex}.hours`] : {
+exports.available = asyncHandler(async (req, res, next) => {
+  let available = await Employee.find({ storeId: req.params.id })
+    .select({
+      [`availability.day.${req.body.dayIndex}.hours`]: {
         $all: [true],
         $slice: [req.body.startHour, req.body.endHour - req.body.startHour + 1], //remove +1 if broken
-      }
-    }).limit(EMPLOYEE_QUERY_LIMIT);
+      },
+    })
+    .limit(EMPLOYEE_QUERY_LIMIT);
 
   return res.status(200).json(available);
 });
 
-
-exports.allEmployees = asyncHandler(async(req, res, next) => {
-  
+exports.allEmployees = asyncHandler(async (req, res, next) => {
   //passportjs adds user property after authenticating
-  let user = req.user;  
+  let user = req.user;
 
-  console.log(user.accountRef)
+  console.log(user.accountRef);
   let employeesFromSchedule = await Employee.find({
-    employer: user.accountRef
+    employer: user.accountRef,
   });
 
   return res.status(200).json(employeesFromSchedule);
-
 });
 
-exports.deleteEmployee = asyncHandler(async(req, res, next) => {
-
+exports.deleteEmployee = asyncHandler(async (req, res, next) => {
   await Employee.findByIdAndDelete(req.params.id);
 
   return res.status(200);
-
 });
 
-
-
-exports.updateSettings = asyncHandler(async(req, res, next) => {
-  
-  const {firstName, lastName, availability} = req.body;
+exports.updateSettings = asyncHandler(async (req, res, next) => {
+  const { firstName, lastName, availability } = req.body;
 
   let employee = await Employee.findById(req.user.accountRef);
-  console.log(availability)
+  console.log(availability);
   employee.firstName = firstName;
   employee.lastName = lastName;
   employee.availability = availability;
   await employee.save();
   console.log(employee.availability);
 
-  return res.status(200).json({success: true});
-  
+  return res.status(200).json({ success: true });
 });
 
-exports.getSettings = asyncHandler(async(req, res, next) => {
-  
+exports.getSettings = asyncHandler(async (req, res, next) => {
   let employee = await Employee.findById(req.user.accountRef);
-  const {firstName, lastName, availability} = employee;
+  const { firstName, lastName, availability } = employee;
 
-      
   return res.status(200).json({
     firstName,
     lastName,
-    availability
-  }); 
-    
+    availability,
+  });
 });
