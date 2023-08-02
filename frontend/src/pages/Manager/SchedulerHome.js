@@ -98,8 +98,8 @@ function SchedulerHome() {
     }
 
     let startDate = new Date(
-      event.target.month.value,
       event.target.year.value,
+      event.target.month.value,
       event.target.day.value
     );
 
@@ -383,9 +383,8 @@ function SchedulerHome() {
                           );
                         }}
                         className={
-                          "inline text-2xl cursor-pointer " + (schedule.archived
-                            ? "text-red-500"
-                            : "")
+                          "inline text-2xl cursor-pointer " +
+                          (schedule.archived ? "text-red-500" : "")
                         }
                       />
                     </td>
