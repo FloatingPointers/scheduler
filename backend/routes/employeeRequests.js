@@ -14,7 +14,7 @@ router.post(
 );
 
 router.get(
-  "/request/getPage/:page",
+  "/request/getPage/:page/:isArchived",
   passport.authenticate("jwt", { session: false }),
   employeeAuth,
   requestController.getPage
@@ -28,7 +28,7 @@ router.delete(
 );
 
 router.get(
-  "/request/numPages",
+  "/request/numPages/:isArchived",
   passport.authenticate("jwt", { session: false }),
   employeeAuth,
   requestController.numPages

@@ -20,7 +20,7 @@ function EmployeeRequests() {
         return;
       }
       const res = await axiosInstance.get(
-        "/employeeRequests/request/getPage/0"
+        "/employeeRequests/request/getPage/0/false"
       );
       setActiveRequests(res.data);
     } catch (err) {
@@ -28,15 +28,17 @@ function EmployeeRequests() {
     }
   };
   const getArchived = async () => {
-    // try {
-    //   if (archived) {
-    //     return;
-    //   }
-    //   const requests = await axiosInstance.get("/requests/emp/:id/archived");
-    //   setArchived(requests);
-    // } catch (err) {
-    //   console.log("Error:", err);
-    // }
+    try {
+      if (archived) {
+        return;
+      }
+      const requests = await axiosInstance.get(
+        "/employeeRequests/request/getPage/0/true"
+      );
+      setArchived(requests);
+    } catch (err) {
+      console.log("Error:", err);
+    }
   };
 
   useEffect((activeRequests, archived) => {
@@ -156,9 +158,9 @@ function EmployeeRequests() {
         </div>
 
         <Tabs.Panel value="active-requests">
-          <div className="space-y-4">
+          <div className="space-y-4 flex flex-col justify-center mt-4">
             {activeRequests.map((req) => (
-              <div className="">
+              <div className="flex-col justify-center">
                 <Request data={req} />
               </div>
             ))}
