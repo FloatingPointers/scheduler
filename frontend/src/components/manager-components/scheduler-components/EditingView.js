@@ -1,4 +1,5 @@
 import React from "react";
+import axiosInstance from "../../../axios";
 
 function EditingView({ currentShift, setCurrentShift }) {
   const { employee, start, end } = currentShift;
@@ -9,8 +10,16 @@ function EditingView({ currentShift, setCurrentShift }) {
     setCurrentShift((prevShift) => ({ ...prevShift, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
-    //submit to database
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const response = await axiosInstance.post("/schedule/:id/addShift", {
+      shift: {
+        employeeId: employee,
+        startTime: start,
+        endTime: end,
+      },
+    });
   };
 
   return (
