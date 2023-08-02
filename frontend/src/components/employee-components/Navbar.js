@@ -13,7 +13,7 @@ function Navbar() {
 
   const defaultClasses =
     "px-4 py-1 text-center rounded hover:shadow-md hover:bg-slate-100 hover:shadow-slate-300 dark:hover:bg-slate-700 dark:hover:shadow-slate-800 transition-all";
-  const activeClasses = " bg-slate-100 dark:bg-slate-700 ";
+  const activeClasses = " bg-slate-100 dark:bg-slate-700   ";
 
   return (
     <div className="flex w-full justify-evenly items-center text-lg p-2 bg-slate-200 dark:bg-slate-600 dark:text-white">
