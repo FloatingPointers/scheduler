@@ -1,5 +1,5 @@
 import React from "react";
-import axiosInstance from "../../axios";
+import axiosInstance from "../../../Axios";
 
 function EditingView({ currentShift, setCurrentShift }) {
   const { employee, start, end } = currentShift;

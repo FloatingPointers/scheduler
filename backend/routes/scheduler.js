@@ -69,7 +69,7 @@ router.get(
   }
 */
 router.get(
-  "/paginatedSchedules",
+  "/paginatedSchedules/:page",
   passport.authenticate("jwt", { session: false }),
   storeAuth,
   scheduleController.getPaginatedSchedules

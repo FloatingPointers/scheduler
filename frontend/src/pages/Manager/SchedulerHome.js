@@ -37,12 +37,13 @@ function SchedulerHome() {
     }
 
     axiosInstance
-      .post("/scheduler/paginatedSchedules", { page: value })
+      .get(`/scheduler/paginatedSchedules/${page}`)
       .then((res) => {
         if (!res.data || res.data.length === 0) return;
         else {
           setPage(value);
           setSchedules(res.data);
+          //bing bong
         }
       })
       .catch((err) => {});
@@ -63,13 +64,7 @@ function SchedulerHome() {
       });
 
     //Get list of next few dates to create a schedule
-    axiosInstance
-      .post("/scheduler/paginatedSchedules", { page: 0 })
-      .then((res) => {
-        if (!res.data) return;
-        setSchedules(res.data);
-      })
-      .catch((err) => {});
+    updatePage(0);
 
     let mo = new Date();
     let nextMo = [];
@@ -388,9 +383,9 @@ function SchedulerHome() {
                           );
                         }}
                         className={
-                          "inline text-2xl cursor-pointer " + schedule.archived
+                          "inline text-2xl cursor-pointer " + (schedule.archived
                             ? "text-red-500"
-                            : ""
+                            : "")
                         }
                       />
                     </td>

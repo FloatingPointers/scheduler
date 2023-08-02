@@ -83,9 +83,9 @@ exports.getPaginatedSchedules = asyncHandler(async (req, res, next) => {
   console.log("page: " + req.params.page);
 
   const schedules = await Schedule.find({})
-    .skip(10 * req.body.page)
+    .skip(10 * req.params.page)
     .limit(10)
-    .sort({ startDate: -1, archived: 1 })
+    .sort({ archived: 1, startDate: -1 })
     .select("startDate markedAsComplete goalsMet archived");
 
   return res.status(200).json(schedules);
