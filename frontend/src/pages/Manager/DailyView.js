@@ -45,6 +45,7 @@ function DailyView() {
         id="scheduler-daily-mark-for-completion-button"
         onClick={handleMarkCompletion}
         hidden
+        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
       >
         Mark Completed
       </button>
@@ -53,6 +54,7 @@ function DailyView() {
       <button
         id="scheduler-daily-reopen-for-editing-button"
         onClick={handleReopenForEditing}
+        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
       >
         Reopen For Editing
       </button>
@@ -62,6 +64,7 @@ function DailyView() {
       <button
         id="scheduler-daily-mark-for-completion-button"
         onClick={handleMarkCompletion}
+        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
       >
         Mark Completed
       </button>
@@ -70,6 +73,7 @@ function DailyView() {
       <button
         id="scheduler-daily-reopen-for-editing-button"
         onClick={handleReopenForEditing}
+        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
         hidden
       >
         Reopen For Editing
@@ -78,53 +82,66 @@ function DailyView() {
   }
 
   return (
-    <div className="manager-body">
+    <div>
       <ManagerNavbar />
+      <div className=" bg-slate-100   min-h-screen  p-12 ">
+        <div className="flex flex-col items-center justify-top border border-slate-200 p-12 bg-white shadow-lg rounded-lg gap-8 ">
+          <h1 className="text-4xl font-bold mb-4">
+            Week of {schedule.weekStartDate}
+          </h1>
 
-      <h1>Schedule of {schedule.weekStartDate}</h1>
+          <ul className="flex flex-row w-full gap-8 justify-between    items-stretch h-1/4">
+            {schedule.day.map((day, index) => {
+              let name_of_day = format(
+                add(new Date(schedule.weekStartDate), { days: index }),
+                "eeee"
+              );
 
-      <ul className="schedule-daily-view">
-        {schedule.day.map((day, index) => {
-          let name_of_day = format(
-            add(new Date(schedule.weekStartDate), { days: index }),
-            "eeee"
-          );
+              let completionContent;
+              if (day.markedAsComplete) completionContent = <p>Yes</p>;
+              else completionContent = <p>No</p>;
 
-          let completionContent;
-          if (day.markedAsComplete) completionContent = <p>Yes</p>;
-          else completionContent = <p>No</p>;
+              let issuesContent;
+              if (!day.goalsMet) issuesContent = <p>Issues Present</p>;
 
-          let issuesContent;
-          if (!day.goalsMet) issuesContent = <p>Issues Present</p>;
+              return (
+                <li className="  bg-white border border-slate-100 rounded-lg shadow-xl drop-shadow-sm  p-6 mx-3 my-2 text-xl w-full hover:-translate-y-4 transition-all cursor-pointer ">
+                  <NavLink
+                    key={"schedule-id:" + schedule._id + "_day:" + index}
+                    to={
+                      "/mgr/scheduler?scheduleId=" +
+                      schedule._id +
+                      "&day=" +
+                      index
+                    }
+                  >
+                    <p className="text-blue-500 hover:text-blue-700 text-3xl font-semibold">
+                      {name_of_day}
+                    </p>
 
-          return (
-            <li>
-              <NavLink
-                key={"schedule-id:" + schedule._id + "_day:" + index}
-                to={
-                  "/mgr/scheduler?scheduleId=" + schedule._id + "&day=" + index
-                }
-              >
-                {name_of_day}
-              </NavLink>
-              <div className="schedule-status">
-                <p>Completed: </p>
-                {completionContent}
-              </div>
-              <div className="schedule-status">{issuesContent}</div>
-            </li>
-          );
-        })}
-      </ul>
+                    <div className="mt-2">
+                      <p className="font-bold">Completed: </p>
+                      {completionContent}
+                    </div>
+                    <div className="mt-2">{issuesContent}</div>
+                  </NavLink>
+                </li>
+              );
+            })}
+          </ul>
 
-      <div className="daily-view-management-pane">
-        <h2>Schedule Information and Options</h2>
-        <p>
-          Schedule Status:{" "}
-          {schedule.markedAsComplete ? "Completed" : "Not Completed"}
-        </p>
-        {markCompleteButton}
-        {reopenForEditingButton}
+          <div className="bg-white rounded-lg shadow-xl border border-slate-100 p-4 mt-8 w-full max-w-lg flex flex-col ">
+            <h2 className="text-2xl font-bold mb-2">
+              Schedule Information and Options
+            </h2>
+            <p className="mb-4 text-xl ">
+              Schedule Status:{" "}
+              {schedule.markedAsComplete ? "Completed!" : "Not Completed"}
+            </p>
+            {markCompleteButton}
+            {reopenForEditingButton}
+          </div>
+        </div>
       </div>
     </div>
   );
