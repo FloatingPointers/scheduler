@@ -14,7 +14,11 @@ exports.createReq = asyncHandler(async (req, res, next) => {
 });
 
 exports.getPage = asyncHandler(async (req, res, next) => {
-  const requests = await Request.find({ "senderTag.id": req.user._id })
+  const archived = req.params.isArchived === "true";
+  const requests = await Request.find({
+    "senderTag.id": req.user._id,
+    archived,
+  })
     .skip(10 * req.params.page)
     .limit(10)
     .sort({ start: -1 });
@@ -23,7 +27,11 @@ exports.getPage = asyncHandler(async (req, res, next) => {
 });
 
 exports.numPages = asyncHandler(async (req, res, next) => {
-  let pages = await Request.countDocuments({ type: req.params.type });
+  const archived = req.params.isArchived === "true";
+  let pages = await Request.countDocuments({
+    type: req.params.type,
+    archived,
+  });
 
   return res.status(200).json({
     pages: Math.ceil(pages / 10),

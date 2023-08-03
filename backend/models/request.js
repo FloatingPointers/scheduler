@@ -19,6 +19,11 @@ const Request = new mongoose.Schema({
     default: new Date(),
   },
 
+  archived: {
+    type: Boolean,
+    default: false,
+  },
+
   status: {
     type: String,
     enum: ["PENDING", "DENIED", "APPROVED"],
