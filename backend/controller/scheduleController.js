@@ -81,8 +81,11 @@ exports.getRecentSchedules = asyncHandler(async (req, res, next) => {
 
 exports.getPaginatedSchedules = asyncHandler(async (req, res, next) => {
   console.log("page: " + req.params.page);
+  console.log("showArchived: " + req.params.showArchived);
 
-  const schedules = await Schedule.find({})
+  const schedules = await Schedule.find({
+    archived: req.params.showArchived === "true",
+  })
     .skip(10 * req.params.page)
     .limit(10)
     .sort({ archived: 1, startDate: -1 })
@@ -91,13 +94,23 @@ exports.getPaginatedSchedules = asyncHandler(async (req, res, next) => {
   return res.status(200).json(schedules);
 });
 
+exports.maxSchedules = asyncHandler(async (req, res, next) => {
+  let count = await Schedule.countDocuments({
+    archived: req.params.archived === "true",
+  });
+
+  return res.status(200).json({
+    maxPages: Math.ceil(count / 10),
+  });
+});
+
 exports.archiveSchedule = asyncHandler(async (req, res, next) => {
   console.log("Archiving Schedule: " + req.body.id);
   await Schedule.findByIdAndUpdate(req.body.id, {
     archived: req.body.archived,
   });
-
-  return res.status(200);
+  console.log("Returning response");
+  return res.status(200).json({ success: true });
 });
 
 exports.updateSchedule = asyncHandler(async (req, res, next) => {

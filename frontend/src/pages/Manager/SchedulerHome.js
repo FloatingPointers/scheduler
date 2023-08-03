@@ -13,41 +13,18 @@ import { Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import axiosInstance from "../../Axios";
 
-import { generateDummySchedule } from "../../test/TestingFunctions.js";
+import ScheduleTableView from "../../components/manager-components/scheduler-components/ScheduleTableView";
 
 const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
 function SchedulerHome() {
+  console.log("Render schedule home");
   const navigate = useNavigate();
-
-  //GET a list of all schedules from the database
-  const [schedules, setSchedules] = useState([]);
-  const [page, setPage] = useState(0);
 
   const [recent, setRecent] = useState([]);
 
-  //The next few schedule start dates (get from db)
-  const [scheduleStartDate, setScheduleStartDate] = useState([new Date()]);
   const [monthsFromNow, setMonthsFromNow] = useState([new Date()]);
   const [selectedMonth, setSelectedMonth] = useState(new Date());
-
-  const updatePage = async (value) => {
-    if (value < 0) {
-      return;
-    }
-
-    axiosInstance
-      .get(`/scheduler/paginatedSchedules/${page}`)
-      .then((res) => {
-        if (!res.data || res.data.length === 0) return;
-        else {
-          setPage(value);
-          setSchedules(res.data);
-          //bing bong
-        }
-      })
-      .catch((err) => {});
-  };
 
   useEffect(() => {
     //Get list of recent schedules
@@ -64,7 +41,7 @@ function SchedulerHome() {
       });
 
     //Get list of next few dates to create a schedule
-    updatePage(0);
+    //            updatePage(0);
 
     let mo = new Date();
     let nextMo = [];
@@ -124,22 +101,6 @@ function SchedulerHome() {
       });
 
     close();
-  };
-
-  const handleDownloadSchedule = (event) => {};
-
-  const handleArchiveSchedule = (id, value) => {
-    console.log("Archiving schedule: " + id);
-
-    axiosInstance
-      .post("/scheduler/archive", {
-        id: id,
-        archived: value,
-      })
-      .then((res) => {})
-      .catch((err) => {
-        console.error(err);
-      });
   };
 
   const handleSelectMonth = (event) => {
@@ -320,99 +281,7 @@ function SchedulerHome() {
           </li>
         </ul>
 
-        <div className="w-full px-16 pt-8 pb-16">
-          <div className="w-full bg-slate-50 border border-slate-200 rounded shadow-md p-6">
-            <div className="flex flex-row w-full items-center justify-between space-between">
-              <h2 className="font-semibold text-2xl">All Schedules</h2>
-              <p>Page {page + 1}</p>
-            </div>
-
-            <hr class="h-px bg-slate-200 border-0 mt-6 mb-6"></hr>
-
-            <table className="block w-full">
-              <thead className="">
-                <tr className="text-xl">
-                  <th className="w-1/5 text-left font-semibold pl-4">
-                    Start Date
-                  </th>
-                  <th className="w-[1%] text-left font-semibold">Status</th>
-                  <th className="w-1/2 text-left font-semibold"></th>
-                  <th className="w-[1%] text-left font-semibold">Options</th>
-                </tr>
-              </thead>
-              <tbody className="w-full text-md">
-                {schedules.map((schedule, index) => (
-                  <tr
-                    key={schedule._id}
-                    className={index % 2 === 0 ? "bg-slate-100" : ""}
-                  >
-                    <td className="pl-4 py-1">
-                      {format(new Date(schedule.startDate), "MMMM dd")}
-                    </td>
-                    <td className="w-[1%]">
-                      {schedule.markedAsComplete ? (
-                        <IoMdCheckmark className="inline text-2xl mr-4" />
-                      ) : (
-                        <div />
-                      )}
-                      {schedule.goalsMet ? (
-                        <div />
-                      ) : (
-                        <IoMdAlarm className="inline text-2xl mr-4" />
-                      )}
-                    </td>
-                    <td>{schedule.goalsMet ? <div /> : <p>Issues here</p>}</td>
-                    <td className="w-2/3 flex flex-row justify-between items-center ">
-                      <NavLink
-                        key={"schedule-id:" + schedule._id}
-                        to={"/mgr/scheduler/daily?scheduleId=" + schedule._id}
-                        className="inline"
-                      >
-                        <IoMdCreate className="text-2xl inline cursor-pointer" />
-                      </NavLink>
-
-                      <IoMdDownload
-                        onClick={handleDownloadSchedule}
-                        className="inline text-2xl cursor-pointer"
-                      />
-                      <IoIosArchive
-                        onClick={() => {
-                          handleArchiveSchedule(
-                            schedule._id,
-                            !schedule.archived
-                          );
-                        }}
-                        className={
-                          "inline text-2xl cursor-pointer " +
-                          (schedule.archived ? "text-red-500" : "")
-                        }
-                      />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-
-            <div className="flex w-full flex-row justify-center items-center gap-4 pt-6">
-              <button
-                className="bg-blue-200 shadow-sm rounded px-2 py-1 hover:bg-blue-100 transition-colors m-2"
-                onClick={() => {
-                  updatePage(page - 1);
-                }}
-              >
-                Prev Page
-              </button>
-              <button
-                className="bg-blue-200 shadow-sm rounded px-2 py-1 hover:bg-blue-100 transition-colors m-2"
-                onClick={() => {
-                  updatePage(page + 1);
-                }}
-              >
-                Next Page
-              </button>
-            </div>
-          </div>
-        </div>
+        <ScheduleTableView />
       </div>
     </div>
   );

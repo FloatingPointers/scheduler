@@ -69,10 +69,26 @@ router.get(
   }
 */
 router.get(
-  "/paginatedSchedules/:page",
+  "/paginatedSchedules/:page/:showArchived",
   passport.authenticate("jwt", { session: false }),
   storeAuth,
   scheduleController.getPaginatedSchedules
+);
+
+/*
+GET - maximum number of pages for a table of schedules
+Request Params {
+  archived: true/false
+}
+Response Body {
+  maxPages
+}
+*/
+router.get(
+  "/maxSchedulePages/:archived",
+  passport.authenticate("jwt", { session: false }),
+  storeAuth,
+  scheduleController.maxSchedules
 );
 
 /*
