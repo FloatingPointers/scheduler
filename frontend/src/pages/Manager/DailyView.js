@@ -84,13 +84,13 @@ function DailyView() {
   return (
     <div>
       <ManagerNavbar />
-      <div className=" bg-slate-100   min-h-screen  p-12 ">
-        <div className="flex flex-col items-center justify-top border border-slate-200 p-12 bg-white shadow-lg rounded-lg gap-8 ">
+      <div className="bg-slate-100 w-screen min-h-screen p-12 ">
+        <div className="flex flex-col items-center justify-top border border-slate-200 p-12 bg-white shadow-lg rounded-lg gap-8 w-full">
           <h1 className="text-4xl font-bold mb-4">
             Week of {schedule.weekStartDate}
           </h1>
 
-          <ul className="flex flex-row w-full gap-8 justify-between    items-stretch h-1/4">
+          <ul className="flex flex-row w-full h-auto gap-4 justify-between items-stretch">
             {schedule.day.map((day, index) => {
               let name_of_day = format(
                 add(new Date(schedule.weekStartDate), { days: index }),
@@ -105,7 +105,7 @@ function DailyView() {
               if (!day.goalsMet) issuesContent = <p>Issues Present</p>;
 
               return (
-                <li className="  bg-white border border-slate-100 rounded-lg shadow-xl drop-shadow-sm  p-6 mx-3 my-2 text-xl w-full hover:-translate-y-4 transition-all cursor-pointer ">
+                <li className="w-[14.286%] bg-white border border-slate-100 rounded-lg shadow-xl drop-shadow-sm text-xl p-4 hover:-translate-y-4 transition-all cursor-pointer ">
                   <NavLink
                     key={"schedule-id:" + schedule._id + "_day:" + index}
                     to={
@@ -115,12 +115,12 @@ function DailyView() {
                       index
                     }
                   >
-                    <p className="text-blue-500 hover:text-blue-700 text-3xl font-semibold">
+                    <p className="text-blue-500 hover:text-blue-700 text-2xl font-semibold ">
                       {name_of_day}
                     </p>
 
                     <div className="mt-2">
-                      <p className="font-bold">Completed: </p>
+                      <p className="font-bold text-lg">Completed: </p>
                       {completionContent}
                     </div>
                     <div className="mt-2">{issuesContent}</div>
