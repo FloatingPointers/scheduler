@@ -13,8 +13,6 @@ function ScheduleTable(props) {
   const navigate = useNavigate();
   const { display, handleArchiveSchedule, handleDownloadSchedule } = props;
 
-  console.log(display);
-
   return (
     <table className="block w-full">
       <thead className="">

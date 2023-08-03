@@ -88,3 +88,16 @@ exports.getNewInviteCode = asyncHandler(async (req, res, next) => {
 
   return res.status(200).json({ inviteCode: inviteCode });
 });
+
+//Gets settings for default schedule
+exports.getScheduleSettings = asyncHandler(async (req, res, next) => {
+  let settings = await Store.findById(req.user.accountRef).select({
+    settings: {
+      openTime: 1,
+      closeTime: 1,
+      startDay: 1,
+    },
+  });
+
+  return res.status(200).json(settings);
+});
