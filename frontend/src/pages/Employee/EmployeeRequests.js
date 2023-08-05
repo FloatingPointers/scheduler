@@ -5,7 +5,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { Modal, Button, TextInput } from "@mantine/core";
 import "../../styles/employee.css";
 import axiosInstance from "../../Axios";
-import Request from "../../components/employee-components/Request";
+import Request from "../../components/app-components/Request";
 
 function EmployeeRequests() {
   const [activeRequests, setActiveRequests] = useState([]);
@@ -29,13 +29,27 @@ function EmployeeRequests() {
   };
   const getArchived = async () => {
     try {
-      if (archived) {
+      if (archived.length !== 0) {
         return;
       }
-      const requests = await axiosInstance.get(
+      const res = await axiosInstance.get(
         "/employeeRequests/request/getPage/0/true"
       );
-      setArchived(requests);
+      setArchived(res.data);
+    } catch (err) {
+      console.log("Error:", err);
+    }
+  };
+
+  const deleteRequest = async (id) => {
+    try {
+      const res = await axiosInstance.delete(
+        `/employeeRequests/request/delete/${id}`
+      );
+      console.log(res.data.success);
+      if (res.data.success) {
+        getRequests(true);
+      }
     } catch (err) {
       console.log("Error:", err);
     }
@@ -161,13 +175,25 @@ function EmployeeRequests() {
           <div className="space-y-4 flex flex-col justify-center mt-4">
             {activeRequests.map((req) => (
               <div className="flex-col justify-center">
-                <Request data={req} />
+                <Request
+                  data={req}
+                  allowDelete={true}
+                  deleteReq={() => {
+                    deleteRequest(req._id);
+                  }}
+                />
               </div>
             ))}
           </div>
         </Tabs.Panel>
 
-        <Tabs.Panel value="archived">{archived}</Tabs.Panel>
+        <Tabs.Panel value="archived">
+          {archived.map((req) => (
+            <div className="flex-col justify-center">
+              <Request data={req} allowDelete={false} />
+            </div>
+          ))}
+        </Tabs.Panel>
       </Tabs>
     </div>
   );

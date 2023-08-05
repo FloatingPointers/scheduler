@@ -11,12 +11,10 @@ const Request = new mongoose.Schema({
 
   start: {
     type: Date,
-    default: new Date(),
   },
 
   end: {
     type: Date,
-    default: new Date(),
   },
 
   archived: {

@@ -15,9 +15,17 @@ exports.createReq = asyncHandler(async (req, res, next) => {
 
 exports.getPage = asyncHandler(async (req, res, next) => {
   const archived = req.params.isArchived === "true";
+  let currentDay = new Date();
+  currentDay.setHours(0, 0, 0);
+  let query = null;
+  if (req.params.isArchived === "true") {
+    query = { end: { $lt: currentDay } };
+  } else {
+    query = { end: { $gte: currentDay } };
+  }
   const requests = await Request.find({
     "senderTag.id": req.user._id,
-    archived,
+    ...query,
   })
     .skip(10 * req.params.page)
     .limit(10)

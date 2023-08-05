@@ -80,7 +80,6 @@ function DailyView() {
       </button>
     );
   }
-
   return (
     <div>
       <ManagerNavbar />

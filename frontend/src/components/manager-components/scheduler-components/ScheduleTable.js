@@ -7,19 +7,18 @@ import {
   IoIosArchive,
   IoMdCreate,
 } from "react-icons/io";
-import { format } from "date-fns";
+import { add, format } from "date-fns";
+import formatDateRange from "../../../data/dateRange";
 
 function ScheduleTable(props) {
   const navigate = useNavigate();
   const { display, handleArchiveSchedule, handleDownloadSchedule } = props;
 
-  console.log(display);
-
   return (
     <table className="block w-full">
       <thead className="">
         <tr className="text-xl">
-          <th className="w-1/5 text-left font-semibold pl-4">Start Date</th>
+          <th className="w-1/5 text-left font-semibold pl-4">Period</th>
           <th className="w-[1%] text-left font-semibold">Status</th>
           <th className="w-1/2 text-left font-semibold"></th>
           <th className="w-[1%] text-left font-semibold">Options</th>
@@ -37,7 +36,10 @@ function ScheduleTable(props) {
                 navigate(`/mgr/scheduler/daily?scheduleId=${schedule._id}`);
               }}
             >
-              {format(new Date(schedule.startDate), "MMMM dd")}
+              {formatDateRange(
+                new Date(schedule.startDate),
+                add(new Date(schedule.startDate), { days: 6 })
+              )}
             </td>
             <td className="w-[1%]">
               {schedule.markedAsComplete ? (

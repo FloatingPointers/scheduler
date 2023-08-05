@@ -14,6 +14,7 @@ import { useDisclosure } from "@mantine/hooks";
 import axiosInstance from "../../Axios";
 
 import ScheduleTableView from "../../components/manager-components/scheduler-components/ScheduleTableView";
+import formatDateRange from "../../data/dateRange";
 
 const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
@@ -239,7 +240,10 @@ function SchedulerHome() {
                 <li className="">
                   <div className="w-full h-1/4 inline-flex flex-row gap-4 p-4 bg-blue-100 justify-center items-center">
                     <p className="font-semibold">
-                      {format(new Date(schedule.startDate), "MMMM dd")}
+                      {formatDateRange(
+                        new Date(schedule.startDate),
+                        add(new Date(schedule.startDate), { days: 6 })
+                      )}
                     </p>
 
                     {schedule.markedAsComplete ? (
