@@ -33,13 +33,16 @@ function ScheduleTableView() {
       return;
     }
 
-    axiosInstance
-      .get(`/scheduler/paginatedSchedules/${value}/false`)
-      .then((res) => {
-        if (!res.data || res.data.length === 0) return;
-        setSchedules(res.data);
-      })
-      .catch((err) => {});
+    const res = await axiosInstance.get(
+      `/scheduler/paginatedSchedules/${value}/false`
+    );
+    if (!res.data) return;
+
+    if (page > 0 && res.data.length === 0) {
+      setPage(page - 1);
+    } else {
+      setSchedules(res.data);
+    }
   };
 
   //Gets a page of archived schedules
@@ -48,13 +51,16 @@ function ScheduleTableView() {
       return;
     }
 
-    axiosInstance
-      .get(`/scheduler/paginatedSchedules/${value}/true`)
-      .then((res) => {
-        if (!res.data || res.data.length === 0) return;
-        setArchivedSchedules(res.data);
-      })
-      .catch((err) => {});
+    const res = await axiosInstance.get(
+      `/scheduler/paginatedSchedules/${value}/true`
+    );
+    if (!res.data) return;
+
+    if (archivedPage > 0 && res.data.length === 0) {
+      setArchivedPage(archivedPage - 1);
+    } else {
+      setArchivedSchedules(res.data);
+    }
   };
 
   //Updates the max number of pages for non-archived schedules
@@ -133,7 +139,7 @@ function ScheduleTableView() {
   ==============
   */
 
-  const handleDownloadSchedule = (event) => {};
+  const handleDownloadSchedule = async (event) => {};
 
   const handleArchiveSchedule = (id, value) => {
     console.log("Archiving schedule: " + id);
@@ -146,7 +152,7 @@ function ScheduleTableView() {
       .then((res) => {
         console.log("Updating page after archive");
         updatePage(page);
-        updateArchivedPage(page);
+        updateArchivedPage(archivedPage);
         updateMaxArchivedPages();
         updateMaxPages();
       })
@@ -216,8 +222,9 @@ function ScheduleTableView() {
           ) : (
             <div />
           )}
-          {(showArchived && archivedPage === maxArchivedPage - 1) ||
-          (!showArchived && page === maxPage - 1) ? (
+          {(showArchived &&
+            (archivedPage === maxArchivedPage - 1 || maxArchivedPage === 0)) ||
+          (!showArchived && (page === maxPage - 1 || maxPage === 0)) ? (
             <div />
           ) : (
             <button
