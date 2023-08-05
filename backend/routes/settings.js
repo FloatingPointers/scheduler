@@ -57,6 +57,23 @@ router.get(
   storeController.getSettings
 );
 
+/*
+GET - Get the default open/close time and start day of week for schedules
+Response Body: {
+  settings: {
+    openTime
+    closeTime
+    startDay
+  }
+}
+*/
+router.get(
+  "/store/scheduleSettings",
+  passport.authenticate("jwt", { session: false }),
+  storeAuth,
+  storeController.getScheduleSettings
+);
+
 //employee routes
 
 /*

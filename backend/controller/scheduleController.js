@@ -71,7 +71,7 @@ exports.createSchedule = asyncHandler(async (req, res, next) => {
 });
 
 exports.getRecentSchedules = asyncHandler(async (req, res, next) => {
-  const schedules = await Schedule.find({})
+  const schedules = await Schedule.find({ archived: false })
     .limit(3)
     .sort({ startDate: -1, archived: 1 })
     .select("startDate markedAsComplete goalsMet archived");
