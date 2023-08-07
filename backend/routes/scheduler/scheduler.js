@@ -6,7 +6,6 @@ const { applyUserStrategy, storeAuth } = require("../../store/passport.js");
 applyUserStrategy(passport);
 
 const scheduleController = require("../../controller/scheduleController.js");
-const employeeController = require("../../controller/employeeController.js");
 
 var overviewRouter = require("./overview");
 var editorRouter = require("./editor");
@@ -15,7 +14,7 @@ router.use("/overview", overviewRouter);
 router.use("/editor", editorRouter);
 
 /* --------------------------
-   SCHEDULE CONTROLLER ROUTES
+   GENERAL SCHEDULE ROUTES
    -------------------------- */
 
 /*
@@ -38,6 +37,39 @@ router.post(
   storeAuth,
   scheduleController.createSchedule
 );
+
+/*
+  DELETE - Delete an existing schedule by id
+  Response Body: {
+    success: True if a schedule object was successfully deleted
+  }
+  Params:
+    id: - the uid of the schedule to be deleted
+*/
+router.delete(
+  "/delete/:id",
+  passport.authenticate("jwt", { session: false }),
+  storeAuth,
+  scheduleController.deleteSchedule
+);
+
+/*
+  POST - Set archvial status of a schedule by id
+  Request Body: {
+    id
+    archived: true/false
+  }
+*/
+router.post(
+  "/archive",
+  passport.authenticate("jwt", { session: false }),
+  storeAuth,
+  scheduleController.archiveSchedule
+);
+
+/* -----------------------
+    SCHEDULE HOME ROUTES
+   ----------------------- */
 
 /*
   GET - Get 3 most recent schedules
@@ -95,127 +127,6 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   storeAuth,
   scheduleController.maxSchedules
-);
-
-/*
-  DELETE - Delete an existing schedule by id
-  Response Body: {
-    success: True if a schedule object was successfully deleted
-  }
-  Params:
-    id: - the uid of the schedule to be deleted
-*/
-router.delete(
-  "/schedule/:id/deleteSchedule",
-  passport.authenticate("jwt", { session: false }),
-  storeAuth,
-  scheduleController.deleteSchedule
-);
-
-/*
-  POST - Set archvial status of a schedule by id
-  Request Body: {
-    id
-    archived: true/false
-  }
-*/
-router.post(
-  "/archive",
-  passport.authenticate("jwt", { session: false }),
-  storeAuth,
-  scheduleController.archiveSchedule
-);
-
-/*
-  GET - Employees working for selected shift
-  Request Body: {
-    options: {
-      startTime - both startTime and endTime to be used together or not at all, represents the start and end of the client's selection (ex 4am-2pm)
-      endTime
-    }
-  }
-  Params:
-    id: - the uid of the schedule
-*/
-router.get(
-  "/schedule/:id/working",
-  passport.authenticate("jwt", { session: false }),
-  storeAuth,
-  scheduleController.working
-);
-
-/*
-  UPDATE - Updates a schedule by creating a new shift
-  Request Body: {
-    shift : {
-      employeeId
-      employeeName
-      startTime
-      endTime
-    }
-  }
-  Params:
-    id: - the uid of the schedule
-*/
-router.put(
-  "/schedule/:id/addShift",
-  passport.authenticate("jwt", { session: false }),
-  storeAuth,
-  scheduleController.addShift
-);
-
-/*
-  UPDATE - Updates a schedule by deleting an existing shift from it
-  Request Body: {
-    employeeId
-    employeeName
-  }
-  Params:
-    id: - the uuid of the schedule
-*/
-router.put(
-  "/schedule/:id/removeShift",
-  passport.authenticate("jwt", { session: false }),
-  storeAuth,
-  scheduleController.removeShift
-);
-
-/* --------------------------
-   EMPLOYEE CONTROLLER ROUTES
-   -------------------------- */
-
-/*
-  GET - Employees available to work for a selected shift
-  Request Body: {
-    options: {
-      startTime - both startTime and endTime to be used together or not at all, represents the start and end of the client's selection (ex 4am-2pm)
-      endTime
-    }
-  }
-  Params:
-    id: - the uid of the store
-*/
-router.get(
-  "/employees/:id/available",
-  passport.authenticate("jwt", { session: false }),
-  storeAuth,
-  employeeController.available
-);
-
-/*
-  GET - All employees working at the store
-  Request Body: {
-    options: {
-      startTime - both startTime and endTime to be used together or not at all, represents the start and end of the client's selection (ex 4am-2pm)
-      endTime
-    }
-  }
-*/
-router.get(
-  "/employees/allEmployees",
-  passport.authenticate("jwt", { session: false }),
-  storeAuth,
-  employeeController.allEmployees
 );
 
 module.exports = router;
