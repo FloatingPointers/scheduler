@@ -72,9 +72,9 @@ const RouteSwitch = () => {
           <Route path="" element={<ManagerHome />} />
           <Route path="employees" element={<EmployeeManager />} />
           <Route path="scheduler">
-            <Route path="" element={<ScheduleManager />} />
-            <Route path="home" element={<SchedulerHome />} />
-            <Route path="daily" element={<DailyView />} />
+            <Route path="" element={<SchedulerHome />} />
+            <Route path=":id" element={<DailyView />} />
+            <Route path="editor/:id/:day" element={<ScheduleManager />} />
           </Route>
           <Route path="settings" element={<ManagerAccountSettings />} />
         </Route>

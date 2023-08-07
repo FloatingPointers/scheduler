@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import ManagerNavbar from "../../components/manager-components/ManagerNavbar";
 import "../../styles/manager.css";
 import HourlyView from "../../components/manager-components/scheduler-components/HourlyView";
@@ -6,7 +7,11 @@ import WorkingView from "../../components/manager-components/scheduler-component
 import EmployeeSelector from "../../components/manager-components/scheduler-components/EmployeeSelector";
 import EditingView from "../../components/manager-components/scheduler-components/EditingView";
 
+import axiosInstance from "../../Axios";
+
 function ScheduleManager() {
+  let params = useParams();
+
   //Format type
   let [info, setInfo] = useState({
     _id: "ObjectId",
@@ -68,31 +73,39 @@ function ScheduleManager() {
     end: "",
   });
 
+  //Handle page load
+  useEffect(() => {
+    //let schedule = await axiosInstance.get(`/scheduler/schedule/`);
+  }, []);
+
   //NEEDS MULTIPLE COMPONENT BREAKDOWN
   return (
-    <div className="manager-body ">
+    <div>
       <ManagerNavbar />
-      <HourlyView
-        shiftInfo={shiftInfo}
-        currentShift={currentShift}
-        setCurrentShift={setCurrentShift}
-      />
 
-      <div className="scheduler-lower-component-container">
-        <div className="scheduler-lower-component">
-          <EmployeeSelector
-            currentShift={currentShift}
-            setCurrentShift={setCurrentShift}
-          />
-        </div>
-        <div className="scheduler-lower-component">
-          <EditingView
-            currentShift={currentShift}
-            setCurrentShift={setCurrentShift}
-          />
-        </div>
-        <div className="scheduler-lower-component">
-          <WorkingView />
+      <div className="flex flex-col justify-start items-center bg-slate-100 w-screen min-h-screen text-lg">
+        <HourlyView
+          shiftInfo={shiftInfo}
+          currentShift={currentShift}
+          setCurrentShift={setCurrentShift}
+        />
+
+        <div className="flex flex-row w-full justify-start p-6">
+          <div className="scheduler-lower-component">
+            <EmployeeSelector
+              currentShift={currentShift}
+              setCurrentShift={setCurrentShift}
+            />
+          </div>
+          <div className="scheduler-lower-component">
+            <EditingView
+              currentShift={currentShift}
+              setCurrentShift={setCurrentShift}
+            />
+          </div>
+          <div className="scheduler-lower-component">
+            <WorkingView />
+          </div>
         </div>
       </div>
     </div>

@@ -1,13 +1,21 @@
-import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useParams } from "react-router-dom";
 import "../../styles/manager.css";
 import ManagerNavbar from "../../components/manager-components/ManagerNavbar";
 import { generateDummySchedule } from "../../test/TestingFunctions.js";
 import { format, add } from "date-fns";
+import axiosInstance from "../../Axios";
 
 function DailyView() {
   //GET: Schedule from the scheduleId field in ? url
   const [schedule, setSchedule] = useState(generateDummySchedule());
+  const params = useParams();
+
+  //Handle page load
+  useEffect(() => {
+    console.log("Initialize daily schedule overview with id: " + params.id);
+    //axiosInstance.get(`/scheduler/schedule/${props.scheduleId}/dailyInfo`);
+  }, []);
 
   const handleMarkCompletion = () => {
     document.getElementById(
@@ -80,6 +88,7 @@ function DailyView() {
       </button>
     );
   }
+
   return (
     <div>
       <ManagerNavbar />
@@ -107,12 +116,7 @@ function DailyView() {
                 <li className="w-[14.286%] bg-white border border-slate-100 rounded-lg shadow-xl drop-shadow-sm text-xl p-4 hover:-translate-y-4 transition-all cursor-pointer ">
                   <NavLink
                     key={"schedule-id:" + schedule._id + "_day:" + index}
-                    to={
-                      "/mgr/scheduler?scheduleId=" +
-                      schedule._id +
-                      "&day=" +
-                      index
-                    }
+                    to={`/mgr/scheduler/editor/${schedule._id}/${index}`}
                   >
                     <p className="text-blue-500 hover:text-blue-700 text-2xl font-semibold ">
                       {name_of_day}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, createSearchParams } from "react-router-dom";
 import ManagerNavbar from "../../components/manager-components/ManagerNavbar";
 import { add, format } from "date-fns";
 import {
@@ -130,7 +130,7 @@ function SchedulerHome() {
       })
       .then((res) => {
         console.log("Created Schedule");
-        navigate(`/scheduler/daily?scheduleId=${res.data.id}?day=0`);
+        navigate(`/scheduler/${res.data.id}/${0}`);
       })
       .catch((err) => {
         console.error("Error creating schedule");
@@ -305,7 +305,7 @@ function SchedulerHome() {
             return (
               <NavLink
                 key={"schedule-id:" + schedule._id}
-                to={"/mgr/scheduler/daily?scheduleId=" + schedule._id}
+                to={`/mgr/scheduler/${schedule._id}`}
                 className="bg-slate-50 border border-slate-300 rounded-md shadow-md hover:-translate-y-2 transition-all"
               >
                 <li className="">

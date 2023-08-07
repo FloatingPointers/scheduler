@@ -32,7 +32,7 @@ function ManagerNavbar() {
           Employees
         </NavLink>
         <NavLink
-          to="/mgr/scheduler/home"
+          to="/mgr/scheduler/"
           className="px-4 py-1 text-center rounded hover:shadow-md hover:bg-slate-100 hover:shadow-slate-300 dark:hover:bg-slate-700 dark:hover:shadow-slate-800 transition-all"
         >
           Scheduler

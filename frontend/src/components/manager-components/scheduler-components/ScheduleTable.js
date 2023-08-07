@@ -57,7 +57,7 @@ function ScheduleTable(props) {
             <td className="w-2/3 flex flex-row justify-between items-center ">
               <NavLink
                 key={"schedule-id:" + schedule._id}
-                to={`/mgr/scheduler/daily?scheduleId=${schedule._id}`}
+                to={`/mgr/scheduler/${schedule._id}`}
                 className="inline"
               >
                 <IoMdCreate className="text-2xl inline cursor-pointer" />
