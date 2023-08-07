@@ -3,6 +3,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import axiosInstance from "../Axios.js";
 import { IoMdCalendar } from "react-icons/io";
+import { MantineProvider, Button } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
+import { IconX } from "@tabler/icons-react";
+import ErrorAlert from "../components/app-components/NotificationAlerts.js";
 
 function App() {
   const navigate = useNavigate();
