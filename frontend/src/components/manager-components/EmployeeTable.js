@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axiosInstance from "../../Axios";
 import { TiDelete } from "react-icons/ti";
 
@@ -27,16 +27,18 @@ function EmployeeTable() {
     //   },
   ]);
 
+  useEffect(() => {
+    getEmployees();
+  }, []);
+
   const getEmployees = async () => {
     try {
-      setEmployees(
-        await JSON.parse(axiosInstance.get("/emp-table/employee/allEmployees"))
-      );
+      const res = await axiosInstance.get("/emp-table/employee/allEmployees");
+      setEmployees(res.data);
     } catch (e) {
       console.log("ERROR: Employee table query failed");
     }
   };
-  getEmployees();
 
   const deleteEmployee = async (id) => {
     try {
@@ -63,7 +65,12 @@ function EmployeeTable() {
           <tr key={employee._id} className="w-full">
             <td className="w-1/2">{`${employee.firstName} ${employee.lastName}`}</td>
             <td className="w-1/2">{employee.email}</td>
-            <td className="w-[1%]" onClick={() => deleteEmployee(employee._id)}>
+            <td
+              className="w-[1%]"
+              onClick={() => {
+                deleteEmployee(employee._id);
+              }}
+            >
               <TiDelete />
             </td>
           </tr>

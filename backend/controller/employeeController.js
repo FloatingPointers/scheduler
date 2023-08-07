@@ -30,6 +30,7 @@ exports.allEmployees = asyncHandler(async (req, res, next) => {
 
 exports.deleteEmployee = asyncHandler(async (req, res, next) => {
   await Employee.findByIdAndDelete(req.params.id);
+  // TODO: DELETE RELATED REQUESTS
 
   return res.status(200);
 });
