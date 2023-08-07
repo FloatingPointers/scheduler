@@ -1,5 +1,6 @@
 const store = require("../models/store");
 let Store = require("../models/store");
+let User = require("../models/user");
 const asyncHandler = require("express-async-handler");
 
 function padTimeUnit(unit) {
@@ -11,7 +12,6 @@ exports.updateSettings = asyncHandler(async (req, res, next) => {
   const { startDay, endDay, openTime, closeTime, roles } = settings;
 
   // Get current Store model from the database.
-  let store = await Store.findById(req.user.accountRef);
 
   // Create date objects for openTime and closeTime
   const openTimeParts = openTime.split(":").map(Number);
@@ -27,23 +27,26 @@ exports.updateSettings = asyncHandler(async (req, res, next) => {
   closeTimeDate.setUTCHours(closeTimeParts[0], closeTimeParts[1]);
 
   // Update settings
-  store.name = name;
-  store.settings = {
-    startDay: startDay,
-    endDay: endDay,
-    openTime: openTimeDate,
-    closeTime: closeTimeDate,
-    roles,
-  };
 
-  await store.save();
+  await Store.findByIdAndUpdate(req.user.accountRef, {
+    settings: {
+      startDay: startDay,
+      endDay: endDay,
+      openTime: openTimeDate,
+      closeTime: closeTimeDate,
+      roles,
+    },
+  });
+
+  await User.findByIdAndUpdate(req.user._id, { name });
 
   return res.status(200).json({ success: true });
 });
 
 exports.getSettings = asyncHandler(async (req, res, next) => {
   const store = await Store.findById(req.user.accountRef);
-  const { settings, name } = store;
+  const { settings } = store;
+  const { name } = req.user;
 
   const { startDay, endDay } = settings; //end day is a string for some reason
 

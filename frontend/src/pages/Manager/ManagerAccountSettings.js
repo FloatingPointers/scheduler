@@ -186,11 +186,11 @@ function ManagerAccountSettings() {
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
-    <div className="bg-slate-100 w-full h-full flex flex-col">
+    <div className="bg-slate-100 w-full min-h-screen flex flex-col">
       <ManagerNavbar />
-      <div className="flex flex-row w-full h-full">
+      <div className=" bg-slate-50 border border-slate-200 rounded shadow-md p-6 ">
         <div className="flex  justify-center items-center gap-3 p-10 flex-col w-full">
-          <h2>Change Account Settings</h2>
+          <h2 className="text-2xl font-bold ">Change Account Settings</h2>
           <div className="">
             <label className="p-2" htmlFor="name">
               Store Name
@@ -201,7 +201,7 @@ function ManagerAccountSettings() {
               type="text"
               value={state.name}
               onChange={handleChange}
-              className="border border-gray-300 rounded-md px-3 py-2"
+              className="border border-gray-300 rounded-md px-3 py-2 "
             />
           </div>
           <div className="">
@@ -211,7 +211,7 @@ function ManagerAccountSettings() {
               name="startDay"
               value={state.settings.startDay}
               onChange={handleChange}
-              className="border border-gray-300 rounded-md px-3 py-2"
+              className="border border-gray-300 rounded-md px-1  py-2 mx-2 "
             >
               {daysOfWeek.map((day, index) => (
                 <option key={index} value={index}>
@@ -227,7 +227,7 @@ function ManagerAccountSettings() {
               name="endDay"
               value={state.settings.endDay}
               onChange={handleChange}
-              className="border border-gray-300 rounded-md px-3 py-2"
+              className="border border-gray-300 rounded-md   px-1  py-2 mx-2"
             >
               {daysOfWeek.map((day, index) => (
                 <option key={index} value={index}>
@@ -244,7 +244,7 @@ function ManagerAccountSettings() {
               name="openTime"
               value={state.settings.openTime}
               onChange={handleChange}
-              className="border border-gray-300 rounded-md px-3 py-2"
+              className="border border-gray-300 rounded-md px-3 py-2 mx-2"
             >
               {hourTimes.map((time, index) => (
                 <option key={index} value={time}>
@@ -260,7 +260,7 @@ function ManagerAccountSettings() {
               name="closeTime"
               value={state.settings.closeTime}
               onChange={handleChange}
-              className="border border-gray-300 rounded-md px-3 py-2"
+              className="border border-gray-300 rounded-md px-3 py-2 mx-2"
             >
               {hourTimes.map((time, index) => (
                 <option key={index} value={time}>
