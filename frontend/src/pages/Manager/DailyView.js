@@ -25,15 +25,13 @@ function DailyView() {
       });
   }, []);
 
-  const handleCompletionToggle = () => {
+  const handleCompletionToggle = async () => {
     axiosInstance
       .post(`/scheduler/update/${params.id}`, {
         markedAsComplete: !scheduleInfo.markedAsComplete,
       })
       .then((res) => {
-        console.log(
-          `Updated schedule completion status to ${res.data.markedAsComplete}`
-        );
+        console.log(`Updated schedule completion status ${res.data.success}`);
         setScheduleInfo({
           ...scheduleInfo,
           markedAsComplete: !scheduleInfo.markedAsComplete,
@@ -41,6 +39,21 @@ function DailyView() {
       })
       .catch((err) => {
         console.error("Error updating schedule completion status");
+        console.error(err);
+      });
+  };
+
+  const handleArchiveToggle = async () => {
+    axiosInstance
+      .post(`/scheduler/update/${params.id}`, {
+        archived: !scheduleInfo.archived,
+      })
+      .then((res) => {
+        console.log(`Updated schedule archival status ${res.data.success}`);
+        setScheduleInfo({ ...scheduleInfo, archived: !scheduleInfo.archived });
+      })
+      .catch((err) => {
+        console.error("Error updating schedule archival status");
         console.error(err);
       });
   };
@@ -96,72 +109,74 @@ function DailyView() {
             <h2 className="text-2xl font-bold mb-2">
               Schedule Information and Options
             </h2>
-            <hr className="h-px bg-slate-200 border-0 mt-4 mb-4" />
 
-            <table className="border-collapse border border-slate-200">
-              <tbody>
+            <table className="my-2">
+              <thead>
+                <tr className="p-2 bg-slate-200">
+                  <th className="text-left p-2">Setting</th>
+                  <th className="text-left p-2">Value</th>
+                </tr>
+              </thead>
+              <tbody className="bg-slate-100">
                 <tr>
-                  <td className="border border-slate-200">Completion</td>
-                  <td>
-                    <DuoSelector
-                      radioName="publicationStatus"
-                      option1Name="published"
-                      option2Name="unpublished"
-                      defaultOption="1"
-                    ></DuoSelector>
+                  <td className="p-2">Visibility</td>
+                  <td className="p-2">
+                    {scheduleInfo.markedAsComplete
+                      ? "Published"
+                      : "Not Published"}
                   </td>
                 </tr>
                 <tr>
-                  <td className="border border-slate-200">Status</td>
-                  <td>Item 2</td>
+                  <td className="p-2">Status</td>
+                  <td className="p-2">
+                    {scheduleInfo.archived ? "Archived" : "Not Archived"}
+                  </td>
+                </tr>
+                <tr>
+                  <td className="p-2">Hours</td>
+                  <td className="p-2">
+                    {(scheduleInfo.startTime
+                      ? format(new Date(scheduleInfo.startTime), "ha")
+                      : "") +
+                      " - " +
+                      (scheduleInfo.endTime
+                        ? format(new Date(scheduleInfo.endTime), "ha")
+                        : "")}
+                  </td>
                 </tr>
               </tbody>
             </table>
-            <button onClick={handleCompletionToggle}>
-              {scheduleInfo.markedAsComplete ? "Unpublish" : "Publish"}
-            </button>
+
+            <div className="flex flex-row w-full justify-between py-4 px-8">
+              <div
+                className={
+                  "cursor-pointer text-white transition-all rounded text-center py-1 px-2 " +
+                  (scheduleInfo.markedAsComplete
+                    ? "bg-red-500 hover:bg-red-600"
+                    : "bg-green-500 hover:bg-green-600")
+                }
+                onClick={handleCompletionToggle}
+              >
+                {scheduleInfo.markedAsComplete
+                  ? "Unpublish Schedule"
+                  : "Publish Schedule"}
+              </div>
+              <div
+                className={
+                  "cursor-pointer text-white transition-all rounded text-center py-1 px-2 " +
+                  (scheduleInfo.archived
+                    ? "bg-green-500 hover:bg-green-600"
+                    : "bg-red-500 hover:bg-red-600")
+                }
+                onClick={handleArchiveToggle}
+              >
+                {scheduleInfo.archived
+                  ? "Unarchive Schedule"
+                  : "Archive Schedule"}
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-function DuoSelector(props) {
-  const { option1Name, option2Name, radioName, defaultOption } = props;
-  const [selected, setSelected] = useState(true); // true = option 1 selected
-
-  return (
-    <div className="flex flex-row w-full h-full justify-center items-stretch">
-      <div>
-        <input
-          type="radio"
-          id={`${radioName}${option1Name}`}
-          name={radioName}
-          className="hidden peer"
-          defaultChecked={defaultOption && defaultOption === "1"}
-        ></input>
-        <label
-          for={`${radioName}${option1Name}`}
-          className="p-1 bg-red-500 peer-checked:bg-green-500"
-        >
-          {option1Name}
-        </label>
-      </div>
-      <div>
-        <input
-          type="radio"
-          id={`${radioName}${option2Name}`}
-          name={radioName}
-          className="hidden peer"
-          defaultChecked={defaultOption && defaultOption === "2"}
-        ></input>
-        <label
-          for={`${radioName}${option2Name}`}
-          className="p-1 bg-red-500 peer-checked:bg-green-500 "
-        >
-          {option2Name}
-        </label>
       </div>
     </div>
   );

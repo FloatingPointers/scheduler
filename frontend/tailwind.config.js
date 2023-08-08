@@ -16,6 +16,20 @@ module.exports = {
         secondary: "#64748b", //slate-500
         accent: "#10b981", //emerald-500
       },
+      keyframes: {
+        duoOptionSelect: {
+          "0%": {
+            background:
+              "linear-gradient(to left, red-400 50%, green-400 50%) right",
+          },
+          "50%": { transform: "translate(50%, 0)" },
+          "100%": { transform: "translate(200%, 0)" },
+        },
+      },
+      animation: {
+        duoOptionSelectLeft: "duoOptionSelect 2s linear 1",
+        duoOptionSelectRight: "duoOptionSelect-reverse 2s linear 1",
+      },
     },
   },
   plugins: [],
