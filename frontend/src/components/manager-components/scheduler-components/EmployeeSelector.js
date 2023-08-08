@@ -3,24 +3,28 @@ import { Table } from "react-bootstrap";
 
 function EmployeeSelector(props) {
   let { currentShift, setCurrentShift } = props;
+  const { startDate, endDate } = currentShift;
+
+  if (startDate && endDate) {
+  }
 
   const roles = ["manager", "cook", "cashier"];
   const [employees, setEmployees] = useState([
     // temporary employee data mockup
-    {
-      employeeID: 1,
-      name: "John Smith",
-      startTime: "9:00 AM",
-      endTime: "5:00 PM",
-      roles: "Cashier",
-    },
-    {
-      employeeID: 2,
-      name: "Adam Sandler",
-      startTime: "9:00 AM",
-      endTime: "5:00 PM",
-      roles: "Cashier",
-    },
+    // {
+    //   employeeID: 1,
+    //   name: "John Smith",
+    //   startTime: "9:00 AM",
+    //   endTime: "5:00 PM",
+    //   roles: "Cashier",
+    // },
+    // {
+    //   employeeID: 2,
+    //   name: "Adam Sandler",
+    //   startTime: "9:00 AM",
+    //   endTime: "5:00 PM",
+    //   roles: "Cashier",
+    // },
   ]);
 
   const [sort, setSort] = useState("none");
@@ -123,7 +127,7 @@ function EmployeeSelector(props) {
             return (
               <tr
                 className={classes}
-                key={employee.employeeID}
+                key={employee._id}
                 onClick={() => {
                   handleEmployeeSelect(employee.employeeID);
                 }}
