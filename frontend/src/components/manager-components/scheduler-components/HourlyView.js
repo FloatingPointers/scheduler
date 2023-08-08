@@ -16,12 +16,14 @@ function HourlyView(props) {
     props.setCurrentShift({
       ...currentShift,
       start: date ? format(date, "HH:mm") : "",
+      startDate: date,
     });
   };
   let setSelectionEndTime = (date) => {
     props.setCurrentShift({
       ...currentShift,
       end: date ? format(date, "HH:mm") : "",
+      endDate: date,
     });
   };
   let setSelectionTime = (start, end) => {
@@ -29,6 +31,8 @@ function HourlyView(props) {
       ...currentShift,
       start: start ? format(start, "HH:mm") : "",
       end: end ? format(end, "HH:mm") : "",
+      startDate: start,
+      endDate: end,
     });
   };
 

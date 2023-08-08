@@ -71,6 +71,8 @@ function ScheduleManager() {
     employeeID: -1,
     start: "",
     end: "",
+    startDate: null,
+    endDate: null,
   });
 
   //Handle page load
