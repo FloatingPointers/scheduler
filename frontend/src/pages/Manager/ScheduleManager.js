@@ -74,11 +74,24 @@ function ScheduleManager() {
     startDate: null,
     endDate: null,
   });
+  const [availableEmployees, setAvailableEmployees] = useState([]);
+  const [allEmployees, setAllEmployees] = useState(async () => {
+    return await axiosInstance.get("scheduler/editor/employee/allEmployees");
+  });
 
   //Handle page load
   useEffect(() => {
     //let schedule = await axiosInstance.get(`/scheduler/schedule/`);
   }, []);
+
+  useEffect(() => {
+    if (currentShift.startDate && currentShift.endDate) {
+      setAvailableEmployees(
+        axiosInstance.get("scheduler/editor/employee/allEmployees")
+      );
+    }
+    //let schedule = await axiosInstance.get(`/scheduler/schedule/`);
+  }, [currentShift.endDate]);
 
   //NEEDS MULTIPLE COMPONENT BREAKDOWN
   return (

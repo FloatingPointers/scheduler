@@ -2,30 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 
 function EmployeeSelector(props) {
-  let { currentShift, setCurrentShift } = props;
-  const { startDate, endDate } = currentShift;
-
-  if (startDate && endDate) {
-  }
+  let { availableEmployees, startDate, endDate } = props;
 
   const roles = ["manager", "cook", "cashier"];
-  const [employees, setEmployees] = useState([
-    // temporary employee data mockup
-    // {
-    //   employeeID: 1,
-    //   name: "John Smith",
-    //   startTime: "9:00 AM",
-    //   endTime: "5:00 PM",
-    //   roles: "Cashier",
-    // },
-    // {
-    //   employeeID: 2,
-    //   name: "Adam Sandler",
-    //   startTime: "9:00 AM",
-    //   endTime: "5:00 PM",
-    //   roles: "Cashier",
-    // },
-  ]);
 
   const [sort, setSort] = useState("none");
   const [filter, setFilter] = useState("none");
