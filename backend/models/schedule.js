@@ -19,6 +19,16 @@ const day = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  startTime: {
+    type: Number,
+    default: 0,
+    required: true,
+  },
+  endTime: {
+    type: Number,
+    default: 24,
+    required: true,
+  },
 });
 
 const Schedule = new mongoose.Schema({

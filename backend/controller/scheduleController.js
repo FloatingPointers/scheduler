@@ -151,3 +151,17 @@ exports.getOverviewDays = asyncHandler(async (req, res, next) => {
 
   return res.status(200).json(days);
 });
+
+//GET all general information about a day
+//    /scheduler/editor/:id/info/:day
+exports.getDayInfo = asyncHandler(async (req, res, next) => {
+  let dayToSelect = `day.${req.params.day}`;
+  let dayInfo = await Schedule.findById(req.params.id).select({
+    dayToSelect: {
+      startTime: 1,
+      endTime: 1,
+    },
+  });
+
+  return res.status(200).json(dayInfo);
+});

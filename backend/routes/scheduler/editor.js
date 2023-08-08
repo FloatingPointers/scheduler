@@ -11,6 +11,15 @@ const employeeController = require("../../controller/employeeController.js");
 module.exports = router;
 
 /*
+ =====================
+
+ ROUTES for SCHEDULE EDITOR PAGE
+ /scheduler/editor/
+
+ =====================
+*/
+
+/*
   GET - Employees working for selected shift
   Request Body: {
     options: {
@@ -100,4 +109,21 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   storeAuth,
   employeeController.allEmployees
+);
+
+/*
+  GET - General information about a particular day of a schedule
+  Params:
+    - id - id of the schedule
+    - day
+  Response Body: {
+    startTime
+    endTime
+  }
+*/
+router.get(
+  "/:id/info/:day",
+  passport.authenticate("jwt", { session: false }),
+  storeAuth,
+  scheduleController.getDayInfo
 );
