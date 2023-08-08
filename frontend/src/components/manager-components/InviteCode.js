@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Button, Notification, Loader } from "@mantine/core";
 import axiosInstance from "../../Axios";
+import { SuccessAlert } from "../app-components/NotificationAlerts";
 
 function InviteCode() {
   const [notify, setNotify] = useState(false);
@@ -11,6 +12,7 @@ function InviteCode() {
   const handleInviteCodeClick = () => {
     navigator.clipboard.writeText(inviteCode);
     setNotify(true);
+    SuccessAlert("Copied to clipboard");
   };
 
   const handleRefreshInviteCode = () => {
@@ -39,22 +41,22 @@ function InviteCode() {
           {inviteCode}
         </b>
       </p>
-      {notify && (
-        <Notification
-          title="Copied to clipboard"
-          color="teal"
-          shadow="md"
-          className="mb-4"
-          onClose={() => setNotify(false)}
-        />
-      )}
+
       <button
-        className="bg-slate-300 px-3 py-1 rounded shadow-sm hover:bg-red-200"
+        className="bg-slate-300 w-28 h-9 px-3 py-1 rounded shadow-sm hover:bg-slate-400 items-center flex justify-center hover:shadow-md transition duration-200 ease-in-out disabled:opacity-50 disabled:cursor-not-allowed text-center "
         onClick={handleRefreshInviteCode}
         disabled={disabled}
       >
         {" "}
-        {disabled ? <Loader /> : "New Code"}{" "}
+        {disabled ? (
+          <div className="flex gap-1">
+            <Loader size={"md"} variant="dots" />{" "}
+            <Loader size={"md"} variant="dots" />{" "}
+            <Loader size={"md"} variant="dots" />
+          </div>
+        ) : (
+          "New Code"
+        )}{" "}
       </button>
     </div>
   );
