@@ -122,20 +122,17 @@ function SchedulerHome() {
     let openTime = new Date(startDate);
     openTime.setHours(event.target.openTime.value);
 
-    axiosInstance
-      .post("/scheduler/create", {
+    try {
+      const res = await axiosInstance.post("/scheduler/create", {
         startDate: startDate,
         startTime: openTime,
         endTime: closeTime,
-      })
-      .then((res) => {
-        console.log("Created Schedule");
-        navigate(`/scheduler/${res.data.id}/${0}`);
-      })
-      .catch((err) => {
-        console.error("Error creating schedule");
-        console.error(err);
       });
+      console.log("Created Schedule");
+      navigate(`/mgr/scheduler/${res.data.id}`);
+    } catch (err) {
+      console.log("ERROR ", err);
+    }
 
     close();
   };
