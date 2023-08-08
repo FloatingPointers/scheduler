@@ -98,5 +98,17 @@ exports.updateRequest = asyncHandler(async (req, res, next) => {
   request.status = status;
   await request.save();
 
-  return res.status(200).json(request);
+  return res.status(200).json({ success: true });
+});
+
+exports.maxReqs = asyncHandler(async (req, res, next) => {
+  const pending = req.params.pending === "true";
+  const query = {
+    storeId: req.user.accountRef,
+    status: pending ? "PENDING" : { $ne: "PENDING" },
+  };
+  const count = await Request.countDocuments(query);
+  return res.status(200).json({
+    maxRequests: count,
+  });
 });

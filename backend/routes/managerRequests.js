@@ -9,7 +9,7 @@ const requestController = require("../controller/requestController.js");
 
 //get all employee requests by ID
 router.get(
-  "/request/:page/:pending",
+  "/request/get/:page/:pending",
   passport.authenticate("jwt", { session: false }),
   storeAuth,
   requestController.getStoreRequests
@@ -21,6 +21,13 @@ router.put(
   passport.authenticate("jwt", { session: false }),
   storeAuth,
   requestController.updateRequest
+);
+
+router.get(
+  "/request/maxReqs/:pending",
+  passport.authenticate("jwt", { session: false }),
+  storeAuth,
+  requestController.maxReqs
 );
 
 module.exports = router;

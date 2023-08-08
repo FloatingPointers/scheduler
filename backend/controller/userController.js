@@ -83,11 +83,13 @@ exports.signup = asyncHandler(async (req, res, next) => {
 
   //Create either a new store or employee account for the user
   let linkedAccount;
+  let name;
   if (req.body.type === "STORE") {
     linkedAccount = new Store({
       name: req.body.storeName,
       inviteCode: await generateInviteCode(),
     });
+    name = req.body.storeName;
 
     //Upload the store account to the database
     await linkedAccount.save();
@@ -106,7 +108,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
       lastName: req.body.lastName,
       employer: store._id,
     });
-
+    name = linkedAccount.firstName + linkedAccount.lastName;
     //Upload the employee account to the database
     await linkedAccount.save();
     store.employees.push(linkedAccount._id);
@@ -117,6 +119,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
   let user;
   bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
     user = new User({
+      name,
       hashedPassword: hashedPassword,
       type: req.body.type,
       accountRef: linkedAccount._id,

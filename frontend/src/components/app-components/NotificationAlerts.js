@@ -1,6 +1,6 @@
 import { Notifications } from "@mantine/notifications";
 
-function ErrorAlert(message) {
+export function ErrorAlert(message) {
   Notifications.show({
     title: "Error!",
     message: message,
@@ -9,4 +9,11 @@ function ErrorAlert(message) {
   });
 }
 
-export default ErrorAlert;
+export function SuccessAlert(message) {
+  Notifications.show({
+    title: "Success!",
+    message: message,
+    color: "green",
+    style: {},
+  });
+}
