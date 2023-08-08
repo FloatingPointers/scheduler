@@ -124,14 +124,13 @@ exports.signup = asyncHandler(async (req, res, next) => {
   let user;
   bcrypt.hash(req.body.password, 10, async (err, hashedPassword) => {
     user = new User({
-      name,
+      name: name,
       hashedPassword: hashedPassword,
       type: req.body.type,
       accountRef: linkedAccount._id,
       username: req.body.username,
       email: req.body.email,
       employerRef: linkedAccount.employer,
-      name: req.body.name,
     });
 
     //Upload the user account credentials to the database
