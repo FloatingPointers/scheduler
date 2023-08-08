@@ -16,6 +16,7 @@ var storeInviteRouter = require("./routes/invite");
 var empSettingsRouter = require("./routes/settings");
 var resetPasswordRouter = require("./routes/resetPassword");
 var empReqRouter = require("./routes/employeeRequests");
+var managerReqRouter = require("./routes/managerRequests");
 
 var app = express();
 
@@ -39,6 +40,7 @@ app.use("/invite", storeInviteRouter);
 app.use("/settings", empSettingsRouter);
 app.use("/resetPassword", resetPasswordRouter);
 app.use("/employeeRequests", empReqRouter);
+app.use("/managerRequests", managerReqRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

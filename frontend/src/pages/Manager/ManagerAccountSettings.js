@@ -186,13 +186,15 @@ function ManagerAccountSettings() {
   const [opened, { open, close }] = useDisclosure(false);
 
   return (
-    <div className="bg-slate-100 w-full min-h-screen flex flex-col">
+    <div className="bg-slate-100 w-screen min-h-screen flex flex-col">
       <ManagerNavbar />
-      <div className=" bg-slate-50 border border-slate-200 rounded shadow-md p-6 ">
-        <div className="flex  justify-center items-center gap-3 p-10 flex-col w-full">
-          <h2 className="text-2xl font-bold ">Change Account Settings</h2>
-          <div className="">
-            <label className="p-2" htmlFor="name">
+      <div className="mt-10 bg-slate-50 border border-slate-300 shadow-md p-6 mx-auto max-w-3xl">
+        <div className="flex justify-center items-center gap-6 flex-col w-full">
+          <h2 className="text-3xl font-semibold pb-4">
+            Change Account Settings
+          </h2>
+          <div className="w-full">
+            <label className="block p-2" htmlFor="name">
               Store Name
             </label>
             <input
@@ -201,17 +203,19 @@ function ManagerAccountSettings() {
               type="text"
               value={state.name}
               onChange={handleChange}
-              className="border border-gray-300 rounded-md px-3 py-2 "
+              className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-2 w-full"
             />
           </div>
-          <div className="">
-            <label htmlFor="startDay">Schedule Start Day</label>
+          <div className="w-full">
+            <label className="block p-2" htmlFor="startDay">
+              Schedule Start Day
+            </label>
             <select
               id="startDay"
               name="startDay"
               value={state.settings.startDay}
               onChange={handleChange}
-              className="border border-gray-300 rounded-md px-1  py-2 mx-2 "
+              className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-2 w-full"
             >
               {daysOfWeek.map((day, index) => (
                 <option key={index} value={index}>
@@ -220,14 +224,16 @@ function ManagerAccountSettings() {
               ))}
             </select>
           </div>
-          <div className="">
-            <label htmlFor="endDay">Schedule End Day</label>
+          <div className="w-full">
+            <label className="block p-2" htmlFor="endDay">
+              Schedule End Day
+            </label>
             <select
               id="endDay"
               name="endDay"
               value={state.settings.endDay}
               onChange={handleChange}
-              className="border border-gray-300 rounded-md   px-1  py-2 mx-2"
+              className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-2 w-full"
             >
               {daysOfWeek.map((day, index) => (
                 <option key={index} value={index}>
@@ -236,15 +242,16 @@ function ManagerAccountSettings() {
               ))}
             </select>
           </div>
-
-          <div className="">
-            <label htmlFor="openTime">Open Time</label>
+          <div className="w-full">
+            <label className="block p-2" htmlFor="openTime">
+              Open Time
+            </label>
             <select
               id="openTime"
               name="openTime"
               value={state.settings.openTime}
               onChange={handleChange}
-              className="border border-gray-300 rounded-md px-3 py-2 mx-2"
+              className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-2 w-full"
             >
               {hourTimes.map((time, index) => (
                 <option key={index} value={time}>
@@ -253,14 +260,16 @@ function ManagerAccountSettings() {
               ))}
             </select>
           </div>
-          <div className="">
-            <label htmlFor="closeTime">Close Time</label>
+          <div className="w-full">
+            <label className="block p-2" htmlFor="closeTime">
+              Close Time
+            </label>
             <select
               id="closeTime"
               name="closeTime"
               value={state.settings.closeTime}
               onChange={handleChange}
-              className="border border-gray-300 rounded-md px-3 py-2 mx-2"
+              className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-2 w-full"
             >
               {hourTimes.map((time, index) => (
                 <option key={index} value={time}>
@@ -269,17 +278,17 @@ function ManagerAccountSettings() {
               ))}
             </select>
           </div>
-          <Button
+          <button
             onClick={open}
-            className="px-3 py-2 bg-blue-500 text-white rounded-md"
+            className="bg-blue-600 shadow-sm rounded-md p-2 hover:bg-blue-500 text-white transition-colors w-full mt-4"
           >
             Manage Roles
-          </Button>
+          </button>
           {unsavedChanges && (
-            <div>
+            <div className="mt-4 w-full">
               <button
                 onClick={handleSave}
-                className="px-3 py-2 bg-green-500 text-white rounded-md"
+                className="bg-green-400 shadow-sm rounded p-2 hover:bg-green-300 transition-colors w-full"
               >
                 Save Changes
               </button>
@@ -290,49 +299,52 @@ function ManagerAccountSettings() {
       <Modal
         opened={opened}
         onClose={close}
-        size="50%"
-        shadow="md"
-        padding="xl"
         title="Manage Roles"
+        classNames={{ body: "p-6" }}
         centered
       >
-        <div className="w-full h-full flex flex-col justify-center items-center ">
+        <div className="flex flex-col gap-4">
           <Virtuoso
-            style={{ height: "400px", width: "400px" }}
+            style={{ height: "400px", width: "100%" }}
             data={state.settings.roles}
             itemContent={(index, role) => (
-              <div key={index} className="px-5 gap-5 w-full h-full">
+              <div
+                key={index}
+                className="flex items-center justify-between gap-4 w-full py-2"
+              >
                 <input
                   type="text"
                   value={role}
                   onChange={(event) => handleRoleChange(event, index)}
-                  className="border border-gray-300 rounded-md px-3 py-2 m-1"
+                  className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 flex-grow"
                 />
                 <button
                   onClick={() => handleDelete(index)}
-                  className="px-3 py-2 bg-red-500 text-white rounded-md gap-20"
+                  className="bg-red-500 shadow-sm rounded px-3 py-2 text-white  hover:bg-red-400 transition-colors"
                 >
                   <TiDelete />
                 </button>
               </div>
             )}
           />
-          <div className="">
+
+          <div className="flex justify-between items-center gap-4 w-full">
             <input
               id="addRole"
               name="addRole"
               type="text"
               value={newRole}
               onChange={handleNewRole}
-              className="border border-gray-300 rounded-md px-3 py-2 m-1"
+              placeholder="New Role"
+              className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 flex-grow"
               onKeyPress={handleEnterButton}
             />
-            <button
+            <Button
               onClick={handleAddRole}
-              className="px-3 py-2 bg-blue-500 text-white rounded-md"
+              className="bg-blue-600 text-white py-1 px-4 rounded-md active:bg-blue-500 transition"
             >
               Add Role
-            </button>
+            </Button>
           </div>
         </div>
       </Modal>

@@ -122,6 +122,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
       accountRef: linkedAccount._id,
       username: req.body.username,
       email: req.body.email,
+      employerRef: linkedAccount.employer,
     });
 
     //Upload the user account credentials to the database
