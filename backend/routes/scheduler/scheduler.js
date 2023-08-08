@@ -67,6 +67,23 @@ router.post(
   scheduleController.archiveSchedule
 );
 
+/*
+  POST - Update any information included in request to the specified schedule
+  Request Body: {
+    any schedule fields to be updated
+  }
+  Response Body: {
+    updated states of changed fields
+  }
+  Params: id
+*/
+router.post(
+  "/update/:id",
+  passport.authenticate("jwt", { session: false }),
+  storeAuth,
+  scheduleController.updateSchedule
+);
+
 /* -----------------------
     SCHEDULE HOME ROUTES
    ----------------------- */

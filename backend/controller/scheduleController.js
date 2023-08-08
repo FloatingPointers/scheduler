@@ -113,11 +113,11 @@ exports.archiveSchedule = asyncHandler(async (req, res, next) => {
   return res.status(200).json({ success: true });
 });
 
+//Update any information about a schedule
+//    /scheduler/update/:id
 exports.updateSchedule = asyncHandler(async (req, res, next) => {
-  let schedule = await Schedule.findById(req.body.scheduleId);
-  if ("weekStartDate" in req.body) schedule.weekStartDate = body.weekStartDate;
-
-  schedule.save();
+  await Schedule.findByIdAndUpdate(req.params.id, req.body);
+  return res.status(200).json({ success: true });
 });
 
 exports.deleteSchedule = asyncHandler(async (req, res, next) => {
@@ -131,9 +131,16 @@ exports.deleteSchedule = asyncHandler(async (req, res, next) => {
   });
 });
 
-//    /scheduler/overview/:id/days
+//GET all general information about a schedule
+//    /scheduler/overview/:id/status
 exports.getOverviewDays = asyncHandler(async (req, res, next) => {
   let days = await Schedule.findById(req.params.id).select({
+    startDate: 1,
+    startTime: 1,
+    endTime: 1,
+    goalsMet: 1,
+    markedAsComplete: 1,
+    archived: 1,
     day: {
       goalsMet: 1,
       markedAsComplete: 1,

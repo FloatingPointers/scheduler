@@ -3,7 +3,7 @@ export function generateDummySchedule() {
   let json = {
     _id: "schedule_id_placeholder_" + Math.floor(Math.random() * 100),
     storeId: "store_id_placeholder", // References the store the schedule belongs to
-    weekStartDate: "2000-01-" + (Math.floor(Math.random() * 3) * 7 + 1),
+    startDate: "2000-01-" + (Math.floor(Math.random() * 3) * 7 + 1),
     goalsMet: Math.random() > 0.5,
     markedAsComplete: Math.random() > 0.5,
     format: [

@@ -10,7 +10,7 @@ const employeeController = require("../../controller/employeeController.js");
 
 /* GET - general info about each day on this schedule
 Response Body: {
-    days: [
+    day: [
         {
             goalsMet
             markedAsComplete
@@ -23,7 +23,7 @@ Params:
     - id: schedule id
 */
 router.get(
-  "/:id/days",
+  "/:id/status",
   passport.authenticate("jwt", { session: false }),
   storeAuth,
   scheduleController.getOverviewDays
