@@ -30,6 +30,7 @@ const Request = new mongoose.Schema({
 
   storeId: {
     type: mongoose.ObjectId,
+    required: true,
   },
 
   senderTag: {

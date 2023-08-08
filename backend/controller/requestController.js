@@ -4,6 +4,7 @@ const asyncHandler = require("express-async-handler");
 exports.createReq = asyncHandler(async (req, res, next) => {
   let request = new Request({
     ...req.body,
+    storeId: req.user.employerRef,
     senderTag: {
       name: req.user.name,
       id: req.user._id,
