@@ -100,16 +100,19 @@ function SchedulerHome() {
 
   const handleCreateSchedule = async (event) => {
     event.preventDefault();
-
-    if (
+    /*if (
       Number(event.target.closeTime.value) < Number(event.target.openTime.value)
     ) {
+      console.log("aaaa");
+
       event.target.closeTime.setCustomValidity(
         "Close time must be greater than open time"
       );
 
+      event.target.openTime.value = event.target.openTime.defaultValue;
+      event.target.closeTime.value = event.target.closeTime.defaultValue;
       return;
-    }
+    }*/
 
     let startDate = new Date(
       event.target.year.value,
@@ -117,10 +120,19 @@ function SchedulerHome() {
       event.target.day.value
     );
 
-    let closeTime = new Date(startDate);
-    closeTime.setHours(event.target.closeTime.value);
-    let openTime = new Date(startDate);
-    openTime.setHours(event.target.openTime.value);
+    let closeTime = new Date(startDate.getTime());
+    closeTime.setHours(scheduleDefaultSettings.settings.closeTime);
+    let openTime = new Date(startDate.getTime());
+    openTime.setHours(scheduleDefaultSettings.settings.openTime);
+
+    console.log(
+      "Sending create request " +
+        startDate +
+        " : " +
+        openTime +
+        " -> " +
+        closeTime
+    );
 
     axiosInstance
       .post("/scheduler/create", {
@@ -254,7 +266,7 @@ function SchedulerHome() {
             </div>
           </div>
 
-          <div className="flex flex-row gap-8">
+          {/*<div className="flex flex-row gap-8">
             <div className="">
               <label htmlFor="openTime" className="">
                 Open Time
@@ -284,7 +296,7 @@ function SchedulerHome() {
                 className="font-light border shadow-inner border-slate-300 rounded focus:border-slate-400 focus:outline-none p-1 w-full"
               />
             </div>
-          </div>
+              </div>*/}
 
           <button
             type="submit"

@@ -25,11 +25,11 @@ const Store = new mongoose.Schema({
     },
     openTime: {
       type: Date,
-      default: new Date().setHours(8, 0),
+      default: new Date().setUTCHours(4),
     },
     closeTime: {
       type: Date,
-      default: new Date().setHours(17, 0),
+      default: new Date().setUTCHours(22),
     },
     roles: [
       {
