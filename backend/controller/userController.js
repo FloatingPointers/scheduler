@@ -22,6 +22,11 @@ async function generateInviteCode() {
   return inviteCode;
 }
 
+exports.getDisplayName = asyncHandler(async (req, res, next) => {
+  console.log(req.user);
+  return res.status(200).json({ name: req.user.name });
+});
+
 exports.login = asyncHandler(async (req, res, next) => {
   //passportjs adds user property after authenticating
   let user = req.user;
@@ -85,7 +90,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
   let linkedAccount;
   if (req.body.type === "STORE") {
     linkedAccount = new Store({
-      name: req.body.storeName,
+      //name: req.body.storeName,
       inviteCode: await generateInviteCode(),
     });
 
@@ -102,8 +107,8 @@ exports.signup = asyncHandler(async (req, res, next) => {
     linkedAccount = new Employee({
       username: req.body.username,
       email: req.body.email,
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
+      //firstName: req.body.firstName,
+      //lastName: req.body.lastName,
       employer: store._id,
     });
 
@@ -123,6 +128,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
       username: req.body.username,
       email: req.body.email,
       employerRef: linkedAccount.employer,
+      name: req.body.name,
     });
 
     //Upload the user account credentials to the database

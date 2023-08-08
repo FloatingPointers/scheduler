@@ -38,6 +38,8 @@ function App() {
       //Used ONLY for checking if this role can access the page  :  important!
       localStorage.setItem("role", response.data.type);
 
+      localStorage.setItem("displayName", response.data.name);
+
       // Navigate to home page
       if (event.target.loginType.value === "EMPLOYEE") navigate("/emp");
       else navigate("/mgr");
@@ -49,7 +51,7 @@ function App() {
   };
 
   return (
-    <div className="flex flex-row justify-center items-center h-screen w-screen bg-slate-100 text-xl">
+    <div className="flex flex-row justify-center items-center min-h-screen w-screen bg-slate-100 text-xl">
       <form
         onSubmit={login}
         className="border border-slate-300 bg-slate-50 rounded-lg shadow-md p-8 flex flex-col gap-8 w-96"

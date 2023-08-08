@@ -1,19 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import axiosInstance from "../../Axios";
 
 function ManagerNavbar() {
   const navigate = useNavigate();
+  const [displayName, setDisplayName] = useState("Store Name");
+
+  //Initialize component (load display name)
+  useEffect(() => {
+    if (localStorage.getItem("displayName")) {
+      setDisplayName(localStorage.getItem("displayName"));
+    } else {
+      axiosInstance
+        .get("/settings/displayName")
+        .then((res) => {
+          localStorage.setItem("displayName", res.data.name);
+          setDisplayName(res.data.name);
+        })
+        .catch((err) => {
+          console.error("Error getting display name");
+          console.error(err);
+        });
+    }
+  }, []);
+
+  const handleLogOut = async () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("displayName");
+    localStorage.removeItem("role");
+    navigate("/");
+  };
 
   return (
     <div className="flex w-full justify-evenly items-center text-lg p-2 bg-slate-200 dark:bg-slate-600 dark:text-white">
       <div className="inline-flex w-1/4 justify-start ml-12 items-center gap-3">
-        <h2 className="font-semibold text-2xl">Store Name</h2>
+        <h2 className="font-semibold text-2xl">{displayName}</h2>
         <h2
           className="font-light text-md cursor-pointer hover:scale-110"
-          onClick={() => {
-            localStorage.removeItem("token");
-            navigate("/");
-          }}
+          onClick={handleLogOut}
         >
           Log Out
         </h2>

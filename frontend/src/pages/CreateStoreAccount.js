@@ -24,7 +24,7 @@ function CreateStoreAccount() {
         password: event.target.password.value,
         email: event.target.email.value,
         username: event.target.username.value,
-        storeName: event.target.storeName.value,
+        name: event.target.storeName.value,
       };
 
       //Send the request and await the response

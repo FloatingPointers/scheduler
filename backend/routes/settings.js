@@ -10,9 +10,21 @@ const {
 applyUserStrategy(passport);
 const storeController = require("../controller/storeController");
 const employeeController = require("../controller/employeeController");
+const userController = require("../controller/userController.js");
+
+/*
+  GET - display name of a user
+  Response Body: {
+    name
+  }
+*/
+router.get(
+  "/displayName",
+  passport.authenticate("jwt", { session: false }),
+  userController.getDisplayName
+);
 
 //store routes
-
 /*
   POST - Update the current settings
     Request Body: {
