@@ -8,13 +8,31 @@ import axiosInstance from "../../Axios";
 
 function DailyView() {
   //GET: Schedule from the scheduleId field in ? url
+  const dummyDay = {
+    goalsMet: true,
+    markedAsComplete: true,
+    totalHours: 0,
+    totalCost: 0,
+  };
   const [schedule, setSchedule] = useState(generateDummySchedule());
+  const [dayInfo, setDayInfo] = useState([
+    dummyDay,
+    dummyDay,
+    dummyDay,
+    dummyDay,
+    dummyDay,
+    dummyDay,
+    dummyDay,
+  ]);
+
   const params = useParams();
 
   //Handle page load
   useEffect(() => {
     console.log("Initialize daily schedule overview with id: " + params.id);
-    //axiosInstance.get(`/scheduler/schedule/${props.scheduleId}/dailyInfo`);
+    axiosInstance.get(`/scheduler/overview/${params.id}/days`).then((res) => {
+      setDayInfo(res.data);
+    });
   }, []);
 
   const handleMarkCompletion = () => {

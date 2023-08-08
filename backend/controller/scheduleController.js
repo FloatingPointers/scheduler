@@ -130,3 +130,17 @@ exports.deleteSchedule = asyncHandler(async (req, res, next) => {
     success: success ? true : false,
   });
 });
+
+//    /scheduler/overview/:id/days
+exports.getOverviewDays = asyncHandler(async (req, res, next) => {
+  let days = await Schedule.findById(req.params.id).select({
+    day: {
+      goalsMet: 1,
+      markedAsComplete: 1,
+      totalHours: 1,
+      totalCost: 1,
+    },
+  });
+
+  return res.status(200).json(days);
+});
