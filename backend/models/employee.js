@@ -1,5 +1,12 @@
 const mongoose = require("mongoose");
 
+const defaultAvailability = Array(7)
+  .fill()
+  .map(() => ({
+    preference: "",
+    hours: Array(24).fill(false),
+  }));
+
 const Employee = new mongoose.Schema({
   username: {
     type: String,
@@ -24,12 +31,22 @@ const Employee = new mongoose.Schema({
   },
 
   //The weekly availability of this employee
-  availability: [
-    {
-      preference: { type: String }, // Message of employee preference
-      hours: [{ type: Boolean }],
-    },
-  ],
+  availability: {
+    type: [
+      {
+        preference: { type: String, default: "" }, // Message of employee preference
+        hours: {
+          type: [
+            {
+              type: Boolean,
+            },
+          ],
+          default: Array(24).fill(false),
+        },
+      },
+    ],
+    default: defaultAvailability,
+  },
 });
 
 module.exports = mongoose.model("EMPLOYEE", Employee);

@@ -112,8 +112,6 @@ function HourlySelection(props) {
                     let { preference } = hour;
                     let classList = `hour-selector-${preference}`;
                     curDate = add(curDate, { hours: 1 });
-                    console.log(hourIndex);
-                    console.log(curDate);
                     return (
                       <li
                         key={`hour-selector-${dayIndex}-${hourIndex}`}

@@ -13,7 +13,12 @@ function Availability({ initialAvailability, onChange }) {
   const [shouldCallOnChange, setShouldCallOnChange] = useState(false);
 
   useEffect(() => {
-    setAvailability(initialAvailability);
+    setAvailability(
+      initialAvailability ||
+        Array(7)
+          .fill()
+          .map(() => ({ preference: "", hours: Array(24).fill(false) }))
+    );
     setShouldCallOnChange(false);
   }, [initialAvailability]);
 
@@ -61,6 +66,7 @@ function Availability({ initialAvailability, onChange }) {
       toggleHour(dayIndex, hourIndex);
     }
   };
+  console.log(initialAvailability);
 
   return (
     <div className="flex flex-col items-center">

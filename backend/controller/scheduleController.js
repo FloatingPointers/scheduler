@@ -126,9 +126,11 @@ exports.deleteSchedule = asyncHandler(async (req, res, next) => {
     _id: req.body.scheduleId,
   });
 
-  return res.status(200).json({
-    success: success ? true : false,
-  });
+  if (success) {
+    return res.status(200).json({ suceess: true });
+  } else {
+    return res.status(400).json({ error: "Could not delete schedule" });
+  }
 });
 
 //GET all general information about a schedule
@@ -154,14 +156,16 @@ exports.getOverviewDays = asyncHandler(async (req, res, next) => {
 
 //GET all general information about a day
 //    /scheduler/editor/:id/info/:day
+// 🥺🙏
 exports.getDayInfo = asyncHandler(async (req, res, next) => {
-  let dayToSelect = `day.${req.params.day}`;
-  let dayInfo = await Schedule.findById(req.params.id).select({
-    dayToSelect: {
-      startTime: 1,
-      endTime: 1,
-    },
+  let info = await Schedule.findById(req.params.id).select({
+    _id: 0,
+    day: { $slice: [+req.params.day, 1] },
   });
 
-  return res.status(200).json(dayInfo);
+  return res.status(200).json({
+    startDate: info.startDate,
+    startTime: info.day[0].startTime,
+    endTime: info.day[0].endTime,
+  });
 });

@@ -4,14 +4,61 @@ const asyncHandler = require("express-async-handler");
 const EMPLOYEE_QUERY_LIMIT = 20;
 
 exports.available = asyncHandler(async (req, res, next) => {
-  let available = await Employee.find({ storeId: req.params.id })
-    .select({
-      [`availability.day.${req.body.dayIndex}.hours`]: {
-        $all: [true],
-        $slice: [req.body.startHour, req.body.endHour - req.body.startHour + 1], //remove +1 if broken
+  const dayIndex = parseInt(req.params.dayIndex, 10);
+  const { startDate, endDate } = req.params;
+
+  let startHour = new Date(startDate).getHours();
+  let endHour =
+    new Date(endDate).getHours() + (new Date(endDate).getMinutes() > 0 ? 1 : 0);
+
+  console.log(startHour, endHour, dayIndex);
+
+  let available = await Employee.aggregate([
+    {
+      $match: {
+        storeId: req.params.id,
       },
-    })
-    .limit(EMPLOYEE_QUERY_LIMIT);
+    },
+    {
+      $addFields: {
+        dayAvailability: {
+          $arrayElemAt: ["$availability", dayIndex],
+        },
+      },
+    },
+    {
+      $addFields: {
+        hoursInRange: {
+          $slice: ["$dayAvailability.hours", startHour, endHour - startHour],
+        },
+      },
+    },
+    {
+      $addFields: {
+        isAvailable: {
+          $allElementsTrue: ["$hoursInRange"],
+        },
+      },
+    },
+    {
+      $match: {
+        isAvailable: true,
+      },
+    },
+    {
+      $project: {
+        firstName: 1,
+        lastName: 1,
+        dayAvailability: 1,
+        isAvailable: 1,
+      },
+    },
+    {
+      $limit: EMPLOYEE_QUERY_LIMIT,
+    },
+  ]);
+
+  console.log(available);
 
   return res.status(200).json(available);
 });
@@ -20,10 +67,9 @@ exports.allEmployees = asyncHandler(async (req, res, next) => {
   //passportjs adds user property after authenticating
   let user = req.user;
 
-  console.log(user.accountRef);
   let employeesFromSchedule = await Employee.find({
     employer: user.accountRef,
-  });
+  }).limit(EMPLOYEE_QUERY_LIMIT);
 
   return res.status(200).json(employeesFromSchedule);
 });
@@ -39,7 +85,6 @@ exports.updateSettings = asyncHandler(async (req, res, next) => {
   const { firstName, lastName, availability } = req.body;
 
   let employee = await Employee.findById(req.user.accountRef);
-  console.log(availability);
   employee.firstName = firstName;
   employee.lastName = lastName;
   employee.availability = availability;

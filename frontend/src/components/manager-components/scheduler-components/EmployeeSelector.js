@@ -2,61 +2,23 @@ import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 
 function EmployeeSelector(props) {
-  let { availableEmployees, startDate, endDate } = props;
-
-  const roles = ["manager", "cook", "cashier"];
+  let { employees, setCurrentShift } = props;
 
   const [sort, setSort] = useState("none");
   const [filter, setFilter] = useState("none");
 
-  async function getData(filter) {
-    //add sort later
-    // get emloyee info from backend
-  }
-
-  //Get current edited employee data
-  const getEmployee = (id) => {
-    let found = null;
-    found = employees.find((employee) => employee.employeeID === id);
-
-    if (found === null)
-      console.log(
-        "ERROR>>EMPLOYEESELECTOR::GETEMPLOYEE: Employee not found in linear id search"
-      );
-
-    return found;
-  };
-
   //Called when an employee is clicked on in the table
-  const handleEmployeeSelect = (id) => {
-    //Deselect previously selected employee selector :skull: selector
-    Array.from(
-      document.getElementsByClassName(
-        "employee-selector-" + props.currentShift.employeeID
-      )
-    ).forEach((element) => {
-      element.className =
-        "employee-selector employee-selector-" + props.currentShift.employeeID;
-    });
-
-    //Mark element as selected
-    Array.from(
-      document.getElementsByClassName("employee-selector-" + id)
-    ).forEach((element) => {
-      element.className = "employee-selector selected employee-selector-" + id;
-    });
-
-    let employee = getEmployee(id);
+  const handleEmployeeSelect = (id, firstName, lastName) => {
     setCurrentShift({
-      ...currentShift,
-      employee: employee.name,
+      ...props.currentShift,
+      employee: firstName + " " + lastName,
       employeeID: id,
     });
   };
 
   return (
     <div>
-      <div className="employeeSelectorModifiers">
+      <div className="">
         {/* <label htmlFor="sort">Sort</label>
         <select name="sort">
           <option value="None">
@@ -69,7 +31,7 @@ function EmployeeSelector(props) {
             Select
           </option>
         </select> */}
-        <label htmlFor="role-filter">Filter Role</label>
+        {/* <label htmlFor="role-filter">Filter Role</label>
         <select
           name="role-filter"
           onChange={(event) => {
@@ -82,7 +44,7 @@ function EmployeeSelector(props) {
               {role}
             </option>
           ))}
-        </select>
+        </select> */}
       </div>
 
       <Table>
@@ -94,25 +56,19 @@ function EmployeeSelector(props) {
         </thead>
         <tbody>
           {employees.map((employee) => {
-            let selected =
-              props.currentShift.employeeID !== null &&
-              props.currentShift.employeeID === employee.employeeID;
-            let classes =
-              (selected
-                ? "employee-selector selected "
-                : "employee-selector ") +
-              ("employee-selector-" + employee.employeeID);
-
             return (
               <tr
-                className={classes}
                 key={employee._id}
                 onClick={() => {
-                  handleEmployeeSelect(employee.employeeID);
+                  handleEmployeeSelect(
+                    employee._id,
+                    employee.firstName,
+                    employee.lastName
+                  );
                 }}
               >
-                <td>{employee.name}</td>
-                <td>{employee.roles}</td>
+                <td>{employee.firstName}</td>
+                <td></td>
               </tr>
             );
           })}

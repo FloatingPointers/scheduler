@@ -4,12 +4,15 @@ import { differenceInHours, format, add, compareAsc } from "date-fns";
 import "../../../styles/manager.css";
 
 function HourlyView(props) {
-  let { shiftInfo, currentShift } = props;
+  let { dayInfo, currentShift } = props;
+  const startDate = dayInfo.startDate
+    ? format(new Date(dayInfo.startDate), "yyyy-MM-dd")
+    : "";
   let selectionStartTime = currentShift.start
-    ? new Date([shiftInfo.date + "T" + currentShift.start])
+    ? new Date([startDate + "T" + currentShift.start])
     : null;
   let selectionEndTime = currentShift.end
-    ? new Date([shiftInfo.date + "T" + currentShift.end])
+    ? new Date([startDate + "T" + currentShift.end])
     : null;
 
   let setSelectionStartTime = (date) => {
@@ -36,18 +39,16 @@ function HourlyView(props) {
     });
   };
 
-  let startTime = new Date([shiftInfo.date + "T" + shiftInfo.startTime]);
+  let startTime = new Date([startDate + "T" + dayInfo.startTime]);
   let startTimeRound = new Date(startTime.getTime());
   startTimeRound.setMinutes(0, 0, 0);
-  let endTime = new Date([shiftInfo.date + "T" + shiftInfo.endTime]);
+  let endTime = new Date([startDate + "T" + dayInfo.endTime]);
   let endTimeRound = new Date(endTime.getTime());
   endTimeRound.setHours(
-    endTimeRound.getHours() + Math.round(endTimeRound.getMinutes() / 60)
+    endTimeRound.getHours() + Math.round(endTimeRound.getMinutes() / 60) // TODO: (endDate.getMinutes() > 0 ? 1 : 0)
   );
   endTimeRound.setMinutes(0, 0, 0); // Resets also seconds and milliseconds
   let totalHours = differenceInHours(endTimeRound, startTimeRound, Math.ceil); //Allows for hourly view setup
-
-  console.log(endTime);
 
   //Handles when a user selects an hour element
   function handleHourSelection(index) {

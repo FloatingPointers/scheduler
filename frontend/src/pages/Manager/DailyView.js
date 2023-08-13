@@ -64,6 +64,7 @@ function DailyView() {
       <div className="bg-slate-100 w-screen min-h-screen p-12 ">
         <div className="flex flex-col items-center justify-top gap-8 w-full px-12 ">
           <h1 className="text-4xl font-bold mb-4">
+            {console.log(scheduleInfo.startDate)}
             Week of {format(new Date(scheduleInfo.startDate), "MMMM dd")}
           </h1>
 

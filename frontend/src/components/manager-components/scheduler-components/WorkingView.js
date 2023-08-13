@@ -1,48 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Table, Button } from "react-bootstrap";
 import { TiDelete } from "react-icons/ti";
+import axiosInstance from "../../../Axios";
 
 //Table that shows who is currently working and their info.
 
 function WorkingView(props) {
-  const [employees, setEmployees] = useState([
-    {
-      employeeID: 1,
-      name: "Tohno Akiha",
-      startTime: "9:00 AM",
-      endTime: "5:00 PM",
-      roles: "Cashier",
-    },
-    {
-      employeeID: 2,
-      name: "Nanaya Shiki",
-      startTime: "9:00 AM",
-      endTime: "5:00 PM",
-      roles: "Cashier",
-    },
-    {
-      employeeID: 3,
-      name: "Arcueid Brunestud",
-      startTime: "9:00 AM",
-      endTime: "5:00 PM",
-      roles: "Yep",
-    },
-  ]);
+  const { currentShift, workingEmployees, params, getWorkingEmployees } = props;
 
-  //delete function
-  const handleDelete = (employeeID) => {
-    //Send shift delete request to schedule database
-
-    //Delete shift from local schedule if the database responded with a success message
-    const updatedEmployees = employees.filter(
-      (employee) => employee.employeeID !== employeeID
-    );
-    setEmployees(updatedEmployees);
-  };
-
-  //get request to get all employees working today
-  const handleChanges = () => {
-    //setEmployees(response.data)
+  //delete from shift
+  const handleDelete = async (employeeId) => {
+    try {
+      await axiosInstance.put(`/schedule/editor/${params.id}/removeShift`, {
+        employeeId: employeeId,
+        day: params.day,
+      });
+      getWorkingEmployees();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -57,9 +33,9 @@ function WorkingView(props) {
           </tr>
         </thead>
         <tbody>
-          {employees.map((employee) => (
+          {workingEmployees.map((employee) => (
             <tr
-              key={employee.employeeID}
+              key={employee.employeeId}
               className="border-b-2 border-blue-200 py-2"
             >
               <td>{employee.name}</td>
@@ -69,7 +45,7 @@ function WorkingView(props) {
               <td>{employee.roles}</td>
               <td>
                 <Button
-                  onClick={() => handleDelete(employee.employeeID)}
+                  onClick={() => handleDelete(employee.employeeId)}
                   className=" bg-red-500 text-white rounded-lg w-10  my-2"
                 >
                   <TiDelete />

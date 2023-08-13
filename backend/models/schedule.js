@@ -22,13 +22,13 @@ const day = new mongoose.Schema({
     default: 0,
   },
   startTime: {
-    type: Number,
-    default: 0,
+    type: String,
+    default: "00:00",
     required: true,
   },
   endTime: {
-    type: Number,
-    default: 24,
+    type: String,
+    default: "24:00",
     required: true,
   },
 });

@@ -51,7 +51,7 @@ router.get(
     id: - the uid of the schedule
 */
 router.put(
-  "/:id/addShift",
+  "/schedule/:id/addShift",
   passport.authenticate("jwt", { session: false }),
   storeAuth,
   scheduleController.addShift
@@ -79,17 +79,15 @@ router.put(
 
 /*
   GET - Employees available to work for a selected shift
-  Request Body: {
-    options: {
-      startTime - both startTime and endTime to be used together or not at all, represents the start and end of the client's selection (ex 4am-2pm)
-      endTime
-    }
+  Params: {
+    startTime - both startTime and endTime to be used together or not at all, represents the start and end of the client's selection (ex 4am-2pm)
+    endTime
   }
   Params:
     id: - the uid of the store
 */
 router.get(
-  "/employee/available",
+  "/employee/available/:dayIndex/:startDate/:endDate",
   passport.authenticate("jwt", { session: false }),
   storeAuth,
   employeeController.available
@@ -97,12 +95,6 @@ router.get(
 
 /*
   GET - All employees working at the store
-  Request Body: {
-    options: {
-      startTime - both startTime and endTime to be used together or not at all, represents the start and end of the client's selection (ex 4am-2pm)
-      endTime
-    }
-  }
 */
 router.get(
   "/employee/allEmployees",

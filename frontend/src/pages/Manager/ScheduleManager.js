@@ -6,90 +6,126 @@ import HourlyView from "../../components/manager-components/scheduler-components
 import WorkingView from "../../components/manager-components/scheduler-components/WorkingView";
 import EmployeeSelector from "../../components/manager-components/scheduler-components/EmployeeSelector";
 import EditingView from "../../components/manager-components/scheduler-components/EditingView";
+import { ErrorAlert } from "../../components/app-components/NotificationAlerts";
 
 import axiosInstance from "../../Axios";
 
 function ScheduleManager() {
   let params = useParams();
-
-  //Format type
-  let [info, setInfo] = useState({
-    _id: "ObjectId",
-    storeId: "ObjectId", // References the store the schedule belongs to
-    weekStartDate: "Date",
-    format: [
-      {
-        date: "2000-01-01",
-        dayOfWeek: 0, // 0-6 representing Sunday-Saturday
-        startTime: "00:00", //HH:MM
-        endTime: "24:00",
-        //settings
-      },
-      // Other shift-related fields
-    ],
-    day: [
-      {
-        goalsMet: false,
-        markedAsComplete: false,
-
-        shifts: [
-          {
-            employeeId: 1,
-            startTime: "00:00",
-            endTime: "05:00",
-          },
-          {
-            employeeId: 3,
-            startTime: "05:00",
-            endTime: "12:00",
-          },
-        ],
-        totalHours: 13,
-        totalCost: 4000,
-      },
-      {
-        goalsMet: false,
-        markedAsComplete: false,
-
-        shifts: [
-          {
-            employeeId: 1,
-            startTime: "05:00",
-            endTime: "14:00",
-          },
-        ],
-      },
-    ],
-  });
-
-  let shiftInfo = info.format[0];
+  const { id, day } = params;
 
   //Setting the start and end time for a shift using any approach
   //Shift currently being edited / created
   const [currentShift, setCurrentShift] = useState({
     employee: "",
-    employeeID: -1,
+    employeeId: -1,
     start: "",
     end: "",
     startDate: null,
     endDate: null,
   });
-  const [availableEmployees, setAvailableEmployees] = useState([]);
-  const [allEmployees, setAllEmployees] = useState(async () => {
-    return await axiosInstance.get("scheduler/editor/employee/allEmployees");
+
+  const [employees, setEmployees] = useState({
+    available: [],
+    working: [],
+    all: [],
   });
+
+  function setAvailableEmployees(available) {
+    setEmployees({
+      ...employees,
+      available: available,
+    });
+  }
+
+  function setAllEmployees(all) {
+    setEmployees({
+      ...employees,
+      all: all,
+    });
+  }
+
+  function setWorkingEmployees(working) {
+    setEmployees({
+      ...employees,
+      working: working,
+    });
+  }
+
+  const [dayInfo, setDayInfo] = useState({});
+
+  const getAllEmployees = async () => {
+    try {
+      const res = await axiosInstance.get(
+        "scheduler/editor/employee/allEmployees"
+      );
+      if (res.data.error) {
+        console.log("ERROR:", res.data.error);
+      } else {
+        setAllEmployees(res.data);
+      }
+    } catch (err) {
+      console.error("ERROR: EDITOR CANNOT GET ALL EMPLOYEES, ", err);
+    }
+  };
+
+  const getWorkingEmployees = async () => {
+    try {
+      const res = axiosInstance.get(`scheduler/editor/${id}/working`);
+      if (res.data.error) {
+        console.log("ERROR:", res.data.error);
+      } else {
+        setWorkingEmployees(res.data);
+      }
+    } catch (err) {
+      console.error("ERROR: EDITOR CANNOT GET WORKING EMPLOYEES, ", err);
+    }
+  };
+
+  const getDayInfo = async () => {
+    try {
+      const res = await axiosInstance.get(`scheduler/editor/${id}/info/${day}`); //wowie
+      if (res.data.error) {
+        console.log("ERROR:", res.data.error);
+      } else {
+        setDayInfo(res.data);
+      }
+    } catch (err) {
+      console.error("ERROR: EDITOR CANNOT GET WORKING EMPLOYEES, ", err);
+    }
+  };
+
+  const getAvailableEmployees = async () => {
+    try {
+      const res = await axiosInstance.get(
+        `scheduler/editor/employee/available/${day}/${currentShift.startDate.toISOString()}/${currentShift.endDate.toISOString()}`
+      );
+      if (res.data.error) {
+        console.log("ERROR:", res.data.error);
+      } else {
+        console.log(res.data);
+        setAvailableEmployees(res.data);
+      }
+    } catch (err) {
+      console.error("ERROR: EDITOR CANNOT GET AVAILABLE EMPLOYEES, ", err);
+    }
+  };
 
   //Handle page load
   useEffect(() => {
-    //let schedule = await axiosInstance.get(`/scheduler/schedule/`);
+    getDayInfo();
+    //setShiftInfo(axiosInstance.get(`scheduler/editor/${id}/info/${day}`));
+
+    getAllEmployees();
   }, []);
 
   useEffect(() => {
     if (currentShift.startDate && currentShift.endDate) {
-      setAvailableEmployees(
-        axiosInstance.get("scheduler/editor/employee/allEmployees")
-      );
+      getAvailableEmployees();
     }
+
+    //get working employees
+
     //let schedule = await axiosInstance.get(`/scheduler/schedule/`);
   }, [currentShift.endDate]);
 
@@ -100,7 +136,7 @@ function ScheduleManager() {
 
       <div className="flex flex-col justify-start items-center bg-slate-100 w-screen min-h-screen text-lg">
         <HourlyView
-          shiftInfo={shiftInfo}
+          dayInfo={dayInfo}
           currentShift={currentShift}
           setCurrentShift={setCurrentShift}
         />
@@ -108,7 +144,11 @@ function ScheduleManager() {
         <div className="flex flex-row w-full justify-start p-6">
           <div className="scheduler-lower-component">
             <EmployeeSelector
-              currentShift={currentShift}
+              employees={
+                currentShift.startDate && currentShift.endDate
+                  ? employees.available
+                  : employees.all
+              }
               setCurrentShift={setCurrentShift}
             />
           </div>
@@ -116,10 +156,19 @@ function ScheduleManager() {
             <EditingView
               currentShift={currentShift}
               setCurrentShift={setCurrentShift}
+              params={params}
+              employees={employees}
+              setWorkingEmployees={setWorkingEmployees}
+              setAvailableEmployees={setAvailableEmployees}
             />
           </div>
           <div className="scheduler-lower-component">
-            <WorkingView />
+            <WorkingView
+              currentShift={currentShift}
+              workingEmployees={employees.working}
+              params={params}
+              getWorkingEmployees={getWorkingEmployees}
+            />
           </div>
         </div>
       </div>

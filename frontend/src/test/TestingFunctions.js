@@ -3,19 +3,9 @@ export function generateDummySchedule() {
   let json = {
     _id: "schedule_id_placeholder_" + Math.floor(Math.random() * 100),
     storeId: "store_id_placeholder", // References the store the schedule belongs to
-    startDate: "2000-01-" + (Math.floor(Math.random() * 3) * 7 + 1),
+    startDate: new Date().toISOString(),
     goalsMet: Math.random() > 0.5,
     markedAsComplete: Math.random() > 0.5,
-    format: [
-      {
-        date: "2000-01-01", //What is this used for????
-        dayOfWeek: 0, // 0-6 representing Sunday-Saturday
-        startTime: "00:00", //HH:MM
-        endTime: "24:00",
-        //settings
-      },
-      // Other shift-related fields
-    ],
     day: [
       generateDummyDay(),
       generateDummyDay(),
