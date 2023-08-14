@@ -1,22 +1,10 @@
 import React, { useState, useEffect } from "react";
 import ManagerNavbar from "../../components/manager-components/ManagerNavbar";
 import { Virtuoso } from "react-virtuoso";
-import axios from "axios";
-import { Modal, Button, Group, Inp } from "@mantine/core";
+import { Modal, Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { TiDelete } from "react-icons/ti";
 import axiosInstance from "../../Axios";
-import {
-  getDay,
-  setDay,
-  setHours,
-  setMinutes,
-  parseISO,
-  formatISO,
-  startOfDay,
-  getHours,
-  getMinutes,
-} from "date-fns";
 
 import "../../styles/manager.css";
 

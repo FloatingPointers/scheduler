@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { differenceInHours, format, add, compareAsc } from "date-fns";
+import { toUTC } from "../../../util/DateUtil";
 
 import "../../../styles/manager.css";
 
 function HourlyView(props) {
   let { dayInfo, currentShift } = props;
-  const startDate = dayInfo.startDate
-    ? format(new Date(dayInfo.startDate), "yyyy-MM-dd")
-    : "";
+  let realDate = dayInfo.startDate
+    ? toUTC(new Date(dayInfo.startDate))
+    : undefined;
+  const startDate = realDate ? format(realDate, "yyyy-MM-dd") : "";
   let selectionStartTime = currentShift.start
     ? new Date([startDate + "T" + currentShift.start])
     : null;
@@ -16,6 +18,7 @@ function HourlyView(props) {
     : null;
 
   let setSelectionStartTime = (date) => {
+    //date = toUTC(date);
     props.setCurrentShift({
       ...currentShift,
       start: date ? format(date, "HH:mm") : "",
@@ -23,6 +26,7 @@ function HourlyView(props) {
     });
   };
   let setSelectionEndTime = (date) => {
+    //date = toUTC(date);
     props.setCurrentShift({
       ...currentShift,
       end: date ? format(date, "HH:mm") : "",
@@ -30,6 +34,8 @@ function HourlyView(props) {
     });
   };
   let setSelectionTime = (start, end) => {
+    //start = toUTC(start);
+    //end = toUTC(end);
     props.setCurrentShift({
       ...currentShift,
       start: start ? format(start, "HH:mm") : "",

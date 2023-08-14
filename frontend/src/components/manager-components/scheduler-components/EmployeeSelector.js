@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Table } from "react-bootstrap";
 
 function EmployeeSelector(props) {
-  let { employees, setCurrentShift } = props;
+  const { employees, setCurrentShift, dayIndex } = props;
 
   const [sort, setSort] = useState("none");
   const [filter, setFilter] = useState("none");

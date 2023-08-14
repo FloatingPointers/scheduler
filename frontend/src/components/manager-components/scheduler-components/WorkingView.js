@@ -11,7 +11,7 @@ function WorkingView(props) {
   //delete from shift
   const handleDelete = async (employeeId) => {
     try {
-      await axiosInstance.put(`/schedule/editor/${params.id}/removeShift`, {
+      await axiosInstance.put(`/scheduler/editor/${params.id}/removeShift`, {
         employeeId: employeeId,
         day: params.day,
       });
@@ -33,26 +33,27 @@ function WorkingView(props) {
           </tr>
         </thead>
         <tbody>
-          {workingEmployees.map((employee) => (
-            <tr
-              key={employee.employeeId}
-              className="border-b-2 border-blue-200 py-2"
-            >
-              <td>{employee.name}</td>
-              <td>
-                {employee.startTime} - {employee.endTime}
-              </td>
-              <td>{employee.roles}</td>
-              <td>
-                <Button
-                  onClick={() => handleDelete(employee.employeeId)}
-                  className=" bg-red-500 text-white rounded-lg w-10  my-2"
-                >
-                  <TiDelete />
-                </Button>
-              </td>
-            </tr>
-          ))}
+          {Array.isArray(workingEmployees) &&
+            workingEmployees.map((employee) => (
+              <tr
+                key={employee.employeeId}
+                className="border-b-2 border-blue-200 py-2"
+              >
+                <td>{employee.name}</td>
+                <td>
+                  {employee.startTime} - {employee.endTime}
+                </td>
+                <td>{employee.roles}</td>
+                <td>
+                  <Button
+                    onClick={() => handleDelete(employee.employeeId)}
+                    className=" bg-red-500 text-white rounded-lg w-10  my-2"
+                  >
+                    <TiDelete />
+                  </Button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </Table>
     </div>

@@ -71,7 +71,7 @@ exports.allEmployees = asyncHandler(async (req, res, next) => {
     employer: user.accountRef,
   }).limit(EMPLOYEE_QUERY_LIMIT);
 
-  return res.status(200).json(employeesFromSchedule);
+  return res.status(200).json({ result: employeesFromSchedule });
 });
 
 exports.deleteEmployee = asyncHandler(async (req, res, next) => {

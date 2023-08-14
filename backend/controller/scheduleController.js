@@ -5,9 +5,9 @@ const asyncHandler = require("express-async-handler");
 //GET working employees on specified Schedule
 exports.working = asyncHandler(async (req, res, next) => {
   //Options from request (optional) (wow)
-  let options = req.body.options;
+  const { shiftStart, shiftEnd } = req.params;
 
-  if ("shiftStart" in options && "shiftEnd" in options) {
+  if (shiftStart && shiftEnd) {
     /*
       return specific range (employees working between shiftStart and shiftEnd)
       sorted by employees who start working at an earlier time
@@ -17,8 +17,8 @@ exports.working = asyncHandler(async (req, res, next) => {
       .select("shifts")
       .elemMatch("shifts", {
         $or: [
-          { startTime: { $gte: options.shiftStart } },
-          { endTime: { $lte: options.shiftEnd } },
+          { startTime: { $gte: shiftStart } },
+          { endTime: { $lte: shiftEnd } },
         ],
       })
       .sort({ startTime: 1 });
@@ -31,7 +31,7 @@ exports.working = asyncHandler(async (req, res, next) => {
       .select("shifts")
       .sort({ startTime: 1 });
 
-    return res.status(200).json(shifts);
+    return res.status(200).json({ result: shifts });
   }
 });
 

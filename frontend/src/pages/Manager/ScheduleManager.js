@@ -32,24 +32,24 @@ function ScheduleManager() {
   });
 
   function setAvailableEmployees(available) {
-    setEmployees({
-      ...employees,
-      available: available,
-    });
+    setEmployees((prevEmployees) => ({
+      ...prevEmployees,
+      available,
+    }));
   }
 
   function setAllEmployees(all) {
-    setEmployees({
-      ...employees,
-      all: all,
-    });
+    setEmployees((prevEmployees) => ({
+      ...prevEmployees,
+      all,
+    }));
   }
 
   function setWorkingEmployees(working) {
-    setEmployees({
-      ...employees,
-      working: working,
-    });
+    setEmployees((prevEmployees) => ({
+      ...prevEmployees,
+      working,
+    }));
   }
 
   const [dayInfo, setDayInfo] = useState({});
@@ -59,10 +59,12 @@ function ScheduleManager() {
       const res = await axiosInstance.get(
         "scheduler/editor/employee/allEmployees"
       );
-      if (res.data.error) {
-        console.log("ERROR:", res.data.error);
+      const { error, result } = res.data;
+
+      if (error) {
+        console.log("ERROR:", error);
       } else {
-        setAllEmployees(res.data);
+        setAllEmployees(result);
       }
     } catch (err) {
       console.error("ERROR: EDITOR CANNOT GET ALL EMPLOYEES, ", err);
@@ -71,11 +73,13 @@ function ScheduleManager() {
 
   const getWorkingEmployees = async () => {
     try {
-      const res = axiosInstance.get(`scheduler/editor/${id}/working`);
+      const res = await axiosInstance.get(
+        `scheduler/editor/schedule/${id}/working`
+      );
       if (res.data.error) {
         console.log("ERROR:", res.data.error);
       } else {
-        setWorkingEmployees(res.data);
+        setWorkingEmployees(res.data.result);
       }
     } catch (err) {
       console.error("ERROR: EDITOR CANNOT GET WORKING EMPLOYEES, ", err);
@@ -84,14 +88,16 @@ function ScheduleManager() {
 
   const getDayInfo = async () => {
     try {
-      const res = await axiosInstance.get(`scheduler/editor/${id}/info/${day}`); //wowie
+      const res = await axiosInstance.get(
+        `scheduler/editor/schedule/${id}/info/${day}`
+      ); //wowie
       if (res.data.error) {
         console.log("ERROR:", res.data.error);
       } else {
         setDayInfo(res.data);
       }
     } catch (err) {
-      console.error("ERROR: EDITOR CANNOT GET WORKING EMPLOYEES, ", err);
+      console.error("ERROR: EDITOR CANNOT GET SCHEDULE DAY INFO, ", err);
     }
   };
 
@@ -103,7 +109,6 @@ function ScheduleManager() {
       if (res.data.error) {
         console.log("ERROR:", res.data.error);
       } else {
-        console.log(res.data);
         setAvailableEmployees(res.data);
       }
     } catch (err) {
@@ -114,8 +119,6 @@ function ScheduleManager() {
   //Handle page load
   useEffect(() => {
     getDayInfo();
-    //setShiftInfo(axiosInstance.get(`scheduler/editor/${id}/info/${day}`));
-
     getAllEmployees();
   }, []);
 
@@ -125,11 +128,9 @@ function ScheduleManager() {
     }
 
     //get working employees
-
-    //let schedule = await axiosInstance.get(`/scheduler/schedule/`);
+    getWorkingEmployees();
   }, [currentShift.endDate]);
 
-  //NEEDS MULTIPLE COMPONENT BREAKDOWN
   return (
     <div>
       <ManagerNavbar />
@@ -149,6 +150,7 @@ function ScheduleManager() {
                   ? employees.available
                   : employees.all
               }
+              dayIndex={day}
               setCurrentShift={setCurrentShift}
             />
           </div>

@@ -22,16 +22,13 @@ module.exports = router;
 /*
   GET - Employees working for selected shift
   Request Body: {
-    options: {
-      startTime - both startTime and endTime to be used together or not at all, represents the start and end of the client's selection (ex 4am-2pm)
-      endTime
-    }
+    
   }
   Params:
     id: - the uid of the schedule
 */
 router.get(
-  "/:id/working",
+  "/schedule/:id/working/",
   passport.authenticate("jwt", { session: false }),
   storeAuth,
   scheduleController.working
@@ -67,7 +64,7 @@ router.put(
     id: - the uuid of the schedule
 */
 router.put(
-  "/:id/removeShift",
+  "/schedule/:id/removeShift",
   passport.authenticate("jwt", { session: false }),
   storeAuth,
   scheduleController.removeShift
@@ -114,7 +111,7 @@ router.get(
   }
 */
 router.get(
-  "/:id/info/:day",
+  "/schedule/:id/info/:day",
   passport.authenticate("jwt", { session: false }),
   storeAuth,
   scheduleController.getDayInfo
