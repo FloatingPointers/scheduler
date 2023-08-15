@@ -47,7 +47,7 @@ router.get(
   Params:
     id: - the uid of the schedule
 */
-router.put(
+router.post(
   "/schedule/:id/addShift",
   passport.authenticate("jwt", { session: false }),
   storeAuth,

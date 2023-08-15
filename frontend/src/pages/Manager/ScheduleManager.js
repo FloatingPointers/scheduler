@@ -132,46 +132,42 @@ function ScheduleManager() {
   }, [currentShift.endDate]);
 
   return (
-    <div>
+    <div className="bg-slate-100 w-full min-h-screen">
       <ManagerNavbar />
 
-      <div className="flex flex-col justify-start items-center bg-slate-100 w-screen min-h-screen text-lg">
+      <div className="flex flex-col justify-start items-center w-full h-full text-lg">
         <HourlyView
           dayInfo={dayInfo}
           currentShift={currentShift}
           setCurrentShift={setCurrentShift}
         />
 
-        <div className="flex flex-row w-full justify-start p-6">
-          <div className="scheduler-lower-component">
-            <EmployeeSelector
-              employees={
-                currentShift.startDate && currentShift.endDate
-                  ? employees.available
-                  : employees.all
-              }
-              dayIndex={day}
-              setCurrentShift={setCurrentShift}
-            />
-          </div>
-          <div className="scheduler-lower-component">
-            <EditingView
-              currentShift={currentShift}
-              setCurrentShift={setCurrentShift}
-              params={params}
-              employees={employees}
-              setWorkingEmployees={setWorkingEmployees}
-              setAvailableEmployees={setAvailableEmployees}
-            />
-          </div>
-          <div className="scheduler-lower-component">
-            <WorkingView
-              currentShift={currentShift}
-              workingEmployees={employees.working}
-              params={params}
-              getWorkingEmployees={getWorkingEmployees}
-            />
-          </div>
+        <div className="flex flex-row justify-center items-start p-10 w-full h-full gap-4">
+          <EmployeeSelector
+            employees={
+              currentShift.startDate && currentShift.endDate
+                ? employees.available
+                : employees.all
+            }
+            dayIndex={day}
+            setCurrentShift={setCurrentShift}
+          />
+          <EditingView
+            currentShift={currentShift}
+            setCurrentShift={setCurrentShift}
+            params={params}
+            employees={employees}
+            setWorkingEmployees={setWorkingEmployees}
+            setAvailableEmployees={setAvailableEmployees}
+            getWorkingEmployees={getWorkingEmployees}
+            getAvailableEmployees={getAvailableEmployees}
+          />
+          <WorkingView
+            currentShift={currentShift}
+            workingEmployees={employees.working}
+            params={params}
+            getWorkingEmployees={getWorkingEmployees}
+          />
         </div>
       </div>
     </div>

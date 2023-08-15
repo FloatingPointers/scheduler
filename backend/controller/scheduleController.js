@@ -1,4 +1,5 @@
 let Schedule = require("../models/schedule");
+let mongoose = require("mongoose");
 
 const asyncHandler = require("express-async-handler");
 
@@ -30,30 +31,48 @@ exports.working = asyncHandler(async (req, res, next) => {
     let shifts = await Schedule.findById(req.params.id)
       .select("shifts")
       .sort({ startTime: 1 });
-
     return res.status(200).json({ result: shifts });
   }
 });
 
 exports.addShift = asyncHandler(async (req, res, next) => {
-  await Schedule.findByIdAndUpdate(req.params.scheduleId, {
+  await Schedule.findByIdAndUpdate(req.params.id, {
     $push: { ["shifts"]: req.body.shift },
   });
 
-  return res.status(200);
+  return res.status(200).json({ success: true });
 });
 
 exports.removeShift = asyncHandler(async (req, res, next) => {
-  await Schedule.findByIdAndUpdate(req.params.scheduleId, {
-    $pull: {
-      ["shifts"]: {
-        day: req.body.day,
-        employeeId: req.body.employeeId,
-      },
-    },
-  });
+  // Validate ObjectId format
+  if (!mongoose.Types.ObjectId.isValid(req.body.employeeId)) {
+    return res.status(400).json({ error: "Invalid employeeId format" });
+  }
 
-  return res.status(200);
+  try {
+    // Pull the shift based on its unique _id, not the employeeId
+    const result = await Schedule.findByIdAndUpdate(
+      req.params.id,
+      {
+        $pull: {
+          shifts: {
+            _id: new mongoose.Types.ObjectId(req.body.employeeId),
+          },
+        },
+      },
+      { new: true }
+    );
+
+    // If the schedule isn't found
+    if (!result) {
+      return res.status(404).json({ error: "Schedule not found" });
+    }
+
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.error("Error removing shift:", error);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 exports.createSchedule = asyncHandler(async (req, res, next) => {

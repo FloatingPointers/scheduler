@@ -11,8 +11,6 @@ exports.available = asyncHandler(async (req, res, next) => {
   let endHour =
     new Date(endDate).getHours() + (new Date(endDate).getMinutes() > 0 ? 1 : 0);
 
-  console.log(startHour, endHour, dayIndex);
-
   let available = await Employee.aggregate([
     {
       $match: {
@@ -58,8 +56,6 @@ exports.available = asyncHandler(async (req, res, next) => {
     },
   ]);
 
-  console.log(available);
-
   return res.status(200).json(available);
 });
 
@@ -89,7 +85,6 @@ exports.updateSettings = asyncHandler(async (req, res, next) => {
   employee.lastName = lastName;
   employee.availability = availability;
   await employee.save();
-  console.log(employee.availability);
 
   return res.status(200).json({ success: true });
 });

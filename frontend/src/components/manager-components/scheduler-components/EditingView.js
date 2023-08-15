@@ -21,6 +21,10 @@ function EditingView(props) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    if (!startDate || !endDate) {
+      console.error("ERROR: Start or end date is null");
+      return;
+    }
 
     try {
       let shift = {
@@ -33,6 +37,7 @@ function EditingView(props) {
       };
 
       //Upload shift to backend
+      //console.log()
       const response = await axiosInstance.post(
         `/scheduler/editor/schedule/${params.id}/addShift`,
         { shift }
@@ -44,8 +49,8 @@ function EditingView(props) {
       }
 
       //Update working and available employees
-      getWorkingEmployees();
       getAvailableEmployees();
+      getWorkingEmployees();
     } catch (e) {
       console.error(
         "ERROR: Adding a new shift to the schedule in schedule editor\n",
@@ -55,12 +60,16 @@ function EditingView(props) {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center py-4">
-      <h2 className="text-2x1 font-semibold mb-4 ">
-        {employeeName ? "Employee: " + employeeName : "No Employee Selected"}
-      </h2>
-      <div className="bg-white shadow shadow-slate-600 rounded-lg p-5 w-80">
+    <div className="w-1/5 bg-white shadow rounded-lg p-6 flex flex-col items-center justify-center">
+      <h2 className="text-2xl font-semibold mb-4">Shift Creation</h2>
+      <div className="">
         <form className="space-y-4" onSubmit={handleSubmit}>
+          <p>
+            {employeeName
+              ? "Employee: " + employeeName
+              : "No Employee Selected"}
+          </p>
+
           <label>
             Shift Start:
             <input
