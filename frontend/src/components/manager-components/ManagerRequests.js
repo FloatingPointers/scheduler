@@ -84,7 +84,6 @@ function ManagerRequests() {
       const res = await axiosInstance.get(
         `/managerRequests/request/maxReqs/${isPending}`
       );
-      console.log("pages " + isPending + " requests: " + res.data.maxRequests);
       updateState(
         isPending ? setPending : setClosed,
         "maxRequests",

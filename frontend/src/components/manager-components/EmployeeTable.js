@@ -3,29 +3,7 @@ import axiosInstance from "../../Axios";
 import { TiDelete } from "react-icons/ti";
 
 function EmployeeTable() {
-  let [employees, setEmployees] = useState([
-    //   {
-    //     _id: 1,
-    //     firstName: "john",
-    //     lastName: "smith",
-    //     employer: "64b3664a0918445e2eb28fb6",
-    //     email: "johnsmith@gmail.com",
-    //   },
-    //   {
-    //     _id: 2,
-    //     firstName: "ron",
-    //     lastName: "kim",
-    //     employer: "64b3664a0918445e2eb28fb6",
-    //     email: "ronnie@gmail.com",
-    //   },
-    //   {
-    //     _id: 3,
-    //     firstName: "isaac",
-    //     lastName: "rein",
-    //     employer: "64b3664a0918445e2eb28fb6",
-    //     email: "rein@gmail.com",
-    //   },
-  ]);
+  let [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     getEmployees();
@@ -34,7 +12,7 @@ function EmployeeTable() {
   const getEmployees = async () => {
     try {
       const res = await axiosInstance.get("/emp-table/employee/allEmployees");
-      setEmployees(res.data);
+      setEmployees(res.data.result);
     } catch (e) {
       console.log("ERROR: Employee table query failed");
     }

@@ -184,7 +184,7 @@ exports.getDayInfo = asyncHandler(async (req, res, next) => {
 
   return res.status(200).json({
     startDate: info.startDate,
-    startTime: info.day[0].startTime,
+    startTime: info.day[0].startTime, //Dont know if this works
     endTime: info.day[0].endTime,
   });
 });

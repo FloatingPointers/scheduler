@@ -33,6 +33,13 @@ const day = new mongoose.Schema({
   },
 });
 
+const defaultShifts = Array(7)
+  .fill()
+  .map(() => ({
+    startTime: null,
+    endTime: null,
+  }));
+
 const Schedule = new mongoose.Schema({
   startDate: {
     //TODO: Use date for everything
@@ -73,17 +80,25 @@ const Schedule = new mongoose.Schema({
     default: [day, day, day, day, day, day, day],
   },
 
-  shifts: [
-    {
-      // individual shift
-      day: { type: Number, min: 0, max: 6 }, //0-6, 0 is Sunday
-      employeeId: mongoose.ObjectId,
-      employeeName: { type: String },
-      role: { type: String },
-      startTime: { type: Date }, //start time of this employee's shift
-      endTime: { type: Date }, //end time of this employee's shift
-    },
-  ],
+  //TODO: Update add / remove routes
+  employeeInfo: {
+    type: [
+      {
+        // individual shift
+        id: mongoose.ObjectId,
+        name: { type: String },
+        role: { type: String },
+        shifts: [
+          {
+            // individual time
+            startTime: { type: Date }, //start time of this employee's shift
+            endTime: { type: Date }, //end time of this employee's shift
+          },
+        ],
+      },
+    ],
+    default: defaultShifts,
+  },
 });
 
 module.exports = mongoose.model("Schedule", Schedule);

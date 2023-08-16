@@ -91,7 +91,7 @@ exports.signup = asyncHandler(async (req, res, next) => {
   let name;
   if (req.body.type === "STORE") {
     linkedAccount = new Store({
-      //name: req.body.storeName,
+      name: req.body.storeName,
       inviteCode: await generateInviteCode(),
     });
     name = req.body.storeName;
@@ -109,8 +109,8 @@ exports.signup = asyncHandler(async (req, res, next) => {
     linkedAccount = new Employee({
       username: req.body.username,
       email: req.body.email,
-      //firstName: req.body.firstName,
-      //lastName: req.body.lastName,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       employer: store._id,
     });
     name = linkedAccount.firstName + linkedAccount.lastName;
