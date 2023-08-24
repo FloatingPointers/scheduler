@@ -33,12 +33,30 @@ const day = new mongoose.Schema({
   },
 });
 
+const shiftSchema = new mongoose.Schema(
+  {
+    startTime: { type: Date, required: true },
+    endTime: { type: Date, required: true },
+  },
+  { _id: false }
+);
+
 const defaultShifts = Array(7)
   .fill()
   .map(() => ({
-    startTime: null,
-    endTime: null,
+    startTime: undefined,
+    endTime: undefined,
   }));
+
+const employeeInfoSchema = new mongoose.Schema(
+  {
+    id: { type: mongoose.ObjectId, required: true },
+    name: { type: String, required: true },
+    role: { type: String },
+    shifts: { type: [shiftSchema], default: [defaultShifts] },
+  },
+  { _id: false }
+);
 
 const Schedule = new mongoose.Schema({
   startDate: {
@@ -82,22 +100,8 @@ const Schedule = new mongoose.Schema({
 
   //TODO: Update add / remove routes
   employeeInfo: {
-    type: [
-      {
-        // individual shift
-        id: mongoose.ObjectId,
-        name: { type: String },
-        role: { type: String },
-        shifts: [
-          {
-            // individual time
-            startTime: { type: Date }, //start time of this employee's shift
-            endTime: { type: Date }, //end time of this employee's shift
-          },
-        ],
-      },
-    ],
-    default: defaultShifts,
+    type: [employeeInfoSchema],
+    default: [],
   },
 });
 

@@ -74,7 +74,7 @@ function ScheduleManager() {
   const getWorkingEmployees = async () => {
     try {
       const res = await axiosInstance.get(
-        `scheduler/editor/schedule/${id}/working`
+        `scheduler/editor/schedule/${id}/${day}/working`
       );
       if (res.data.error) {
         console.log("ERROR:", res.data.error);

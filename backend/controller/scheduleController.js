@@ -15,8 +15,10 @@ exports.working = asyncHandler(async (req, res, next) => {
       Obtain the requested schedule from db
     */
     let shifts = await Schedule.findById(req.params.id)
-      .select("shifts")
-      .elemMatch("shifts", {
+      .select(
+        `employeeInfo.id employeeInfo.name employeeInfo.role employeeInfo.shifts.${req.params.day}`
+      )
+      .elemMatch(`employeeInfo.shifts.${req.params.day}`, {
         $or: [
           { startTime: { $gte: shiftStart } },
           { endTime: { $lte: shiftEnd } },
@@ -29,17 +31,40 @@ exports.working = asyncHandler(async (req, res, next) => {
     //post every shift
     //Obtain the requested schedule from db
     let shifts = await Schedule.findById(req.params.id)
-      .select("shifts")
+      .select(
+        `employeeInfo.id employeeInfo.name employeeInfo.role employeeInfo.shifts.${req.params.day}`
+      )
       .sort({ startTime: 1 });
+    console.log("Got working employees: ", shifts);
     return res.status(200).json({ result: shifts });
   }
 });
 
 exports.addShift = asyncHandler(async (req, res, next) => {
-  await Schedule.findByIdAndUpdate(req.params.id, {
-    $push: { ["shifts"]: req.body.shift },
-  });
+  const newShift = {
+    startTime: req.body.shift.startTime,
+    endTime: req.body.shift.endTime,
+  };
 
+  let schedule = await Schedule.findById(req.params.id);
+
+  let employeeIndex = schedule.employeeInfo.findIndex(
+    (employee) => employee.id.toString() == req.body.shift.employeeId
+  );
+
+  if (employeeIndex === -1) {
+    const newEmployee = {
+      id: req.body.shift.employeeId,
+      name: req.body.shift.employeeName,
+      role: req.body.shift.role,
+      shifts: [newShift],
+    };
+    schedule.employeeInfo.push(newEmployee);
+  } else {
+    schedule.employeeInfo[employeeIndex].shifts.push(newShift);
+  }
+
+  await schedule.save();
   return res.status(200).json({ success: true });
 });
 
@@ -180,11 +205,14 @@ exports.getDayInfo = asyncHandler(async (req, res, next) => {
   let info = await Schedule.findById(req.params.id).select({
     _id: 0,
     day: { $slice: [+req.params.day, 1] },
+    startDate: 1,
+    startTime: 1,
+    endTime: 1,
   });
 
   return res.status(200).json({
     startDate: info.startDate,
-    startTime: info.day[0].startTime, //Dont know if this works
+    startTime: info.day[0].startTime,
     endTime: info.day[0].endTime,
   });
 });

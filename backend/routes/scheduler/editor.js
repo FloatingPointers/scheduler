@@ -28,7 +28,7 @@ module.exports = router;
     id: - the uid of the schedule
 */
 router.get(
-  "/schedule/:id/working/",
+  "/schedule/:id/:day/working/",
   passport.authenticate("jwt", { session: false }),
   storeAuth,
   scheduleController.working
@@ -40,6 +40,7 @@ router.get(
     shift : {
       employeeId
       employeeName
+      role
       startTime
       endTime
     }

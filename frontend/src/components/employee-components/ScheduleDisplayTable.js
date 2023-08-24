@@ -42,6 +42,7 @@ function ScheduleDisplayTable(props) {
   };
 
   function generateDayHeaders() {
+    if (!days) return <div />;
     return days.map((aday) => {
       return <th className="text-left pl-2">{aday}</th>;
     });

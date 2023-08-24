@@ -125,15 +125,6 @@ function SchedulerHome() {
     let openTime = new Date(startDate.getTime());
     openTime.setHours(scheduleDefaultSettings.settings.openTime);
 
-    console.log(
-      "Sending create request " +
-        startDate +
-        " : " +
-        openTime +
-        " -> " +
-        closeTime
-    );
-
     try {
       const res = await axiosInstance.post("/scheduler/create", {
         startDate: startDate,

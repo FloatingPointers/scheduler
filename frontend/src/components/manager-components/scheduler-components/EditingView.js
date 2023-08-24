@@ -36,8 +36,8 @@ function EditingView(props) {
         endTime: endDate,
       };
 
+      console.log(employeeId);
       //Upload shift to backend
-      //console.log()
       const response = await axiosInstance.post(
         `/scheduler/editor/schedule/${params.id}/addShift`,
         { shift }

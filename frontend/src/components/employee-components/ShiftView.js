@@ -38,22 +38,43 @@ function ShiftView(props) {
   return (
     <div className="flex flex-row space-x-4">
       {days.map((dayName, index) => {
-        const originalIndex = (index + startDay) % 7;
-        const shiftForDay = shifts.find((shift) => shift.day === originalIndex);
-        if (!shiftForDay) return null;
-
-        const startTime = shiftForDay.startTime;
-        const endTime = shiftForDay.endTime;
+        const shiftsForDay = shifts.filter((employee) =>
+          employee.shifts.some(
+            (shift) => new Date(shift.startTime).getDay() === index
+          )
+        );
+        if (shiftsForDay.length === 0) return null;
 
         return (
-          <div className="bg-white rounded-lg shadow-lg w-80">
+          <div key={index} className="bg-white rounded-lg shadow-lg w-80 p-4">
             <h1 className="text-2xl font-bold text-blue-500">{dayName}</h1>
-            <div className="flex justify-between items-center">
-              <p className="text-lg font-medium">Shift Time: </p>
-              <p className="text-lg font-medium">
-                {startTime} - {endTime}
-              </p>
-            </div>
+            {shiftsForDay.map((employee) => {
+              const shift = employee.shifts.find(
+                (shift) => new Date(shift.startTime).getDay() === index
+              );
+              const startTime = new Date(shift.startTime).toLocaleTimeString(
+                [],
+                { hour: "2-digit", minute: "2-digit" }
+              );
+              const endTime = new Date(shift.endTime).toLocaleTimeString([], {
+                hour: "2-digit",
+                minute: "2-digit",
+              });
+
+              return (
+                <div key={employee.id} className="mt-4">
+                  <p className="text-lg font-medium">
+                    {employee.name} ({employee.role})
+                  </p>
+                  <div className="flex justify-between items-center mt-1">
+                    <p className="text-md font-medium">Shift Time: </p>
+                    <p className="text-md font-medium text-blue-500">
+                      {startTime} - {endTime}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         );
       })}

@@ -6,6 +6,7 @@ import { format } from "date-fns";
 
 function WorkingView(props) {
   const { currentShift, workingEmployees, params, getWorkingEmployees } = props;
+  const { day } = params;
 
   const handleDelete = async (employeeId) => {
     try {
@@ -18,7 +19,8 @@ function WorkingView(props) {
       );
       getWorkingEmployees();
     } catch (error) {
-      console.log(error);
+      console.error("ERROR CANNOT REMOVE EMPLOYEE FROM WORKING");
+      console.error(error);
     }
   };
 
@@ -36,21 +38,27 @@ function WorkingView(props) {
           </tr>
         </thead>
         <tbody>
-          {workingEmployees && workingEmployees.shifts ? (
-            workingEmployees.shifts.map((employee, index) => (
+          {workingEmployees ? (
+            workingEmployees.map((employeeInfo, index) => (
               <tr
-                key={employee._id}
+                key={employeeInfo.id}
                 className={"w-1/2 " + (index % 2 === 0 ? "bg-slate-100" : "")}
               >
-                <td className="pl-2">{employee.employeeName}</td>
+                <td className="pl-2">{employeeInfo.name}</td>
                 <td className="flex flex-row items-center justify-between px-2">
                   <div>
-                    {format(new Date(employee.startTime), "hh:mm") + " - "}
-                    {format(new Date(employee.endTime), "hh:mm")}
+                    {format(
+                      new Date(employeeInfo.shifts[day].startTime),
+                      "hh:mm"
+                    ) + " - "}
+                    {format(
+                      new Date(employeeInfo.shifts[day].endTime),
+                      "hh:mm"
+                    )}
                   </div>
                   <IoMdTrash
                     onClick={() => {
-                      handleDelete(employee._id);
+                      handleDelete(employeeInfo.id);
                     }}
                     className="text-red-500 cursor-pointer rounded-lg text-3xl my-1"
                   />

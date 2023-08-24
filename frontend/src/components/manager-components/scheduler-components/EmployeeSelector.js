@@ -12,7 +12,7 @@ function EmployeeSelector(props) {
     setCurrentShift({
       ...props.currentShift,
       employee: firstName + " " + lastName,
-      employeeID: id,
+      employeeId: id,
     });
   };
 
