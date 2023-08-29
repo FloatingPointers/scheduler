@@ -36,7 +36,7 @@ exports.working = asyncHandler(async (req, res, next) => {
       )
       .sort({ startTime: 1 });
     console.log("Got working employees: ", shifts);
-    return res.status(200).json({ result: shifts });
+    return res.status(200).json({ result: shifts.employeeInfo });
   }
 });
 

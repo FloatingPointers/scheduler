@@ -24,6 +24,8 @@ function WorkingView(props) {
     }
   };
 
+  console.log("Rendering working employees: ", workingEmployees);
+
   return (
     <div className="bg-slate-50 shadow-md rounded-lg p-5">
       <h1 className="text-2xl font-semibold text-center pb-2">

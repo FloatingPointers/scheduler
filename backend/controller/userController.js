@@ -103,8 +103,8 @@ exports.signup = asyncHandler(async (req, res, next) => {
 
     const store = await Store.findOne({ inviteCode });
 
-    if (!store._id)
-      return res.status(404).json({ error: "Invite Code is not valid" });
+    if (!store || !store._id)
+      return res.status(400).json({ error: "Invite Code is not valid" });
 
     linkedAccount = new Employee({
       username: req.body.username,

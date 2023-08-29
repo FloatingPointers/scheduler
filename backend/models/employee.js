@@ -4,7 +4,7 @@ const defaultAvailability = Array(7)
   .fill()
   .map(() => ({
     preference: "",
-    hours: Array(24).fill(false),
+    hours: Array(24).fill(true),
   }));
 
 const Employee = new mongoose.Schema({
