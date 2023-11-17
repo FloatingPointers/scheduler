@@ -60,7 +60,6 @@ exports.available = asyncHandler(async (req, res, next) => {
 });
 
 exports.allEmployees = asyncHandler(async (req, res, next) => {
-  //passportjs adds user property after authenticating
   let user = req.user;
 
   let employeesFromSchedule = await Employee.find({

@@ -19,7 +19,7 @@ exports.getPage = asyncHandler(async (req, res, next) => {
   let currentDay = new Date();
   currentDay.setHours(0, 0, 0);
   let query = null;
-  if (req.params.isArchived === "true") {
+  if (archived) {
     query = { end: { $lt: currentDay } };
   } else {
     query = { end: { $gte: currentDay } };

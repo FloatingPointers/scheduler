@@ -7,6 +7,7 @@ const asyncHandler = require("express-async-handler");
 exports.working = asyncHandler(async (req, res, next) => {
   //Options from request (optional) (wow)
   const { shiftStart, shiftEnd } = req.params;
+  const day = req.params.day ? req.params.day : 0;
 
   if (shiftStart && shiftEnd) {
     /*
@@ -16,9 +17,9 @@ exports.working = asyncHandler(async (req, res, next) => {
     */
     let shifts = await Schedule.findById(req.params.id)
       .select(
-        `employeeInfo.id employeeInfo.name employeeInfo.role employeeInfo.shifts.${req.params.day}`
+        `employeeInfo.id employeeInfo.name employeeInfo.role employeeInfo.shifts`
       )
-      .elemMatch(`employeeInfo.shifts.${req.params.day}`, {
+      .elemMatch(`employeeInfo.shifts.${day}`, {
         $or: [
           { startTime: { $gte: shiftStart } },
           { endTime: { $lte: shiftEnd } },
@@ -32,7 +33,7 @@ exports.working = asyncHandler(async (req, res, next) => {
     //Obtain the requested schedule from db
     let shifts = await Schedule.findById(req.params.id)
       .select(
-        `employeeInfo.id employeeInfo.name employeeInfo.role employeeInfo.shifts.${req.params.day}`
+        `employeeInfo.id employeeInfo.name employeeInfo.role employeeInfo.shifts`
       )
       .sort({ startTime: 1 });
     console.log("Got working employees: ", shifts);
