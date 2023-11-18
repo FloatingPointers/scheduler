@@ -194,8 +194,11 @@ exports.getOverviewDays = asyncHandler(async (req, res, next) => {
       totalCost: 1,
     },
   });
-
-  return res.status(200).json(days);
+  if (days) {
+    return res.status(200).json(days);
+  } else {
+    return res.status(400).json({ error: "Schedule not found" });
+  }
 });
 
 //GET all general information about a day
@@ -210,9 +213,55 @@ exports.getDayInfo = asyncHandler(async (req, res, next) => {
     endTime: 1,
   });
 
-  return res.status(200).json({
-    startDate: info.startDate,
-    startTime: info.day[0].startTime,
-    endTime: info.day[0].endTime,
+  if (info) {
+    return res.status(200).json({
+      startDate: info.startDate,
+      startTime: info.day[0].startTime,
+      endTime: info.day[0].endTime,
+    });
+  } else {
+    return res.status(400).json({ error: "Day not found in schedule" });
+  }
+});
+
+/*
+GET - All people scheduled this week to display to the employees
+      /employeeSchedule/schedule/employeeDisplay
+*/
+exports.getEmployeeDisplay = asyncHandler(async (req, res, next) => {
+  let current = await Schedule.findById(req.params.id).select(
+    `employeeInfo.id employeeInfo.name employeeInfo.role employeeInfo.shifts.${req.params.day}`
+  );
+
+  console.log("Found today's schedule info: ", current);
+
+  return res.status(200).json({ shifts: current.employeeInfo });
+});
+
+/*
+GET - ID of the current schedule
+      /employeeSchedule/schedule/currentSchedule
+*/
+exports.getCurrentSchedule = asyncHandler(async (req, res, next) => {
+  let day = new Date();
+  let prev = new Date();
+  prev.setDate(day.getDate() - 7);
+
+  let current = await Schedule.findOne({
+    archived: false,
+    markedAsComplete: true,
+    $and: [{ startDate: { $lte: day } }, { startDate: { $gte: prev } }],
+  }).select({
+    _id: 1,
   });
+
+  if (current) {
+    return res.status(200).json({ result: current._id });
+  } else {
+    return res.status(400).json({ error: "No current schedule found" });
+  }
+});
+
+exports.getEmployeeSchedule = asyncHandler(async (req, res, next) => {
+  let current = await Schedule.findById(req.params.id).select("employeeInfo");
 });

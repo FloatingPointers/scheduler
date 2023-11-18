@@ -6,27 +6,6 @@ import ManagerRequests from "../../components/manager-components/ManagerRequests
 import axiosInstance from "../../Axios";
 
 function EmployeeManager() {
-  const [day, setDay] = useState(0);
-  const getStartDay = async () => {
-    try {
-      const response = await axiosInstance.get(
-        `/employeeSchedule/currentSchedule/startDate`
-      );
-      if (response.error) {
-        console.log("Error geting current Schedule");
-      } else {
-        const startDate = new Date(response.data.result);
-        setDay(startDate.getDay());
-      }
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-  useEffect(() => {
-    getStartDay();
-  }, []);
-
   return (
     <div className="bg-slate-100 w-full h-full">
       <ManagerNavbar />

@@ -49,14 +49,18 @@ function WorkingView(props) {
                 <td className="pl-2">{employeeInfo.name}</td>
                 <td className="flex flex-row items-center justify-between px-2">
                   <div>
-                    {format(
-                      new Date(employeeInfo.shifts[day].startTime),
-                      "hh:mm"
-                    ) + " - "}
-                    {format(
-                      new Date(employeeInfo.shifts[day].endTime),
-                      "hh:mm"
-                    )}
+                    {employeeInfo.shifts[day].startTime
+                      ? format(
+                          new Date(employeeInfo.shifts[day].startTime),
+                          "hh:mm"
+                        ) + " - "
+                      : ""}
+                    {employeeInfo.shifts[day].endTime
+                      ? format(
+                          new Date(employeeInfo.shifts[day].endTime),
+                          "hh:mm"
+                        )
+                      : ""}
                   </div>
                   <IoMdTrash
                     onClick={() => {
