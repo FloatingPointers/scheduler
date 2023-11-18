@@ -48,24 +48,7 @@ function WorkingView(props) {
               >
                 <td className="pl-2">{employeeInfo.name}</td>
                 <td className="flex flex-row items-center justify-between px-2">
-<<<<<<< HEAD
                   <div>{WorkingTimeRange(employeeInfo.shifts[day])}</div>
-=======
-                  <div>
-                    {employeeInfo.shifts[day].startTime
-                      ? format(
-                          new Date(employeeInfo.shifts[day].startTime),
-                          "hh:mm"
-                        ) + " - "
-                      : ""}
-                    {employeeInfo.shifts[day].endTime
-                      ? format(
-                          new Date(employeeInfo.shifts[day].endTime),
-                          "hh:mm"
-                        )
-                      : ""}
-                  </div>
->>>>>>> 689da8d01f9c75fef900bcff6f2bd91e7f2b1ce7
                   <IoMdTrash
                     onClick={() => {
                       handleDelete(employeeInfo.id);
