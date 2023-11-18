@@ -4,42 +4,7 @@ import { format } from "date-fns";
 import axiosInstance from "../../Axios";
 
 function ScheduleDisplayTable(props) {
-  const { days, day } = props;
-  const [shifts, setShifts] = useState([
-    {
-      employee: "John Doe",
-      times: [
-        { startTime: new Date(), endTime: new Date() },
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-      ],
-    },
-  ]);
-
-  //Get shifts from backend
-  const getShifts = async () => {
-    try {
-      let response = await axiosInstance.get(
-        `/employeeSchedule/schedule/displayTableInfo`
-      );
-
-      if (response.data.error) {
-        console.log(
-          "Received error when requesting schedule info",
-          response.data.error
-        );
-        return;
-      }
-
-      setShifts(response.data.result.shifts);
-    } catch (err) {
-      console.error("Error getting shifts", err);
-    }
-  };
+  const { days, day, shifts } = props;
 
   function generateDayHeaders() {
     if (!days) return <div />;
@@ -49,6 +14,8 @@ function ScheduleDisplayTable(props) {
   }
 
   function generateEmployeeRows() {
+    if (!shifts) return <div>Nothing Here</div>;
+
     return shifts.map((shift, index) => {
       return (
         <tr className={index % 2 === 0 ? "bg-slate-50" : ""}>

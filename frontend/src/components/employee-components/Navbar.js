@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import axiosInstance from "../../Axios";
 
 function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [currentSchedule, setCurrentSchedule] = useState("");
 
   const logout = () => {
     localStorage.removeItem("token");

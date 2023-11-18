@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axiosInstance from "../../Axios";
 
 function ShiftView(props) {
-  const { startDay } = props;
+  const { startDay, id } = props;
   const [shifts, setShifts] = useState([]);
 
   const allDays = [
@@ -19,7 +19,7 @@ function ShiftView(props) {
   const getShifts = async () => {
     try {
       const response = await axiosInstance.get(
-        `/employeeSchedule/currentSchedule/employeeShifts`
+        `/employeeSchedule/schedule/${id}}`
       );
       if (response.error) {
         console.log("Error geting current Schedule");
